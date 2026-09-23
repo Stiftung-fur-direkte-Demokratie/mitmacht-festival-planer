@@ -1923,6 +1923,8 @@ function Planner() {
         onNotify={showToast}
         blocks={inbox.blocks}
         onUnblock={(uid) => void inbox.unblock(uid).then((ok) => showToast(ok ? "Blockierung aufgehoben" : "Nicht möglich"))}
+        pushHere={(msgPush || rem.on) && perm === "granted"}
+        onEnablePush={() => void enableMsgPush()}
       />
 
       {openConv && cm.userId && (() => {

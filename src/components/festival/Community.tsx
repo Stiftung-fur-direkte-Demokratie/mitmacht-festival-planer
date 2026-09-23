@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { BY_ID, DAYS, mins, type Item, type NowInfo } from "@/lib/festival";
-import { detectCc, formatNational, formatPhone, initials, normalizeEmail, normalizeLinkedIn, normalizePhone, PHONE_CODES, type CommunityPerson, type MyProfile } from "@/lib/community";
+import { detectCc, formatNational, formatPhone, initials, normalizeEmail, normalizeLinkedIn, normalizePhone, PHONE_CODES, loadNotifyStatus, sendNotifyTest, type NotifyStatus, type CommunityPerson, type MyProfile } from "@/lib/community";
 import { Icon } from "./Icons";
 import { MessageIcon } from "./Inbox";
 
@@ -316,6 +316,8 @@ export function ProfileSheet(p: {
   onNotify?: (msg: string) => void;
   blocks?: { user_id: string; display_name: string; avatar_url: string | null }[];
   onUnblock?: (uid: string) => void;
+  pushHere?: boolean;
+  onEnablePush?: () => void;
 }) {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [name, setName] = useState("");
@@ -329,6 +331,14 @@ export function ProfileSheet(p: {
   const [confirmDel, setConfirmDel] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const prof = p.profile;
+  const [nst, setNst] = useState<NotifyStatus | null>(null);
+  const [testBusy, setTestBusy] = useState(false);
+  const [testRes, setTestRes] = useState<string | null>(null);
+  useEffect(() => {
+    if (!p.open || !p.online) return;
+    setTestRes(null);
+    void loadNotifyStatus().then(setNst);
+  }, [p.open, p.online]);
 
   useEffect(() => {
     if (!p.open || !prof) return;
@@ -616,6 +626,70 @@ export function ProfileSheet(p: {
                     Alle meine Sessions freigeben
                   </button>
                 </div>
+              </section>
+
+              <section className="setblock" aria-labelledby="prof-notify">
+                <h3 id="prof-notify">Benachrichtigungen</h3>
+                {([
+                  ["morning", "Tagesübersicht am Morgen (07:30)"],
+                  ["evening", "Erinnerung zur Bewertung am Abend (20:00)"],
+                ] as const).map(([k, label]) => (
+                  <fieldset className="notifyrow" key={k}>
+                    <legend>{label}</legend>
+                    <label className="consent">
+                      <input
+                        type="checkbox"
+                        checked={prof[`notify_${k}_push`]}
+                        disabled={off}
+                        onChange={(e) => void p.onSave({ [`notify_${k}_push`]: e.target.checked })}
+                      />
+                      <span>Push</span>
+                    </label>
+                    <label className="consent">
+                      <input
+                        type="checkbox"
+                        checked={prof[`notify_${k}_email`]}
+                        disabled={off}
+                        onChange={(e) => void p.onSave({ [`notify_${k}_email`]: e.target.checked })}
+                      />
+                      <span>E-Mail</span>
+                    </label>
+                  </fieldset>
+                ))}
+                {(prof.notify_morning_email || prof.notify_evening_email) && (
+                  <>
+                    {nst && !nst.smtp && <p className="statusline caution">E-Mail-Versand ist noch nicht eingerichtet.</p>}
+                    {nst?.recipient && <p className="statusline">Geht an: {nst.recipient}</p>}
+                    <p className="sub">Die Login-E-Mail bleibt privat; öffentlich ist nur, was du oben als E-Mail einträgst.</p>
+                  </>
+                )}
+                {(prof.notify_morning_push || prof.notify_evening_push) && (!p.pushHere || nst?.pushDevices === 0) && (
+                  <div className="notice small">
+                    <div className="row">
+                      <p>Auf diesem Gerät sind Push-Benachrichtigungen noch nicht aktiv.</p>
+                      <button type="button" className="btn small" onClick={p.onEnablePush} disabled={off}>
+                        Push aktivieren
+                      </button>
+                    </div>
+                  </div>
+                )}
+                <div className="btnrow">
+                  <button
+                    type="button"
+                    className="btn small"
+                    disabled={off || testBusy}
+                    onClick={async () => {
+                      setTestBusy(true);
+                      const r = await sendNotifyTest();
+                      setTestBusy(false);
+                      setTestRes(r.ok ? `Push: ${r.push ?? "aus"} · E-Mail: ${r.email ?? "aus"}` : r.error ?? "Fehler");
+                      void loadNotifyStatus().then(setNst);
+                    }}
+                  >
+                    {testBusy ? "Wird gesendet …" : "Test senden"}
+                  </button>
+                </div>
+                {testRes && <p className="statusline" role="status">{testRes}</p>}
               </section>
 
               {!!p.blocks?.length && (
