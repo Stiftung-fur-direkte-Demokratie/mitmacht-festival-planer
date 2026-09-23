@@ -1902,6 +1902,10 @@ function Planner() {
               GitHub
             </a>
           </div>
+          <div>
+            made with love by <span role="img" aria-label="der Schweiz">🇨🇭</span> in{" "}
+            <span role="img" aria-label="Berlin">🐻</span>
+          </div>
         </div>
       </main>
 
@@ -2008,7 +2012,7 @@ function Planner() {
           const res = await fb.submit(id, r);
           if (res.ok) {
             setRateId(null);
-            showToast(res.queued ? "Gespeichert – wird gesendet, sobald du online bist" : "Danke für deine Bewertung ✓");
+            showToast(res.queued ? "Gespeichert – wird gesendet, sobald du online bist" : "Danke für dein Feedback ✓");
           }
           return res;
         }}

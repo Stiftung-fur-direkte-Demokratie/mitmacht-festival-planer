@@ -375,7 +375,7 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 
 .toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
   background:var(--pill);color:var(--pill-ink);padding:10px 16px;border-radius:14px;font-weight:600;font-size:14.5px;width:max-content;
-  pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:50;max-width:calc(100% - 32px);text-align:center}
+  pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:80;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .share{margin-top:14px;background:var(--surface-2);border-radius:18px;padding:14px 16px}
 .share p{margin:0 0 10px;font-size:15px;font-weight:600}
