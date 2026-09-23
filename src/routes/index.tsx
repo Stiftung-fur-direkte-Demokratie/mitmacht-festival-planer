@@ -1116,6 +1116,27 @@ function Planner() {
               Programm auf faktor-d.org ↗
             </a>
           </div>
+          <div>
+            Das ist ein Online-Tool der Stiftung für Direkte Demokratie mit Inhalten von{" "}
+            <a
+              href="https://www.faktor-d.org/mitmachen/mitmacht-festival/2026/programm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Mitmacht-Festival 2026
+            </a>
+            .
+          </div>
+          <div>
+            © 2026 – Stiftung für direkte Demokratie –{" "}
+            <a
+              href="https://www.demokratie.ch/datenschutz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Datenschutzerklärung
+            </a>
+          </div>
         </div>
       </main>
 
