@@ -45,6 +45,8 @@ import {
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
+import { Avatar, AvatarStack, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
+import { useCommunity } from "@/lib/community";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -86,7 +88,7 @@ function Planner() {
   const [ready, setReady] = useState(false);
   const [sel, setSel] = useState<string[]>([]);
   const [gcal, setGcal] = useState<Record<string, { v: string; t: number }>>({});
-  const [view, setView] = useState<"all" | "mine">("all");
+  const [view, setView] = useState<"all" | "mine" | "community">("all");
   const [day, setDay] = useState<string>(DAYS[0]!.date);
   const [q, setQ] = useState("");
   const [types, setTypes] = useState<string[]>([]);
@@ -297,6 +299,54 @@ function Planner() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(""), 1800);
   }, []);
+
+  /* ---- Community ---- */
+  const cm = useCommunity({ sel, setSel, online, notify: showToast });
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [cmSession, setCmSession] = useState<string | null>(null);
+  useEffect(() => {
+    if (cm.firstLogin) setProfileOpen(true);
+  }, [cm.firstLogin]);
+  useEffect(() => {
+    if (cm.error) {
+      showToast(cm.error);
+      cm.clearError();
+    }
+  }, [cm.error, cm, showToast]);
+  const peopleBySession = useMemo(() => {
+    const m: Record<string, typeof cm.people> = {};
+    cm.people.forEach((x) => {
+      if (x.hidden) return;
+      x.session_ids.forEach((id) => (m[id] ??= []).push(x));
+    });
+    return m;
+  }, [cm.people]);
+  const openCommunityFor = (id: string) => {
+    setCmSession(id);
+    setView("community");
+    scrollToBar();
+  };
+  const cardExtra = (id: string, mine: boolean) => {
+    const ps = peopleBySession[id] ?? [];
+    const showToggle = mine && !!cm.userId;
+    if (!ps.length && !showToggle) return undefined;
+    return (
+      <>
+        <AvatarStack people={ps} onClick={() => openCommunityFor(id)} />
+        {showToggle && (
+          <label className="switch small pubtoggle">
+            <input
+              type="checkbox"
+              checked={!!cm.publicIds[id]}
+              disabled={!online}
+              onChange={(e) => void cm.setPublic([id], e.target.checked)}
+            />
+            Öffentlich zeigen, dass ich dabei bin
+          </label>
+        )}
+      </>
+    );
+  };
 
   const selected = useMemo(
     () => (sel.map((id) => BY_ID[id]).filter(Boolean) as Item[]).sort(bySchedule),
@@ -786,6 +836,7 @@ function Planner() {
                 open={!!open[s.id]}
                 onToggleOpen={toggleOpen}
                 onPick={togglePick}
+                extra={cardExtra(s.id, false)}
               />
             ))}
           </div>
@@ -899,6 +950,28 @@ function Planner() {
         <div className="wrap">
           <div className="bartop">
             <span className="bartitle">Mitmacht 2026 Planer</span>
+            {cm.userId ? (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={() => setProfileOpen(true)}
+                aria-label="Mein Profil & Sichtbarkeit"
+                title="Mein Profil & Sichtbarkeit"
+              >
+                <Avatar name={cm.profile?.display_name ?? ""} url={cm.profile?.avatar_url ?? null} size={28} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={cm.login}
+                disabled={!online}
+                aria-label={online ? "Mit LinkedIn anmelden" : "Anmelden ist offline nicht möglich"}
+                title={cm.configured === false ? "LinkedIn-Anmeldung wird gerade eingerichtet" : "Mit LinkedIn anmelden"}
+              >
+                <LinkedInIcon />
+              </button>
+            )}
             <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
               <Icon name="gear" />
             </button>
@@ -924,7 +997,19 @@ function Planner() {
                 setConfirmClear(false);
               }}
             >
-              Mein Programm <span className="count">{sel.length}</span>
+              <span className="lg">Mein Programm</span>
+              <span className="sm">Mein Progr.</span> <span className="count">{sel.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={view === "community"}
+              onClick={() => {
+                setView("community");
+                setConfirmClear(false);
+              }}
+            >
+              Community
             </button>
           </div>
           {view === "all" && (
@@ -1156,6 +1241,21 @@ function Planner() {
                   })()}
             </div>
           </section>
+        ) : view === "community" ? (
+          <CommunityView
+            people={cm.people}
+            now={now}
+            stand={cm.stand}
+            online={online}
+            loggedIn={!!cm.userId}
+            isAdmin={cm.isAdmin}
+            configured={cm.configured}
+            sessionFilter={cmSession}
+            onClearSessionFilter={() => setCmSession(null)}
+            onLogin={cm.login}
+            onOpenProfile={() => setProfileOpen(true)}
+            onHide={(uid, h) => void cm.setHidden(uid, h)}
+          />
         ) : (
           <section>
             {!selected.length ? (
@@ -1351,6 +1451,7 @@ function Planner() {
                             onPick={togglePick}
                             showTime
                             showLinks
+                            extra={cardExtra(s.id, true)}
                             gcalOpened={!!gcal[s.id]}
                             onOpenGcal={markOpened}
                             onUnmarkGcal={(id) =>
@@ -1508,6 +1609,23 @@ function Planner() {
           </div>
         </div>
       </main>
+
+      <ProfileSheet
+        open={profileOpen && !!cm.userId}
+        onClose={() => setProfileOpen(false)}
+        profile={cm.profile}
+        online={online}
+        firstLogin={cm.firstLogin}
+        selCount={sel.length}
+        publicCount={sel.filter((id) => cm.publicIds[id]).length}
+        onSave={cm.saveProfile}
+        onShareAll={() => void cm.setPublic(sel, true)}
+        onLogout={() => {
+          setProfileOpen(false);
+          void cm.logout();
+        }}
+        onDelete={cm.deleteAccount}
+      />
 
       <SettingsDialog
         open={settingsOpen}
