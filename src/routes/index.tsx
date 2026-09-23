@@ -45,9 +45,8 @@ import {
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
-import { markProgramChanged } from "@/lib/community";
 import { Avatar, AvatarStack, HeroFaces, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
-import { useCommunity } from "@/lib/community";
+import { markProgramChanged, useCommunity } from "@/lib/community";
 
 export const Route = createFileRoute("/")({
   head: () => ({
