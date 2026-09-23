@@ -303,6 +303,13 @@ function Planner() {
     };
   }, [checkReminders]);
 
+  // Sofort prüfen, wenn sich Einstellungen oder Auswahl ändern
+  useEffect(() => {
+    if (!ready) return;
+    checkReminders();
+  }, [ready, rem.on, rem.lead, sel, perm, checkReminders]);
+
+
   const upcoming = useMemo(() => {
     if (!now.date) return null;
     const live = selected.find(
