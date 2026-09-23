@@ -798,9 +798,8 @@ function Planner() {
         <div className="wrap">
           <div className="bartop">
             <span className="bartitle">Mitmacht 2026 Planer</span>
-            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen">
+            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
               <Icon name="gear" />
-              <span className="lbl">Einstellungen</span>
             </button>
           </div>
           <div className="views" role="tablist" aria-label="Ansicht">
