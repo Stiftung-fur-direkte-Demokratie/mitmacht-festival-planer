@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import teamImg from "@/assets/team.png.asset.json";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ALL,
@@ -588,8 +589,15 @@ function Planner() {
           />
           <p className="facts">
             <span>23.–26. September 2026</span>
-            <span>SRH Hochschule Berlin</span>
-            <span>Sonnenallee 221</span>
+            <span>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=SRH%20Hochschule%20Berlin%2C%20Sonnenallee%20221%2C%2012059%20Berlin"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SRH Hochschule Berlin, Sonnenallee 221 ↗
+              </a>
+            </span>
           </p>
         </div>
       </header>
