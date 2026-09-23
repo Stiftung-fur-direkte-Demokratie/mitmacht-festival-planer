@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      push_config: {
+        Row: {
+          cron_token: string
+          id: number
+        }
+        Insert: {
+          cron_token?: string
+          id?: number
+        }
+        Update: {
+          cron_token?: string
+          id?: number
+        }
+        Relationships: []
+      }
       push_sent: {
         Row: {
           sent_at: string
