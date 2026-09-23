@@ -303,10 +303,20 @@ function Planner() {
   /* ---- Sticky-Titel ---- */
   const [stuck, setStuck] = useState(false);
   useEffect(() => {
-    const on = () => setStuck((document.querySelector(".hero")?.getBoundingClientRect().bottom ?? 1) <= 0);
+    const on = () => {
+      const inset = document.querySelector(".sb-shield")?.getBoundingClientRect().height ?? 0;
+      const heroBottom = document.querySelector(".hero")?.getBoundingClientRect().bottom ?? Infinity;
+      setStuck(heroBottom <= inset + 1);
+    };
     on();
     window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
+    window.addEventListener("resize", on);
+    window.addEventListener("orientationchange", on);
+    return () => {
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+      window.removeEventListener("orientationchange", on);
+    };
   }, []);
 
   /* ---- Community ---- */
@@ -834,9 +844,15 @@ function Planner() {
     [types, q],
   );
 
-  const scrollToBar = () => {
-    const top = barRef.current?.offsetTop ?? 0;
-    if (window.scrollY > top) window.scrollTo({ top, behavior: "auto" });
+  const scrollToBar = (behavior: ScrollBehavior = "auto", always = false) => {
+    const inset = document.querySelector(".sb-shield")?.getBoundingClientRect().height ?? 0;
+    const hero = document.querySelector(".hero");
+    // Natürliche Position der Leiste = Unterkante des Heros (offsetTop ist bei sticky verfälscht)
+    const natural = hero
+      ? hero.getBoundingClientRect().bottom + window.scrollY
+      : (barRef.current?.offsetTop ?? 0);
+    const top = Math.max(0, Math.round(natural - inset));
+    if (always || window.scrollY > top) window.scrollTo({ top, behavior });
   };
 
   /* ---- Gruppierung ---- */
@@ -946,6 +962,7 @@ function Planner() {
 
   return (
     <div className="mm">
+      <div className="sb-shield" aria-hidden="true" />
       <IconSprite />
 
       <header className="hero">
@@ -973,7 +990,7 @@ function Planner() {
             people={cm.people}
             onOpen={() => {
               setView("community");
-              barRef.current?.scrollIntoView({ behavior: "smooth" });
+              scrollToBar("smooth", true);
             }}
           />
         </div>
