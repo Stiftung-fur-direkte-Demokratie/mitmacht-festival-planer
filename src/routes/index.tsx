@@ -572,10 +572,6 @@ function Planner() {
         <div className="hero-circle" aria-hidden="true" />
         <div className="hero-dots" aria-hidden="true" />
         <div className="wrap">
-          <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen">
-            <Icon name="gear" />
-            <span className="lbl">Einstellungen</span>
-          </button>
           <p className="eyebrow">Online-Planer:in [Beta 2.1]</p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
@@ -598,6 +594,13 @@ function Planner() {
 
       <nav className="bar" aria-label="Ansicht und Tag" ref={barRef}>
         <div className="wrap">
+          <div className="bartop">
+            <span className="bartitle">Mitmacht 2026 Planer</span>
+            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen">
+              <Icon name="gear" />
+              <span className="lbl">Einstellungen</span>
+            </button>
+          </div>
           <div className="views" role="tablist" aria-label="Ansicht">
             <button
               type="button"
