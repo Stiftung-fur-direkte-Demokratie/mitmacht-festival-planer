@@ -458,6 +458,7 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .statusline.ok{color:var(--ok)}
 .statusline.caution{color:var(--caution)}
 .cm-you{font-weight:500;color:var(--ink-soft);font-size:.85em}
+.cm-actions .btn{gap:8px}
 .cm-nolink{margin:0;font-size:13px;color:var(--ink-soft)}
 .li-help{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
 .statusline.sub2{font-weight:500;color:var(--ink-soft);font-size:13.5px}
