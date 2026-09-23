@@ -406,13 +406,12 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .hero .lede{padding-right:110px}
 @media (min-width:540px){.hero .lede{padding-right:200px}}
 
-.settingsbtn{position:relative;flex:none;
-  display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;
-  border:2px solid var(--ink);background:var(--bg);color:var(--ink);font-weight:700;font-size:14.5px;cursor:pointer}
-.settingsbtn .ico{width:20px;height:20px;flex:none}
-@media (max-width:539px){
-  .settingsbtn{min-height:40px;padding:6px 12px;font-size:14px}
-}
+.settingsbtn{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;padding:0;border:0;border-radius:999px;background:transparent;color:var(--ink-soft);cursor:pointer;
+  transition:background-color .15s,color .15s}
+.settingsbtn:hover{background:color-mix(in srgb,var(--ink-soft) 12%,transparent);color:var(--ink)}
+.settingsbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.settingsbtn .ico{width:22px;height:22px;flex:none}
 
 .notice.small{padding:8px 14px}
 .notice.small p{font-size:14px}
