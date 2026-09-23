@@ -43,6 +43,13 @@
       "when": 1790196511278,
       "tag": "0005_community_inbox",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790196854832,
+      "tag": "0006_inbox_tighten_grants",
+      "breakpoints": true
     }
   ]
 }
