@@ -200,6 +200,36 @@ export type Database = {
           },
         ]
       }
+      notification_log: {
+        Row: {
+          channel: string
+          day: string
+          id: number
+          kind: string
+          sent_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          day: string
+          id?: number
+          kind: string
+          sent_at?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          day?: string
+          id?: number
+          kind?: string
+          sent_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       oauth_states: {
         Row: {
           created_at: string
@@ -232,6 +262,10 @@ export type Database = {
           id: string
           linkedin_sub: string | null
           linkedin_url: string | null
+          notify_evening_email: boolean
+          notify_evening_push: boolean
+          notify_morning_email: boolean
+          notify_morning_push: boolean
           organisation: string | null
           phone: string | null
           profile_done: boolean
@@ -250,6 +284,10 @@ export type Database = {
           id: string
           linkedin_sub?: string | null
           linkedin_url?: string | null
+          notify_evening_email?: boolean
+          notify_evening_push?: boolean
+          notify_morning_email?: boolean
+          notify_morning_push?: boolean
           organisation?: string | null
           phone?: string | null
           profile_done?: boolean
@@ -268,6 +306,10 @@ export type Database = {
           id?: string
           linkedin_sub?: string | null
           linkedin_url?: string | null
+          notify_evening_email?: boolean
+          notify_evening_push?: boolean
+          notify_morning_email?: boolean
+          notify_morning_push?: boolean
           organisation?: string | null
           phone?: string | null
           profile_done?: boolean
