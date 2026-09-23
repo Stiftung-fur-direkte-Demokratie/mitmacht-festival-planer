@@ -550,3 +550,17 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .hf-row>a:focus-visible,.hf-row>button:focus-visible,.hf-more:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .hf-more{border:0;background:none;padding:6px 0;font:inherit;font-size:14px;font-weight:600;color:var(--ink-soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 @media (prefers-reduced-motion:reduce){.hf-row{transition:none}}
+.bartop{display:none}
+.bartop.on{display:flex;padding-bottom:6px}
+.viewrow{display:flex;align-items:center;gap:6px}
+.viewrow .views{flex:1;min-width:0}
+.viewrow .barbtns{margin-left:0}
+@media (max-width:420px){
+  .viewrow{gap:2px}
+  .viewrow .barbtns{gap:0}
+  .viewrow .settingsbtn{width:36px;height:40px;min-width:36px}
+  .viewrow .views{gap:2px;padding:3px}
+  .viewrow .views button{font-size:12.5px;padding:8px 2px;overflow:hidden;text-overflow:ellipsis}
+}
+.viewrow .views{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:420px){.viewrow .views .count{display:none}}
