@@ -48,6 +48,7 @@ export function SettingsDialog(p: SettingsProps) {
       ).filter((el) => el.getClientRects().length > 0);
     const focusFirst = () => {
       const list = focusables();
+      console.log("MMFOCUS", !!panel, list.length, document.activeElement?.className);
       if (list.length) list[0]!.focus();
       else panel?.focus();
     };
