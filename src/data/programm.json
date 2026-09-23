@@ -1,0 +1,3577 @@
+{
+ "festival": {
+  "name": "Mitmacht 2026 × reCampaign",
+  "tagline": "Das Demokratiefestival für kollektive Strategien",
+  "dates": "23.–26. September 2026",
+  "venue": "SRH Hochschule Berlin, Sonnenallee 221 A–F, 12059 Berlin",
+  "entrance": "Eingang Sonnenallee 221 · S-Bahn Sonnenallee",
+  "timezone": "Europe/Berlin",
+  "areas": [
+   "Shed · Bereich A & B · EG & 5. OG",
+   "Cube · EG (Cube Plenum) & 1. OG"
+  ],
+  "rooms": [
+   "A0.03–A0.05, B0.09 & B0.10, Shed Foyer → Shed EG",
+   "A5.03–A5.07, Community Space → Shed 5. OG",
+   "1.02–1.06 → Cube 1. OG",
+   "Coffee-Bike im Außenbereich zwischen Shed und Cube"
+  ],
+  "notes": [
+   "Catering im Shed EG",
+   "WC im Cube 1. OG: all-gender, nicht barrierefrei",
+   "Community Abend (Do) nur bei gutem Wetter"
+  ],
+  "sources": "Zeiten und Räume aus dem Festival-Flyer (Stand 16.09.2026), Beschreibungen und Personen von faktor-d.org (abgerufen am 23.09.2026)",
+  "programUrl": "https://www.faktor-d.org/mitmachen/mitmacht-festival/2026/programm"
+ },
+ "days": [
+  {
+   "date": "2026-09-23",
+   "short": "Mi",
+   "long": "Mittwoch",
+   "label": "23.09."
+  },
+  {
+   "date": "2026-09-24",
+   "short": "Do",
+   "long": "Donnerstag",
+   "label": "24.09."
+  },
+  {
+   "date": "2026-09-25",
+   "short": "Fr",
+   "long": "Freitag",
+   "label": "25.09."
+  },
+  {
+   "date": "2026-09-26",
+   "short": "Sa",
+   "long": "Samstag",
+   "label": "26.09."
+  }
+ ],
+ "formats": [
+  {
+   "key": "keynote",
+   "label": "Keynote"
+  },
+  {
+   "key": "workshop",
+   "label": "Workshop"
+  },
+  {
+   "key": "panel",
+   "label": "Panel"
+  },
+  {
+   "key": "fishbowl",
+   "label": "Fishbowl / Austauschformat"
+  },
+  {
+   "key": "strategie",
+   "label": "Strategierunde"
+  },
+  {
+   "key": "kultur",
+   "label": "Kunst- & Kulturprogramm"
+  },
+  {
+   "key": "rahmen",
+   "label": "Rahmenprogramm"
+  }
+ ],
+ "items": [
+  {
+   "id": "mi01",
+   "date": "2026-09-23",
+   "start": "15:00",
+   "end": "19:00",
+   "format": "rahmen",
+   "title": "Check-In & Welcome Desk",
+   "people": "",
+   "room": "Shed Foyer"
+  },
+  {
+   "id": "mi00",
+   "date": "2026-09-23",
+   "start": "15:00",
+   "end": "17:30",
+   "format": "rahmen",
+   "title": "Soft Opening: Herzlich willkommen bei Mitmacht 2026!",
+   "people": "",
+   "room": "Shed 5. OG – Community Space",
+   "note": "Mit Kaffee, Snacks und Kennenlernen",
+   "subtitle": "Gemeinsamer Start ins Festival!",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/herzlich-willkommen-bei-mitmacht-2026",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam starten wir ins Mitmacht 2026 x reCampaign Festival: mit Radioballett, einer Reise in die Glorreichen 2030er, einem Kartenspiel zu ACT AI, der Installation @wefightfirewithfire und der Mini-Ting. Das Soft Opening lässt euch Raum, einander kennenzulernen, euch auszutauschen und eure Vorfreude auf das, was folgt, noch ein bisschen größer werden zu lassen. Wir empfehlen allen, die es einrichten können, unbedingt schon beim Soft Opening dabei zu sein."
+    }
+   ]
+  },
+  {
+   "id": "mi02",
+   "date": "2026-09-23",
+   "start": "15:00",
+   "end": "18:00",
+   "format": "kultur",
+   "title": "Mini Ting",
+   "people": "Silvan Groher & Ralph Moser",
+   "room": "Shed Foyer",
+   "subtitle": "Geben ist leicht. Nehmen ist die eigentliche Kunst.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/mini-ting-ein-vertrauens-experiment-mit-geld",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mini-Ting ist eine Installation und ein Vertrauensexperiment in Echtzeit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein offener Geldtopf mitten im Festivalgeschehen: Ab 2 EUR kann jede und jeder mitmachen. Wer Bedarf oder Lust hat, nimmt heraus, was er oder sie braucht. Bis 250 EUR pro Person und Tag – keine Jury, keine Begründung. Nur eine Notiz, wofür."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Notizen sind ein Teil des Experiments. Sie zeigen, ob Vertrauen trägt, und wofür Menschen Geld brauchen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was hier sichtbar wird, ist auch eine demokratische Frage: Wem trauen wir zu, Geld sinnvoll zu verwenden? Wer entscheidet, was Bedarf ist? Was passiert, wenn Umverteilung nicht über Institutionen, sondern von Mensch zu Mensch läuft?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aus früheren Durchläufen wissen wir: Es entstehen Momente der Irritation, der Überraschung, manchmal gibt es Tränen. Wir vertrauen dem Geld oft stärker als unseren Mitmenschen. Mini-Ting dreht das spielerisch um."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es gibt zwei Modi:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Selbsterklärend: Die Installation steht offen zugänglich, mit Spielregeln und einer Box für Wünsche und Rückmeldungen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Betreut: Wir sind vor Ort, geben Anstoß, beobachten und kommen mit den Mitmachenden ins Gespräch."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Silvan Groher",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Geschäftsführer"
+    },
+    {
+     "name": "Ralph Moser",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Co-Gründer"
+    }
+   ]
+  },
+  {
+   "id": "mi03",
+   "date": "2026-09-23",
+   "start": "15:00",
+   "end": "18:00",
+   "format": "kultur",
+   "title": "@wefightfirewithfire – Eine begehbare For-You-Page über rechte Strategien auf TikTok",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "mi04",
+   "date": "2026-09-23",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "kultur",
+   "title": "ACT AI: Ein Kartenspiel",
+   "people": "Iz Paehr",
+   "room": "Shed 5. OG – A5.06",
+   "subtitle": "Teil des Soft Openings",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/herzlich-willkommen-bei-mitmacht-2026",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "ACT AI ist ein Kartenspiel und Toolkit zum EU AI Act, mit dem Spieler*innen anhand realer Alltagsszenarien reflektieren, was das Gesetz schützt, wo es greift und wie es unser Leben konkret beeinflusst. Im Playtest probiert ihr das Spiel gemeinsam aus, lernt so die Grundstruktur des Gesetzes kennen und tauscht euch anschließend darüber aus."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Iz Paehr",
+     "organisation": "Künstler*in / Designer*in",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "mi05",
+   "date": "2026-09-23",
+   "start": "15:30",
+   "end": "17:30",
+   "format": "kultur",
+   "title": "Radioballett",
+   "people": "Paul Becker",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Teil des Soft Openings",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/herzlich-willkommen-bei-mitmacht-2026",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mithilfe von Funkkopfhörern werden die Teilnehmer*innen Teil einer Geschichte, die sie durch eingeflochtene Handlungsanweisungen selbst zum Leben erwecken, und eignen sich so performativ den öffentlichen Raum an. In Gruppen aufgeteilt, erleben sie über unterschiedliche Kanäle eine geteilte, aber gleichzeitig unterschiedlich erzählte Geschichte."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Paul Becker",
+     "organisation": "Körperfunkkollektiv",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "mi06",
+   "date": "2026-09-23",
+   "start": "16:15",
+   "end": "17:00",
+   "format": "kultur",
+   "title": "Reise in die Glorreichen 2030er",
+   "people": "Tshin Ilya Chardayre & Siro Koch",
+   "room": "Shed 5. OG – A5.07",
+   "subtitle": "Teil des Soft Openings",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/herzlich-willkommen-bei-mitmacht-2026",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Diese Reise nimmt euch mit in eine gerechtere, nachhaltigere und glücklichere Gesellschaft, in der ihr durch das Teilen eurer Visionen und Utopien den Weg in eine erstrebenswerte Zukunft mitgestalten könnt. Für einen Tag entsteht ein Ort, an dem alles möglich ist – vor allem eine lebendige Teilnahme an der Gesellschaft."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Tshin Ilya Chardayre",
+     "organisation": "Ca commence par moi",
+     "role": "Projectmanager European Deployment in DACH region"
+    },
+    {
+     "name": "Siro Koch",
+     "organisation": "LIMINALS",
+     "role": "Mitgründer"
+    }
+   ]
+  },
+  {
+   "id": "mi07",
+   "date": "2026-09-23",
+   "start": "17:30",
+   "end": "18:30",
+   "format": "rahmen",
+   "title": "Einlass Auftaktabend, Ankommen & Fingerfood",
+   "people": "",
+   "room": "Cube Plenum"
+  },
+  {
+   "id": "mi08",
+   "date": "2026-09-23",
+   "start": "18:30",
+   "end": "21:10",
+   "format": "rahmen",
+   "title": "Der Auftaktabend von Mitmacht 2026 x reCampaign",
+   "people": "",
+   "room": "Cube Plenum",
+   "subtitle": "Die Macht, die wir haben. Wie demokratische Gestaltungskraft entsteht.",
+   "teaser": "Vielleicht ist es Zeit, andere Fragen zu stellen. Im demokratischen Feld fehlt es weder an Wissen noch an Engagement. Entscheidend wird, ob aus vielen guten Ansätzen mehr gemeinsame Handlungsfähigkeit entsteht. Akkreditierung bis 18:30 Uhr.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/die-macht-die-wir-haben---wie-demokratische-gestaltungskraft-entsteht",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Zum Auftakt von Mitmacht richten wir den Blick auf die Machtfrage – im Gespräch, im Erleben und in persönlichen Geschichten. Ausgangspunkt ist eine Beobachtung, die viele teilen: Erschöpfung, Fragmentierung und das Gefühl, permanent in der Defensive zu sein während autoritäre Kräfte strategisch, emotional und organisiert auftreten. Wir möchten deshalb den Fokus darauf legen, was uns Zuversicht gibt, welche Macht jede*r von uns bereits hat und wie daraus gemeinsame Handlungsmacht wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "MdB Lars Castellucci setzt zu Beginn des Abends einen politischen Impuls über Zuversicht als politische Ressource und die Erfahrung, selbst etwas bewirken zu können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Anschließend geht es für uns alle raus aus dem Zuhörmodus: Radikale Töchter bringen uns mit einem politischen Speed-Dating miteinander ins Gespräch. Denn Mitmacht beginnt nicht erst im Workshop am nächsten Morgen. Es beginnt direkt dort, wo Menschen einander begegnen, Energie entsteht und aus „man müsste mal“ ein „lass uns machen“ wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "Demokratische Macht heißt dementsprechend auch, dass wir die Wirklichkeit mitgestalten können und das kann sehr unterschiedlich aussehen. Jolanda Spiess, Büsra Sayed und Josef Adugna, drei Personen aus drei unterschiedlichen Bereichen, erzählen in je sieben Minuten von persönlichen Momenten des Wirksamwerdens: Was gab den Ausschlag? Wodurch wurde plötzlich etwas möglich? Und wann war klar: Hier bewegt sich wirklich etwas?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nach den Erzählungen schaut Susanne Nasr vom Business Council for Democracy in einer Austauschrunde mit den drei Beitragenden nochmal genauer hin und fragt: Welche Hebel, Ressourcen und Beziehungen haben für sie den Unterschied gemacht? Und wie können wir daraus kollektive Strategien entwickeln, mit denen wir gemeinsam mehr bewegen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Zum Abschluss des Abends sind wir alle nochmal gefragt. Gemeinsam mit den Radikalen Töchtern werden wir lernen, dass Mut ein Muskel ist, den wir trainieren können und, wie das geht. Für einen gemeinsamen, mutigen Einstieg ins Festival."
+    },
+    {
+     "type": "paragraph",
+     "text": "Dazwischen und danach gilt: Leute kennenlernen, weiterreden, essen, lachen, Ideen spinnen und vielleicht schon die ersten gemeinsamen Pläne schmieden. Denn Mitmacht ist Arbeitsraum, Begegnungsraum und Fest zugleich."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Cesy Leonard",
+     "organisation": "Radikale Töchter gUG",
+     "role": "Gründerin, Geschäftsführung & Künstlerische Leitung"
+    },
+    {
+     "name": "Johanna Mensen",
+     "organisation": "Radikale Töchter gUG",
+     "role": ""
+    },
+    {
+     "name": "Isabel Gahren",
+     "organisation": "Radikale Töchter gUG",
+     "role": ""
+    },
+    {
+     "name": "Josef Adugna",
+     "organisation": "Sony Music Entertainment Germany GmbH",
+     "role": "Head of Commercial Partnerships"
+    },
+    {
+     "name": "Büsra Sayed",
+     "organisation": "CARAMELLA",
+     "role": "Founder"
+    },
+    {
+     "name": "Caroline Strotmann",
+     "organisation": "Radikale Töchter gUG",
+     "role": "Mitarbeiterin / Projektleitung"
+    },
+    {
+     "name": "Jolanda Spiess",
+     "organisation": "Winkelried & Töchter GmbH",
+     "role": "Strategin, Autorin und Beraterin"
+    },
+    {
+     "name": "Susanne Nasr",
+     "organisation": "Hertie-Stiftung",
+     "role": "Seniorreferentin"
+    },
+    {
+     "name": "Antje Scheidler",
+     "organisation": "Robert Bosch Stiftung",
+     "role": "Director, Demokratie und Ungleichheit, Globale Fragen"
+    },
+    {
+     "name": "Nina Schnider",
+     "organisation": "Faktor D",
+     "role": "Geschäftsführerin Österreich"
+    },
+    {
+     "name": "Hannah Göppert",
+     "organisation": "Faktor D",
+     "role": "Co-Geschäftsführerin Deutschland"
+    },
+    {
+     "name": "Renee van Bavel",
+     "organisation": "Renee van Bavel",
+     "role": "Künstlerin"
+    },
+    {
+     "name": "Prof. Dr. Lars Castellucci",
+     "organisation": "Deutscher Bundestag",
+     "role": "MdB; Beauftragter der Bundesregierung für Menschenrechtspolitik und humanitäre Hilfe"
+    }
+   ]
+  },
+  {
+   "id": "mi09",
+   "date": "2026-09-23",
+   "start": "21:10",
+   "end": "22:00",
+   "format": "rahmen",
+   "title": "Ausklang & Networking",
+   "people": "",
+   "room": "Cube Plenum"
+  },
+  {
+   "id": "do00",
+   "date": "2026-09-24",
+   "start": "09:00",
+   "end": "09:30",
+   "format": "rahmen",
+   "title": "Ankommen",
+   "people": "",
+   "room": ""
+  },
+  {
+   "id": "do01",
+   "date": "2026-09-24",
+   "start": "09:30",
+   "end": "09:45",
+   "format": "rahmen",
+   "title": "Tagesauftakt",
+   "people": "Faktor D",
+   "room": "Cube Plenum",
+   "subtitle": "Der Start in den Tag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/tagesauftakt-3"
+  },
+  {
+   "id": "do02",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "18:15",
+   "format": "kultur",
+   "title": "Mini Ting",
+   "people": "Silvan Groher & Ralph Moser",
+   "room": "Shed Foyer",
+   "subtitle": "Geben ist leicht. Nehmen ist die eigentliche Kunst.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/mini-ting-ein-vertrauens-experiment-mit-geld",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mini-Ting ist eine Installation und ein Vertrauensexperiment in Echtzeit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein offener Geldtopf mitten im Festivalgeschehen: Ab 2 EUR kann jede und jeder mitmachen. Wer Bedarf oder Lust hat, nimmt heraus, was er oder sie braucht. Bis 250 EUR pro Person und Tag – keine Jury, keine Begründung. Nur eine Notiz, wofür."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Notizen sind ein Teil des Experiments. Sie zeigen, ob Vertrauen trägt, und wofür Menschen Geld brauchen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was hier sichtbar wird, ist auch eine demokratische Frage: Wem trauen wir zu, Geld sinnvoll zu verwenden? Wer entscheidet, was Bedarf ist? Was passiert, wenn Umverteilung nicht über Institutionen, sondern von Mensch zu Mensch läuft?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aus früheren Durchläufen wissen wir: Es entstehen Momente der Irritation, der Überraschung, manchmal gibt es Tränen. Wir vertrauen dem Geld oft stärker als unseren Mitmenschen. Mini-Ting dreht das spielerisch um."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es gibt zwei Modi:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Selbsterklärend: Die Installation steht offen zugänglich, mit Spielregeln und einer Box für Wünsche und Rückmeldungen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Betreut: Wir sind vor Ort, geben Anstoß, beobachten und kommen mit den Mitmachenden ins Gespräch."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Silvan Groher",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Geschäftsführer"
+    },
+    {
+     "name": "Ralph Moser",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Co-Gründer"
+    }
+   ]
+  },
+  {
+   "id": "do03",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "18:15",
+   "format": "kultur",
+   "title": "@wefightfirewithfire – Eine begehbare For-You-Page",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "do04",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "10:45",
+   "format": "workshop",
+   "title": "Bewegbare gewinnen mit dem Race Class Narrativ und Organizing!",
+   "people": "Alice Hamdi & Karla Wiegmann",
+   "room": "Cube 1. OG – 1.06",
+   "subtitle": "Welche Strategien begeistern Menschen für eine demokratische Gesellschaft?",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/bewegbare-gewinnen-mit-dem-race-class-narrativ-und-organizing",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Rechtsruck, Kürzungsangriffe auf den Sozialstaat und Klimarollback? Zivilgesellschaft, Verbände, Organisationen und soziale Bewegungen brauchen neue Strategien, um Macht gegen Rechts aufzubauen. Im Movement Hub hatten wir die Chance, die letzten drei Jahre viele fantastische Projekte in ihrer Organizing- und Öffentlichkeitsarbeit zu begleiten, ihnen Impulse und Perspektiven zu geben und von ihnen zu lernen. All das haben wir in unserem neuen Handbuch (Arbeitstitel: „Beyond the Base – Vorankommen mit dem Race Class Narrativ und Organizing“) zusammengefasst."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Workshop möchten wir euch auf eine strategische Reise mitnehmen: Wie bewegen und begeistern wir Menschen für eine demokratische Gesellschaft? Was gibt Menschen den Anstoß, sich in Nachbarschaften, Betrieben oder Kitas zu organisieren? Und welche Rolle spielt öffentliche Kommunikation dabei, ob wir Menschen jenseits der bereits aktiven progressiven Basis tatsächlich erreichen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dafür gehen wir nach Dresden-Johannstadt, um zu verstehen, welche Tools und Taktiken Nachbar*innen stärken, sich zusammenzuschließen. Wir sprechen darüber, warum das Werkzeug des Race-Class-Narrativs eine \"Großes-Wir\"-Geschichte dabei unterstützt, Brücken zu bauen. Zum Schluss der Reise zeigen wir, welchen Unterschied es macht, wenn sich Menschen zum ersten Mal in ihrem Leben zusammenschließen und gemeinsam über Unterschiede hinweg Macht aufbauen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Karla Wiegmann",
+     "organisation": "Movement Hub",
+     "role": ""
+    },
+    {
+     "name": "Alice Hamdi",
+     "organisation": "bewegungschule",
+     "role": "Co-Gründerin"
+    }
+   ]
+  },
+  {
+   "id": "do05",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Wenn zwei sich streiten, freut sich die AfD?",
+   "people": "Cora Mantel & Lena Bickel",
+   "room": "Shed EG – A0.05",
+   "subtitle": "Wie demokratische Parteien zusammenfinden können. Ein Erfahrungsbericht eines neuen überparteilichen Austauschformats.",
+   "websiteTime": "10:00–10:45",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wenn-zwei-sich-streiten-freut-sich-die-afd",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie können demokratische Parteien zusammenfinden, um eine AfD-Regierungsbeteiligung zu verhindern und wie kann das Vertrauen dafür gelegt werden? In diesem Workshop bringen wir einen Erfahrungsbericht eines neuen Ansatzes sowie unsere eigenen strategischen Erkenntnisse zu überparteilichen Austauschformaten mit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Landtagswahlen in Sachsen-Anhalt und Mecklenburg-Vorpommern könnten die politischen Mehrheiten grundlegend verändern. Wenn klassische Koalitionen nicht mehr möglich sind, braucht es neue Formen der Zusammenarbeit – bis hin zu tolerierten Minderheitsregierungen. Doch inhaltliche Differenzen, Unvereinbarkeitsbeschlüsse und tiefes gegenseitiges Misstrauen machen solche Lösungen schwer."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gute Politik braucht deshalb mehr als starke Positionen: Sie braucht belastbare Beziehungen zwischen Menschen, die Verantwortung tragen – auch über die bisher üblichen politischen Lager hinweg. Genau daran arbeiten wir mit den Zukunftsdialogen. Weit vor den Wahlen haben wir in mehreren Formaten politische Entscheidungsträger*innen demokratischer Parteien in geschützten, überparteilichen Räumen zusammengebracht."
+    },
+    {
+     "type": "paragraph",
+     "text": "In unserem Workshop wollen wir unsere Erfahrungen aus diesem Projekt teilen und mit Euch gemeinsam diskutieren: Was braucht es, damit sich Parteilogik für einen Moment zurückstellen lässt? Wie kann Vertrauen auch über Parteigrenzen hinweg geschaffen werden? Und welche Möglichkeiten gibt es, diese Ideen für zukünftige Wahlen weiterzuentwickeln?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Cora Mantel",
+     "organisation": "BRAND NEW BUNDESTAG",
+     "role": "Coordinator Strategic Partnerships"
+    },
+    {
+     "name": "Lena Bickel",
+     "organisation": "BRAND NEW BUNDESTAG",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "do06",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Die Plattformisierung der Demokratie",
+   "people": "Michael Beuthner, Björn Krass Koenitz & Bruno Dietel",
+   "room": "Cube 1. OG – 1.05",
+   "subtitle": "Wie die Plattformisierung politischer Kommunikation demokratische Prozesse verändert.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/die-plattformisierung-der-demokratie---zwischen-risikoanalyse-und-gestaltungsperspektive",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie verändert die Plattformisierung politischer Kommunikation demokratische Prozesse? Welche Narrative über digitale Öffentlichkeit greifen zu kurz – und welche Perspektiven fehlen bislang? Welche Rolle spielen Wissenschaft, Medien und Zivilgesellschaft bei der Entwicklung neuer Diskursräume?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop werden die zentralen Erkenntnisse aus der SRH-Science-Talk-Reihe „Medien, Meinungsfreiheit und Demokratie – Ein Verhältnis auf dem Prüfstand“ vorgestellt und für die strategische Arbeit demokratischer Akteur*innen nutzbar gemacht."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ziel ist es, die im Rahmen der SRH Science Talks entwickelten Perspektiven zu verdichten und gemeinsam mit den Teilnehmenden des Mitmacht-Festivals zu reflektieren, welche kollektiven Strategien sich daraus für die Stärkung demokratischer Öffentlichkeit ableiten lassen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Programmpunkt ist somit ein kuratierter Impulsraum, der bestehende Diskussionen bündelt, in den strategischen Austausch des Mitmacht-Netzwerks einspeist und damit unmittelbar zum Ziel beiträgt, demokratische Kräfte schneller, resilienter und wirksamer zu vernetzen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Michael Beuthner",
+     "organisation": "SRH University of Applied Sciences Heidelberg, Campus Berlin",
+     "role": "Professor für Journalismus und Public Relations"
+    },
+    {
+     "name": "Björn Krass Koenitz",
+     "organisation": "SRH University Berlin",
+     "role": "Leitung Innovationslabor"
+    }
+   ]
+  },
+  {
+   "id": "do07",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Demokratie retten durch Lobbying",
+   "people": "Inga Karten & Rebecca-Paulina Prausner",
+   "room": "Cube 1. OG – 1.02",
+   "subtitle": "Praktische Einblicke in die politische Interessenvertretung für NGOs.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/demokratie-retten-durch-lobbying---how-to-lobby-fur-ngos",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Demokratie lebt davon, dass möglichst alle gesellschaftlichen Gruppen im politischen Prozess gehört und ihre Interessen berücksichtigt werden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wie können gemeinwohlorientierte Organisationen ihre Interessen wirkungsvoll gegenüber der Politik vertreten?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lobbying ist weder Hexenwerk noch dunkle Hinterzimmermagie. Auch ohne goldenes Adressbuch und Riesenbudget kann man Einfluss auf Gesetzgebungsprozesse nehmen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Eine erfolgreiche Interessenvertretung hängt von der Frage ab: „Wann muss ich mit wem mit welchen Argumenten sprechen?“ In diesem Workshop schauen wir auf den Gesetzgebungsprozess und identifizieren die richtigen Ansprechpersonen für die verschiedenen Stadien. Außerdem geht es um die Frage, wie sich zielgerichtete Botschaften und Argumente formulieren lassen, um Gehör zu finden."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Inga Karten",
+     "organisation": "Lobby for Impact",
+     "role": "Co-Gründerin"
+    },
+    {
+     "name": "Rebecca-Paulina Prausner",
+     "organisation": "Lobby for Impact",
+     "role": "Co-Gründerin"
+    }
+   ]
+  },
+  {
+   "id": "do08",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Wie kannst du die Beziehungen zu den Unterstützer*innen vertiefen?",
+   "people": "Florian Engel",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Eure Unterstützer*innen sind zentral für gute Kampagnenarbeit.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wie-kannst-du-die-beziehungen-zu-den-unterstutzer-innen-vertiefen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wir leben in Zeiten von Reels, walled gardens und einem schnelllebigen News Cycle. Aufmerksamkeit wird in Sekunden gemessen und als zentrale Währung gehandelt. Entsprechend richten sich Budgets und Kommunikationsstrategien zunehmend auf diese kurzen Momente aus."
+    },
+    {
+     "type": "paragraph",
+     "text": "Dabei gerät ein zentraler Teil von Kampagnenarbeit oft in den Hintergrund: die Beziehung zu Unterstützer*innen. Genau diese Menschen sind es jedoch, deren Stimmen wir als Organisationen hörbar machen müssen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Aber wie kann das in der Praxis gelingen? In diesem Workshop lernst du, aufbauend auf vielen Jahren Erfahrung, wie Organisationen stärker auf ihre Unterstützer*innen eingehen können und durch kreative Mitmach-Formate nachhaltige Bindung aufbauen. Unter dem Schlagwort Supporter Journeys beschäftigen sich Organisationen mit einer Team-übergreifenden Planung, bei der Unterstützer*innen im Mittelpunkt stehen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Neben konkreten Konzepten entwickeln wir gemeinsam Ideen für deine Organisation: Wie kannst du Beziehungen vertiefen, und was kannst du deinen Unterstützer*innen im Gegenzug zurückgeben?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Florian Engel",
+     "organisation": "More Onion",
+     "role": "Geschäftsführer"
+    }
+   ]
+  },
+  {
+   "id": "do09",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Demokratie (er)leben – Wie Sozialunternehmer*innen Demokratie fördern",
+   "people": "Yannick Fischer & Kristina Krömer",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "Sozialunternehmer*innen als Gestalter*innen demokratischer Innovation.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/demokratie-er-leben---wie-sozialunternehmer-innen-demokratie-fordern",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Ashoka ist eine globale Organisation, die rund 4.000 Gründer*innen gemeinnütziger Organisationen aus 99 Ländern unterstützt, die mit einer systemverändernden Vision arbeiten. Wir nennen sie Ashoka Fellows. Gemeinsam entwickeln und verbreiten sie innovative Ansätze, um gesellschaftliche Herausforderungen langfristig zu verändern – von Bildung und Klimaschutz über Migration bis hin zu Demokratie und gesellschaftlicher Teilhabe."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit dem Participation Hub, Ashokas Leuchtturmprojekt für demokratische Innovation, haben wir in den vergangenen Jahren unsere europäische Gemeinschaft von Ashoka Fellows zusammengebracht. In Retreats, Workshops und Dialogen haben wir untersucht, wie eine starke paneuropäische Demokratie-Community aufgebaut werden kann. Dabei standen Fragen im Mittelpunkt wie: Welche Narrative prägen Demokratie heute? Welche neuen Formen der Beteiligung entstehen? Und wie können soziale Innovationen Vertrauen, Handlungsmacht und demokratische Teilhabe stärken?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In der „Mitmacht-Session“ möchten wir zentrale Erkenntnisse aus diesem Prozess vorstellen und gemeinsam mit Ashoka Fellow Kristina Krömer ein konkretes Beispiel für soziale Innovation im Bereich Demokratiearbeit beleuchten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Kristina hat eine Methode entwickelt, mit der das Prinzip von Bürger*innenräten in den Alltag übertragen wird und ein konstruktives, kollektives Stimmungsbild zu gesellschaftlichen Kontroversen entstehen kann."
+    },
+    {
+     "type": "paragraph",
+     "text": "Nach einer ersten Perspektive auf demokratische Innovationen und gesellschaftliche Trends in Europa tauchen wir tiefer in die Praxis demokratischer Beteiligung ein. Ausgehend von Kristinas Arbeit beschäftigen wir uns mit der Frage: Wie erleben Bürger*innen Demokratie im Alltag, und was braucht es, damit Menschen sich tatsächlich als handlungsfähig erleben?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ziel der Session ist es, einen offenen Raum für kollektives Lernen, Austausch und die Entwicklung gemeinsamer Ansätze für demokratische Innovation in Europa zu schaffen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Kristina Krömer",
+     "organisation": "metro polis e.V.",
+     "role": "Projektkoordinator:in"
+    },
+    {
+     "name": "Yannick Fischer",
+     "organisation": "Ashoka",
+     "role": "Coordinator"
+    }
+   ]
+  },
+  {
+   "id": "do10",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Sprechen & Zuhören über alles, was die Wahlergebnisse in uns auslösen",
+   "people": "Kai Schächtele",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Ein geschützer Raum für Austausch, Reflexion und Emotionen.",
+   "category": "Austauschformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/was-uns-nach-den-wahlen-bewegt---ein-gesprachsraum",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wahlen wirken nach. Wenige Tage nach den Landtagswahlen in Sachsen-Anhalt, Mecklenburg-Vorpommern und Berlin laden wir zu einem besonderen Gesprächsraum im Format Sprechen & Zuhören ein."
+    },
+    {
+     "type": "paragraph",
+     "text": "Hier geht es nicht um Strategien und nicht ums Argumentieren, sondern ums Erleben. Jede Person hat gleich viel Zeit. Der Fokus liegt auf den eigenen Empfindungen. Ob Trauer, Angst, Wut, Ohnmacht und Erschöpfung oder Zuversicht und Erleichterung: Alles hat Platz. Ein geschützter Raum zum Teilen, Zuhören und Durchatmen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Kai Schächtele",
+     "organisation": "Mehr Demokratie",
+     "role": "Journalist, Moderator, Cultural Producer"
+    }
+   ]
+  },
+  {
+   "id": "do11",
+   "date": "2026-09-24",
+   "start": "10:00",
+   "end": "11:15",
+   "format": "workshop",
+   "title": "Allzeitorte",
+   "people": "Barbara Bichler & Kristina Rahe",
+   "room": "Cube 1. OG – 1.03",
+   "subtitle": "Wie Alltagsorte zu Räumen der Begegnung werden.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/allzeitorte-raume-fur-das-miteinander-schaffen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Das Miteinander lebt von Begegnung. Dafür braucht es Orte, an denen Begegnungen möglich sind – und gemeinsame Ideen, die Menschen über die zufällige, flüchtige Begegnung hinaus in Verbindung bringen: Allzeitorte."
+    },
+    {
+     "type": "paragraph",
+     "text": "\"Gemeinsam mehr bewegen\" bringt Trios aus Freizeit- oder Alltagsort, Soziokultur und politischer Bildung zusammen, um genau das zu schaffen. An einem Ort, an dem sich Menschen alltäglich aufhalten, finden unterschiedliche Menschen durch Fragen, die sie persönlich umtreiben, und durch Angebote für alle ins gemeinsame Handeln und gestalten so zusammen ihren Ort des demokratischen Miteinanders."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Workshop setzen wir uns damit auseinander, wie alltägliche Orte zu Räumen der Begegnung werden, was es dafür braucht, und welche Stärken Soziokultur und politische Bildung gerade in der aufsuchenden Arbeit mitbringen."
+    },
+    {
+     "type": "paragraph",
+     "text": "\"Allzeitorte. Gemeinsam mehr bewegen\" ist ein Förderprogramm des Bundesverbands Soziokultur e.V. und der Robert Bosch Stiftung GmbH."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Barbara Bichler",
+     "organisation": "Bundesverband Soziokultur e.V.",
+     "role": "Projektleitung Allzeitorte"
+    },
+    {
+     "name": "Kristina Rahe",
+     "organisation": "Bundesverband Soziokultur",
+     "role": "Kulturpolitische Geschäftsführerin"
+    }
+   ]
+  },
+  {
+   "id": "do-p1",
+   "date": "2026-09-24",
+   "start": "11:15",
+   "end": "11:45",
+   "format": "pause",
+   "title": "Pause"
+  },
+  {
+   "id": "do12",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "12:30",
+   "format": "workshop",
+   "title": "Wenn die Parlamente zu Theatern werden, müssen die Theater zu Parlamenten werden",
+   "people": "Eneas Prawdzic",
+   "room": "Cube 1. OG – 1.05",
+   "subtitle": "Theater als Proberaum für Demokratie und die Zukunft unserer Gesellschaft.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wenn-die-parlamente-zu-theatern-werden-mussen-die-theater-zu-parlamenten-werden",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Klimawandelbedingte Extremwetterereignisse im Jahr 2037, eine post-nationalstaatliche Welt der Konzerne im Jahr 2071 oder die Gründung der „International Democratic Alliance\" im Jahr 2027: Wie kann man mit der Kunst des „Als-ob\" und dem Theater-Werkzeugkasten Räume schaffen, in denen die Herausforderungen von morgen bereits heute wirksam erprobt werden können?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Das Theater- und Gesellschaftsprojekt Proberaum Zukunft inszeniert seit 2017 Räume mit Politiker*innen, Expert*innen und der Öffentlichkeit, in denen die Zukunft nicht nur erdacht, sondern real erprobt wird."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Eneas Prawdzic",
+     "organisation": "Theater- und Gesellschaftsprojekt \"Proberaum Zukunft\"",
+     "role": "Künstlerischer Leiter"
+    }
+   ]
+  },
+  {
+   "id": "do13",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "12:30",
+   "format": "workshop",
+   "title": "New Narratives and New Vibes for Democracy (ENG)",
+   "people": "Tin Gazivoda",
+   "room": "Cube 1. OG – 1.03",
+   "subtitle": "Storytelling strategies to counter authoritarian narratives.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/new-narratives-and-new-vibes-for-democracy",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Elected authoritarian leaders understand the power of stories. They use narratives to dominate public conversation and consolidate power through lies, distortion, fear, and division. Yet they also speak in simple, accessible language, creating a sense of belonging to engage overlooked communities. Identifying this helps us understand their appeal and how to counter it."
+    },
+    {
+     "type": "paragraph",
+     "text": "That's where the Anti-Authoritarian Toolkit comes in. It focuses on narrative strategies: six plays designed to help you present your messages, connect emotionally with people, and build resilient political movements. Each play offers tested approaches to capture attention, inspire action, and foster long-term engagement – not just moments of mobilization, but lasting communities of trust and participation."
+    },
+    {
+     "type": "paragraph",
+     "text": "In this workshop we show how to design messaging in real concerns, craft universal themes that unite diverse groups, and use humor and symbols to engage people. We also explore how to break through authoritarian shields – exposing corruption, betrayal, and the harm hidden behind false promises."
+    },
+    {
+     "type": "paragraph",
+     "text": "Throughout, we emphasize narratives that reflect people's lived experiences – showing how political change can improve the daily life of citizens. When messages mirror familiar and prevailing struggles and hopes, they become more authentic, mobilizing, and credible."
+    },
+    {
+     "type": "paragraph",
+     "text": "Our goal is to equip workshop participants with the tools to take control of public discourse and reshape our communities around values of unity, hope, and shared humanity. Because the stories we tell can turn the tide."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Tin Gazivoda",
+     "organisation": "D Hub",
+     "role": "Development Director"
+    }
+   ]
+  },
+  {
+   "id": "do14",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "12:30",
+   "format": "fishbowl",
+   "title": "ChatGPT stellt sich nicht mit Schild vor den Bundestag",
+   "people": "Julia Pohl & Sarah Mohamed",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Welche Relevanz haben Straßenaktionen heute noch für politischen Protest?",
+   "category": "Austauschformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/chatgpt-stellt-sich-nicht-mit-schild-vor-den-bundestag",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Straßenaktionen gehören zum klassischen Repertoire politischer Kampagnenarbeit: Infostände, Unterschriftensammlungen, kreative Protestformen, Aktionsbilder und Gespräche auf dem Marktplatz. Doch welche Relevanz haben sie in einer zunehmend digitalen Öffentlichkeit noch?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In unserer Fishbowl diskutieren wir, welche Wirkung Initiativen und NGOs mit Straßenaktionen heute erzielen können: Sichtbarkeit, Mobilisierung, Vertrauensaufbau, Medienbilder, Engagement oder politische Zuspitzung?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dabei fragen wir, wie Straßenaktionen zu echten Orten der Begegnung werden können – nicht nur Bühne für Botschaften, sondern Räume für Austausch, Beteiligung und gemeinsames Handeln. Außerdem schauen wir darauf, wie sich analoge Aktionen sinnvoll mit digitalen Kampagnen verbinden lassen: Was lässt sich online verlängern, übersetzen oder verstärken? Wo entstehen neue Zugänge und wo geht wiederrum etwas verloren?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Beitrag lädt Kampagnenmacher*innen, Aktivist*innen und Interessierte ein, Erfahrungen zu teilen, blinde Flecken zu benennen und gemeinsam Kriterien für wirksame Straßenaktionen im digitalen Zeitalter zu entwickeln."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Julia Pohl",
+     "organisation": "Bürgerbewegung Finanzwende",
+     "role": "Campaignerin"
+    },
+    {
+     "name": "Sarah Mohamed",
+     "organisation": "Finanzwende e.V.",
+     "role": "Campaignerin"
+    }
+   ]
+  },
+  {
+   "id": "do15",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Abstimmen neu denken – Civic Tech für direkte Demokratie",
+   "people": "Maurice Lanz",
+   "room": "Shed 5. OG – A5.07",
+   "subtitle": "Wie digitale Partizipation für alle zugänglich gemacht werden kann.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/abstimmen-neu-denken-mit-civic-tech-fur-direkte-demokratie",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Die Schweiz gilt als Musterland der direkten Demokratie. Dennoch fühlen sich viele Bürger*innen bei Abstimmungen überfordert, nicht informiert genug oder schlicht ausgeschlossen. Dabei fehlt es nicht an Willen – es fehlt an Infrastruktur."
+    },
+    {
+     "type": "paragraph",
+     "text": "Plural ist eine Schweizer Civic-Tech-Plattform, die direkte Demokratie neu denkt: Bürger*innen bringen Ideen ein, diskutieren sie gemeinsam und formen daraus politische Vorstöße, die in den formalen Prozess eingehen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop zeigen wir, was wir in der Praxis gelernt haben: Welche Design- und Technologieentscheidungen wirklich funktionieren, um digitale Partizipation für alle zugänglich zu machen. Die Teilnehmenden probieren Plural live aus, reflektieren gemeinsam Erfolgsfaktoren und entwickeln übertragbare Prinzipien für ihre eigenen Kontexte in Deutschland, Österreich oder der Schweiz."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Maurice Lanz",
+     "organisation": "Plural",
+     "role": "Co-Founder"
+    }
+   ]
+  },
+  {
+   "id": "do16",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Bewegungsmacht durch Kampagnen",
+   "people": "Bernhard Csengel",
+   "room": "Cube 1. OG – 1.06",
+   "subtitle": "Menschen wirksam mobilisieren statt nur Aufmerksamkeit erzeugen.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/bewegungsmacht-durch-kampagnen-drei-neue-werkzeuge-fur-mobilisierung",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wir alle kennen das Gefühl: Die Kampagne ist durchdacht, die Botschaften stimmen, das Team gibt alles. Und trotzdem bewegt sich wenig. Menschen liken, aber sie kommen dann doch nicht zu Aktionen. Sie teilen, aber sie handeln nicht. Woran liegt das?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop versuchen wir dieser Frage gemeinsam auf den Grund zu gehen. Wir sehen uns an, was Mobilisierung von Information unterscheidet, und warum manche Kampagnen Menschen wirklich in Bewegung bringen, während andere nur wenig Aufmerksamkeit gewinnen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Dafür diskutieren wir konkrete Werkzeuge, die wir direkt auf unsere eigene Praxis anwenden: Mit dem Ökosystem-Mapping machen wir sichtbar, wer in unserem Themenfeld welche Rolle spielt, und wo strategische Lücken klaffen. Mit dem Verhaltensdesign prüfen wir, ob unsere Kommunikation auf Information oder auf Beziehung setzt, und was wir daran ändern können. Und mit einem Prebunking-Ansatz erarbeiten wir, wie wir unsere Communities gegen Desinformation stärken können, bevor sie zuschlägt."
+    },
+    {
+     "type": "paragraph",
+     "text": "Für jedes Werkzeug nehmen wir uns Zeit, teilen unsere Erfahrungen und Expertisen im Workshop. Dabei bleiben wir nicht theoretisch, sondern schaffen ein klares Bild unseres Kampagnenökosystems und entwickeln konkrete Ideen, die wir in unsere Kommunikation und Strategie umsetzen können."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Bernhard Csengel",
+     "organisation": "Selbstständig",
+     "role": "Kampagnen- und Kommunikationsberater"
+    }
+   ]
+  },
+  {
+   "id": "do17",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Angry Twitter-Bird & entblößte Justitia: Wie Bilder Politik bewegen",
+   "people": "Jenny Brunner",
+   "room": "Cube 1. OG – 1.02",
+   "subtitle": "Drei Kampagnen zeigen, worum es bei digitaler Gewalt wirklich geht.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/angry-twitter-bird-entblosste-justitia-wie-bilder-politik-bewegen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "„See you in court, Elon.\" – Mit einem Angry Twitter Bird zum Prozessauftakt wegen Antisemitismus auf Twitter/X schafften wir es bis in den Guardian, und Elon Musk reagierte höchstpersönlich."
+    },
+    {
+     "type": "paragraph",
+     "text": "Bilder bewegen, was Fakten nicht schaffen – und dieser Workshop zeigt, wie. Am Beispiel von drei Kampagnen: Ein böser Twitter-Vogel, der internationale Aufmerksamkeit auf eine Klage gegen einen Tech-Konzern lenkte. Eine Abrissbirne vor dem Bundestag, die zeigte, wie digitale Gewalt unsere Demokratie bedroht und gleichzeitig trockene Studienzahlen spürbar machte. Und eine entblößte, verpixelte Justitia-Statue, die aufzeigte, worum es bei digitaler Gewalt wirklich geht: Würde, Selbstbestimmung und Gerechtigkeit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Drei Themen, drei Formate, drei Strategien und ein gemeinsames Ziel: Bilder schaffen, die hängen bleiben und Druck erzeugen, wo er gebraucht wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Workshop diskutieren wir: Was macht ein Bild politisch wirksam? Wie übersetzt man komplexe Themen in Emotionen, ohne zu vereinfachen? Und wie können wir diese Strategien gemeinsam weiterdenken?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Jenny Brunner",
+     "organisation": "HateAid",
+     "role": "Politische Campaignerin"
+    }
+   ]
+  },
+  {
+   "id": "do18",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Build your own Richtlinie",
+   "people": "Maria Pereira Robledo & Martin Correll",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Wie staatliche Förderprogramme demokratische Wirkung entfalten.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/build-your-own-richtlinie-staatliche-forderung-fur-demokratische-wirkung",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Staatliche Förderung wirkt oft kompliziert: Formulare, Sachberichte, Verwendungsnachweise... Doch diese Strukturen machen sie stark. Sie sorgen für Transparenz, Planungssicherheit und demokratische Legitimation. Gerade wenn Demokratieförderung extremistischen Angriffen ausgesetzt ist, schützt eine funktionierende Bürokratie."
+    },
+    {
+     "type": "paragraph",
+     "text": "Aber wie entstehen Förderlinien, welche Spielräume hat die Behörde, und wie kann die Zivilgesellschaft mitwirken, damit Förderung wirkt?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In unserem Workshop am Beispiel des Programms „Zusammenhalt durch Teilhabe“ machen wir die Mechanik staatlicher Förderung transparent, zeigen Chancen und Grenzen auf und laden die Teilnehmenden ein, eigene Vorschläge zu entwickeln. So erfahren sie praktisch, wie Förderlinien entstehen und kreative Ideen innerhalb realistischer Vorgaben umgesetzt werden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Workshop ist ein Ort des Austauschs: Zivilgesellschaft und bpb lernen voneinander. Am Ende gehen alle mit neuen Projektideen, einem klaren Verständnis staatlicher Förderung und der Erkenntnis, dass Fördermechanismen Werkzeuge sind, um Demokratie lebendig zu gestalten. Spaß am Ausprobieren ist nicht ausgeschlossen – trotz Bürokratie."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Dr. Martin Correll",
+     "organisation": "Bundeszentrale für politische Bildung",
+     "role": "Bundesprogramm „Zusammenhalt durch Teilhabe\""
+    },
+    {
+     "name": "Maria Pereira Robledo",
+     "organisation": "Bundeszentrale für politische Bildung",
+     "role": "Referentin"
+    }
+   ]
+  },
+  {
+   "id": "do19",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Von Protest zu Prozess: Beteiligung trotz Gegenwind",
+   "people": "Alina Schütze, Laura Giesen, Vera Hangs & Katharina Knaus",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "Hybride Beteiligungsformate zwischen Institution und Zivilgesellschaft. Mit Laura Giesen von Liquid Democracy e.V., Alina Schütze von make.org und Katharina Knaus und Vera Hangs vom Projekt Zukunft D.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/von-protest-zu-prozess-beteiligung-trotz-gegenwind",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Institutionelle Beteiligung steht unter Druck: Budgets sinken, Prozesse verlieren an Verbindlichkeit, und vielerorts fehlt das politische Momentum, um Beteiligung nachhaltig zu verankern. Gleichzeitig entstehen neue digitale und hybride Beteiligungsformate aus der Zivilgesellschaft heraus: schnell, mobilisierend und nah an gesellschaftlichen Debatten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Doch wie lassen sich Reichweite und Dynamik solcher Bottom-up-Initiativen mit der Legitimität institutioneller Prozesse verbinden? Und welche Allianzen und Narrative braucht es, um Beteiligung trotz schwindender politischer Unterstützung weiterzuentwickeln?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dieser Workshop bringt Akteur*innen aus Verwaltung, Politik, Zivilgesellschaft und Civic Tech zusammen und stellt Praxisbeispiele hybrider Beteiligung vor, darunter von Make.org, aula und Liquid Democracy. Die vorgestellten Projekterfahrungen zu Methodik, Zielgruppen, Outreach etc. sowie ein interaktives Rollenspiel erkunden, wie tragfähige Kooperationen zwischen unterschiedlichen Akteur*innen entstehen können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam diskutieren wir kollektive Strategien für eine resiliente, inklusive und stärker vernetzte Beteiligung."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Laura Giesen",
+     "organisation": "Liquid Democracy e.V.",
+     "role": "Project Lead"
+    },
+    {
+     "name": "Alina Schütze",
+     "organisation": "make.org",
+     "role": "Projektleitung & Beteiligungsexpertin"
+    },
+    {
+     "name": "Vera Hangs",
+     "organisation": "aula I Projekt Zukunft D",
+     "role": "Projektleiterin"
+    },
+    {
+     "name": "Katharina Knaus",
+     "organisation": "Wikimedia Deutschland I Projekt Zukunft D",
+     "role": "Referentin für digitale Partizipation"
+    }
+   ]
+  },
+  {
+   "id": "do20",
+   "date": "2026-09-24",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "workshop",
+   "title": "Wie organisiere ich eine deutschlandweite Bewegung?",
+   "people": "Gregor Hackmack & Laura Lo Zito",
+   "room": "Shed EG – A0.05",
+   "subtitle": "Hacks und Erfolgsrezepte der PRÜF-Kampagne.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wie-organisiere-ich-eine-deutschlandweite-bewegung-eine-toolbox",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Die PRÜF-Bewegung hat eine Forderung: „Alle Parteien, die vom Verfassungsschutz als rechtsextremer Verdachtsfall oder gesichert rechtsextrem eingestuft werden, sollen durch das Bundesverfassungsgericht überprüft werden.“ Dafür organisiert ein Kollektiv aus Aktivist*innen und Comedians regelmäßige PRÜF-Demos in den deutschen Landeshauptstädten. Begleitet wird die Bewegung durch eine entsprechende Petition auf innn.it und einem über innn.it organisierten Crowdfunding. Darüber sind bereits mehr als 600.000 EUR in Kleinspenden eingeworben worden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Laura Lo Zito, Regisseurin, Autorin und PRÜF-Initiatorin, sowie Gregor Hackmack, Vorstand und Mitgründer von innn.it, teilen die Hacks und Erfolgsrezepte der Kampagne."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Gregor Hackmack",
+     "organisation": "innn.it e.V.",
+     "role": "Vorstand und Mitgründer"
+    },
+    {
+     "name": "Laura Lo Zito",
+     "organisation": "Autorin & Regisseurin",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "do-p2",
+   "date": "2026-09-24",
+   "start": "13:00",
+   "end": "14:30",
+   "format": "pause",
+   "title": "Mittagspause"
+  },
+  {
+   "id": "do21",
+   "date": "2026-09-24",
+   "start": "14:30",
+   "end": "15:15",
+   "format": "keynote",
+   "title": "Demokratie erzählen ist kein Wohlfühlverein!",
+   "people": "Franzi von Kempis",
+   "room": "Cube Plenum",
+   "subtitle": "Warum es höchste Zeit ist für eine gemeinsame demokratische Vision.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/demokratie-erzahlen-ist-kein-wohlfuhlverein---eine-wutende-keynote",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Was wäre, wenn Demokratie nicht stirbt, weil sie angegriffen wird – sondern weil wir aufgehört haben, von ihr zu träumen? Weil wir vergessen haben, allen und jedem voller Stolz von ihr zu erzählen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Während die AfD Menschen Antworten auf ihr Krisengefühl gibt, argumentieren und erklären wir Demokrat*innen ohne eine gemeinsame und klare Vision. Doch demokratische Kommunikation ist kein Ersatz für nicht vorhandene Substanz. Ein echtes demokratisches Narrativ ist eine Antwort auf die Frage: Was wollen wir füreinander in dieser Gesellschaft? Bezahlbare Mieten? Eine funktionierende Schule? Das sind die Geschichten, die wir endlich erzählen müssen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Keynote ist eine Einladung – und gleichzeitig eine Forderung: Raus aus der Reaktion! Rein in die Erzählung!"
+    },
+    {
+     "type": "paragraph",
+     "text": "Anschließend an die Keynote stellen Lara Buschmann und Laura Dederichs um 15:00 Uhr das von Faktor D entwickelte Kommunikations-Toolkit für gute Demokratiekommunikation vor, welches im Rahmen eines Skalierungsprozesses von Faktor D entstanden ist.",
+     "links": [
+      {
+       "text": "Skalierungsprozesses",
+       "url": "https://www.faktor-d.org/mitmachen/skalierungsprozesse/skalierungsprozess-2"
+      }
+     ]
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Franzi von Kempis",
+     "organisation": "selbstsändig",
+     "role": "Politik- und Kommunikationsberaterin"
+    },
+    {
+     "name": "Lara Buschmann",
+     "organisation": "Lara Buschmann | Beratung - Keynotes - Community",
+     "role": "Co-Moderation Kommunikations-Toolkit (SP)"
+    },
+    {
+     "name": "Laura Dederichs",
+     "organisation": "Faktor D",
+     "role": "Projektmanagerin Deutschland"
+    }
+   ]
+  },
+  {
+   "id": "do-p3",
+   "date": "2026-09-24",
+   "start": "15:15",
+   "end": "15:30",
+   "format": "pause",
+   "title": "Pause"
+  },
+  {
+   "id": "do22",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:15",
+   "format": "workshop",
+   "title": "Ungewöhnliche Allianzen, die wirken",
+   "people": "Ann-Katrin Bohmüller & Maike Mehlis",
+   "room": "Cube 1. OG – 1.06",
+   "subtitle": "Mit Wissen aus der Praxis zur eigenen Allianzbildung",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/ungewohnliche-allianzen-die-wirken-wie-bundnisse-unter-gegenwind-stark-werden",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie bauen wir Bündnisse, die unter politischem Gegenwind wirklich tragen? In diesem Gute-Praxis-Workshop zeigen wir anhand von drei Beispielen aus der Praxis, was sich in der Zusammenarbeit mit Partner*innen bewährt hat: das wachsende #böllerciao-Bündnis, die Allianz, die sich gegen die Gasbohrungen vor Borkum formiert hat, sowie der Netzwerkansatz unseres Engagementpreises."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Mittelpunkt steht nicht, möglichst viele ähnliche Partner*innen zu sammeln, sondern deren Unterschiede stark zu machen: Wer bringt Reichweite, wer lokale Verankerung, wer Mobilisierung? Und wie gelingt Zusammenarbeit so, dass nicht nur Kleine von Großen profitieren, sondern alle etwas einbringen und etwas zurückbekommen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Teilnehmenden arbeiten mit einem einfachen Bündnis-Canvas und entwickeln direkt im Workshop eine erste Skizze für ihre eigene Allianz – konkret, übertragbar und mit einem nächsten Schritt für die Praxis."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Ann-Katrin Bohmüller",
+     "organisation": "Deutsche Umwelthilfe",
+     "role": "Bereichsleitung Kampagnen"
+    },
+    {
+     "name": "Maike Mehlis",
+     "organisation": "Deutsche Umwelthilfe",
+     "role": "Senior Expert Kampagnen"
+    }
+   ]
+  },
+  {
+   "id": "do23",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Corporate Democracy",
+   "people": "Vera Illini & Elisabeth (Lissy) Wohlfahrt",
+   "room": "Cube 1. OG – 1.05",
+   "subtitle": "Demokratie am Arbeitsplatz stärken und gemeinsam Verantwortung übernehmen.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/corporate-democracy",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop nehmen wir zwei Perspektiven ein und erarbeiten gemeinsam sowohl Maßnahmen wie Unternehmen Demokratie stärken können und was Mitarbeitende in Organisationen dazu beitragen können. Ein ganz besonderes Augenmerk legen wir dabei auf die Rolle von NGOs. Was wünschen sich diese von Unternehmen und anders herum? Der Workshop soll dazu dienen eure Expertise zu nutzen, um demokratiestärkende Maßnahmen in den Unternehmenskontext zu bringen. Ziel ist es nach dem Workshop die Ergebnisse mithilfe einer Kommunikationsstrategie Unternehmen zur Verfügung zu stellen. Es handelt sich also nicht nur um eine bloße Denkübung, sondern erfüllt wirklich auch einen Zweck."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Vera Illini",
+     "organisation": "Critical Friends gGmbH",
+     "role": "Consultant Corporate Finance & Sustainability"
+    },
+    {
+     "name": "Elisabeth (Lissy) Wohlfahrt",
+     "organisation": "Critical Friends gGmbH",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "do24",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Demokratie im digitalen Raum",
+   "people": "Aline Quinche & Leandro Casella",
+   "room": "Cube 1. OG – 1.03",
+   "subtitle": "Wie erleben wir Demokratie im digitalen Raum – und welche Kräfte prägen ihn?",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/demokratie-im-digitalen-raum-spielen-traumen-reflektieren",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie erleben wir Demokratie im digitalen Raum – und welche Kräfte prägen den digitalen Raum? In diesem Workshop nähern wir uns dieser Frage spielerisch."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit dem Würfelspiel Demodice schreiben die Teilnehmenden in Kleingruppen digitale Märchen mit Herausforderungen, guten und bösen Kräften und einem Ausweg. Was zunächst leicht klingt, führt ins Herz politischer Bildung: Im Debriefing übertragen wir die Geschichten auf die Realität und fragen, was demokratische Handlungsfähigkeit im digitalen Kontext bedeutet."
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Workshop zeigt, wie spielbasiertes Lernen auch komplexe demokratiepolitische Fragen zugänglich macht, und lädt ein, die Methode auf die eigene Praxis zu übertragen. Er richtet sich an alle, die Ansätze für Demokratiebildung im digitalen Raum suchen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Aline Quinche",
+     "organisation": "Demokrative - Initiative für politische Bildung",
+     "role": "Projektmitarbeiterin"
+    },
+    {
+     "name": "Leandro Casella",
+     "organisation": "Demokrative – Initiative für politische Bildung",
+     "role": ""
+    },
+    {
+     "name": "Yaël Kaiser",
+     "organisation": "Demokrative - Initiative für politische Bildung",
+     "role": "Co-Geschäftsführerin"
+    }
+   ]
+  },
+  {
+   "id": "do25",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Anschlussfähig Kommunizieren – Ein Toolkit für Demokrati*nnen",
+   "people": "Laura Dederichs & Lara Buschmann",
+   "room": "Cube 1. OG – 1.02",
+   "subtitle": "Das Handwerkszeug für Geschichten, die wir gleich morgen erzählen wollen",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/anschlussfahig-kommunizieren-ein-toolkit-fur-demokrat-innen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In einer Zeit, in der autoritäre Bewegungen strategisch gut aufgestellt sind, arbeiten Demokrat*innen oft defensiv, empört oder erklärend. Doch in der Kommunikationsarbeit geht es nicht darum, Debatten zu gewinnen, sondern seine Zielgruppe zu kennen und tatsächlich zu erreichen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wir teilen Erkenntnisse aus dem aktuell entstehenden Kommunikations-Toolkit von Faktor D und wenden sie mit den Teilnehmenden direkt auf eigene Themen an. Was sind die anschlussfähigen Geschichten, die wir gleich morgen über die Demokratie erzählen wollen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Laura Dederichs",
+     "organisation": "Faktor D",
+     "role": "Projektmanagerin Deutschland"
+    },
+    {
+     "name": "Lara Buschmann",
+     "organisation": "Lara Buschmann | Beratung - Keynotes - Community",
+     "role": "Co-Moderation Kommunikations-Toolkit (SP)"
+    }
+   ]
+  },
+  {
+   "id": "do26",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Wie kann der öffentlich-rechtliche Rundfunk gesellschaftlich legitimiert und kontrolliert werden?",
+   "people": "Karl-Jürgen Hanßmann",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "Auf der Suche nach neuen Formen demokratischer Öffentlichkeit.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/demokratische-offentlichkeit-neu-denken-wie-kann-der-offentlich-rechtliche-rundfunk-gesellschaftlich-legitimiert-und-kontrolliert-werden",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Dieser Workshop versteht sich ausdrücklich nicht als Anti-ÖRR-Format, sondern als konstruktive Suche nach neuen Formen demokratischer Öffentlichkeit:"
+    },
+    {
+     "type": "paragraph",
+     "text": "• Wie kann gesellschaftliche Teilhabe gestärkt werden?"
+    },
+    {
+     "type": "paragraph",
+     "text": "• Wie verhindert man institutionelle Selbstreferenz?"
+    },
+    {
+     "type": "paragraph",
+     "text": "• Wie schafft man Vertrauen in öffentliche Medien?"
+    },
+    {
+     "type": "paragraph",
+     "text": "• Welche Governance-Modelle könnten Polarisierung und Entfremdung entgegenwirken?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Teilnehmenden entwickeln gemeinsam mögliche Prinzipien, Chancen, Risiken, Pilotideen und Umsetzungsstrategien."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Karl-Jürgen Hanßmann",
+     "organisation": "Mehr Demokratie e.V.",
+     "role": "Mitglied mit Landesvorstand Hamburg (ehrenamtlich)"
+    }
+   ]
+  },
+  {
+   "id": "do27",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Gestalten vor Ort – wie gestalte ich einen Aufbruch?",
+   "people": "Luca Piwodda",
+   "room": "Shed EG – A0.05",
+   "subtitle": "Über neue Formate politischen Engagements im ländlichen Raum.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/gestalten-vor-ort---wie-gestalte-ich-einen-aufbruch",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Luca Piwodda ist ehrenamtlicher Bürgermeister in seiner Heimatstadt Gartz (Oder) im Nordosten Brandenburgs. Er startet viele neue Beteiligungsmodelle wie Bürgersprechstunden, Kaffeeklatsch oder digitale Wochenberichte sowie seine eigene Partei, die Partei des Fortschritts (PdF). Damit gestaltet er eine Blaupause für neue Politikansätze, gerade für den ländlichen Raum."
+    },
+    {
+     "type": "paragraph",
+     "text": "In seinem Workshop spricht er darüber, wie Gestaltung vor Ort heute funktionieren kann und wie man einen Aufbruch gestaltet. Gemeinsam mit den Teilnehmenden wird diskutiert, reflektiert und daraus werden neue Ideen entwickelt."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Luca Piwodda",
+     "organisation": "Stadt Gartz (Oder)",
+     "role": "Bürgermeister"
+    }
+   ]
+  },
+  {
+   "id": "do28",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "workshop",
+   "title": "Perfect Match? Wie Demokratieprojekte und lokale Akteure gute langfristige Partnerschaften aufbauen",
+   "people": "Juliane Baruck & Hannah Rüdiger",
+   "room": "Shed 5. OG – A5.06",
+   "subtitle": "Wirkung vor Ort gestalten und unterschiedliche Erwartungen verstehen.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/perfect-match-wie-demokratieprojekte-und-lokale-akteur-innen-gute-langfristige-partnerschaften-aufbauen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wirkung vor Ort – und das auch noch langfristig? Das wollen viele Demokratieprojekte. Aber wie gelingen Kooperationen mit lokalen Akteur*innen, die über einzelne Veranstaltungen hinauswirken?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lokale Wirkung und gute Kooperationen entstehen vor allem durch langfristige Beziehungen. Doch genau hier wird die Zusammenarbeit oft kompliziert: Unterschiedliche Erwartungen, begrenzte Ressourcen und fehlende Anschlussfähigkeit treffen aufeinander. In diesem Workshop denken wir gemeinsam darüber nach, wie gute Zusammenarbeit langfristig funktionieren kann."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Juliane Baruck",
+     "organisation": "Hallo Bundestag",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Hannah Rüdiger",
+     "organisation": "Hallo Bundestag",
+     "role": "Referentin"
+    }
+   ]
+  },
+  {
+   "id": "do29",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "fishbowl",
+   "title": "(K)ein Gegen-Playbook?",
+   "people": "Marie Wachinger, Rupert Graf Strachwitz, Jolanda Spiess & Luise Bublitz",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Was wir rechtsautoritären Strategien entgegensetzen können.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/k-ein-gegen-playbook---solidarische-netzwerke-verteidigen-zivilgesellschaftliche-handlungsraume",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Das rechtsautoritäre Playbook ist aus vielen anderen Ländern bekannt und sehr wirksam: Durch Diffamierung, Defunding, Desinformation und Delegitimierung zivilgesellschaftlicher Akteur*innen sorgen Populist*innen von Rechtsaußen dafür, dass die Handlungsspielräume für zivilgesellschaftliche Organisationen, vor allem jene mit klarer politischer Haltung, immer stärker eingeschränkt werden."
+    },
+    {
+     "type": "paragraph",
+     "text": "In dieser Fishbowl werfen wir einen Blick auf die zugrunde liegenden Dynamiken und analysieren, welche Strategien wir diesem abgekarteten Spiel wirksam entgegensetzen können. Betroffene zivilgesellschaftliche Perspektiven treffen auf wissenschaftliche und juristische Einordnung aus dem deutschsprachigen Raum."
+    },
+    {
+     "type": "paragraph",
+     "text": "Das Format lädt dazu ein, eigene Erfahrungen, Fragen und Ansätze direkt in das Gespräch einzubringen. Ziel ist eine lokale und globale Einordnung der Entwicklungen sowie die Erarbeitung erster Handlungsansätze zum Schutz zivilgesellschaftlicher Handlungsspielräume. Dabei behalten wir aktuelle politische Ereignisse im Blick, analysieren Erfolge und Rückschläge der vergangenen Jahre und überlegen gemeinsam, wie wir noch besser voneinander lernen und uns gegenseitig unterstützen können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Fishbowl findet in Partnerschaft mit der Allianz \"Rechtssicherheit für politische Willensbildung\" statt."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Dr. Rupert Graf Strachwitz",
+     "organisation": "Maecenata Stiftung",
+     "role": "Vorstand"
+    },
+    {
+     "name": "Luise Bublitz",
+     "organisation": "Gesellschaft für Freiheitsrechte (GFF)",
+     "role": "Verfahrenskoordinatorin"
+    },
+    {
+     "name": "Marie Wachinger",
+     "organisation": "Allianz \"Rechtssicherheit für politische Willensbildung\"",
+     "role": "Geschäftsführende Vorständin"
+    },
+    {
+     "name": "Jolanda Spiess",
+     "organisation": "Winkelried & Töchter GmbH",
+     "role": "Strategin, Autorin und Beraterin"
+    }
+   ]
+  },
+  {
+   "id": "do30",
+   "date": "2026-09-24",
+   "start": "15:30",
+   "end": "16:45",
+   "format": "kultur",
+   "title": "Wie mich klassische Musik zur Demokratin gemacht hat",
+   "people": "Andrea Bandelow",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Über die Verbindung des Künstlerischen und Gesellschaftspolitischen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wie-mich-klassische-musik-zur-demokratin-gemacht-hat",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Musik und Politik? Wieweit gibt es eine Verbindung des Künstlerischen mit dem Gesellschaftspolitischen, die über pure Effekthascherei hinausgeht? Was hat Joseph Beuys’ soziale Plastik mit einer musikalisch ausgerichteten Wahrnehmung und künstlerischer Empathie zu tun? Und wieweit ist die Beschäftigung mit klassischer Musik in ihrer Vielschichtigkeit dafür geeignet, unser Potenzial als demokratische Alltagskünstler*innen zu leben?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Anhand verschiedener Praxis- und Hörbeispiele und in interaktivem Dialog werden wir diesen Fragen gemeinsam auf den Grund gehen. Für diesen Workshop braucht es keine Vorkenntnisse. Neugier und konfrontative Offenheit reichen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Andrea Bandelow",
+     "organisation": "ABSTIMMUNG21, Omnibus für Direkte Demokratie, Bachelor of Being",
+     "role": "Campaignerin"
+    }
+   ]
+  },
+  {
+   "id": "do-p4",
+   "date": "2026-09-24",
+   "start": "16:45",
+   "end": "17:15",
+   "format": "pause",
+   "title": "Pause"
+  },
+  {
+   "id": "do31",
+   "date": "2026-09-24",
+   "start": "17:15",
+   "end": "18:30",
+   "format": "panel",
+   "title": "Der Journalismus ist tot. Lang lebe der Journalismus.",
+   "people": "Hansi Voigt, Tong-Jin Smith, Evelyn Hemmer, Sham Jaff & David Denk",
+   "room": "Cube Plenum",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/der-journalismus-ist-tot-lang-lebe-der-journalismus",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Demokratie braucht Journalismus. Aber sie braucht keinen Journalismus, der nur seine eigene Krise beschreibt."
+    },
+    {
+     "type": "paragraph",
+     "text": "Plattformen kontrollieren Aufmerksamkeit, Geschäftsmodelle brechen weg, Vertrauen sinkt. Gleichzeitig entstehen längst neue Ansätze: näher am Publikum, zugänglicher, konstruktiver – und mutiger in der Frage, für wen Journalismus eigentlich da ist."
+    },
+    {
+     "type": "paragraph",
+     "text": "Dieses Panel schaut deshalb nicht nostalgisch zurück, sondern nach vorn: Was macht Journalismus heute gesellschaftlich wirksam? Welche neuen Formen funktionieren bereits? Und was braucht es, damit aus Information Orientierung und aus Öffentlichkeit wieder demokratische Gestaltungskraft entsteht?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Zukunft des Journalismus entscheidet sich nicht nur in Redaktionen. Sie entscheidet sich auch in Politik, Wirtschaft und Zivilgesellschaft - überall dort, wo Regeln gesetzt, Geld verteilt und demokratische Informationsräume gestaltet werden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Medienpartner für dieses Panel ist Table.Gemeinwohl."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Hansi Voigt",
+     "organisation": "Journalist und Medienunternehmer",
+     "role": ""
+    },
+    {
+     "name": "Evelyn Hemmer",
+     "organisation": "Bundesministerium für Wohnen, Kunst, Kultur, Medien und Sport Wien",
+     "role": "Referentin für Medienpolitik"
+    },
+    {
+     "name": "Tong-Jin Smith",
+     "organisation": "futur eins e.V.",
+     "role": "Vorständin & Bildungsministerin"
+    },
+    {
+     "name": "Sham Jaff",
+     "organisation": "Gishty",
+     "role": "Gründerin und Journalistin"
+    },
+    {
+     "name": "David Denk",
+     "organisation": "Table.Briefings",
+     "role": "Redakteur Gemeinwohl.Table"
+    }
+   ]
+  },
+  {
+   "id": "do31b",
+   "date": "2026-09-24",
+   "start": "18:00",
+   "end": "19:30",
+   "format": "rahmen",
+   "title": "Featured Event: Wann gelingen Demokratiereformen?",
+   "people": "Das Progressive Zentrum",
+   "room": "Extern – Berlin-Brandenburgische Akademie der Wissenschaften",
+   "note": "Nicht auf dem Festivalgelände · nur mit Anmeldung vorab",
+   "subtitle": "Vorstellung der Studie „Demokratiereformen in der Berliner Republik“ durch Das Progressive Zentrum.",
+   "teaser": "Gerade in Zeiten, in denen die Zivilgesellschaft unter Druck steht, wollen wir nicht isoliert agieren, sondern Netzwerke stärken und gegenseitig Sichtbarkeit schaffen. Deshalb verbinden wir unser Festival mit diesem Event von Das Progressive Zentrum.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/featured-event-i-wann-gelingen-demokratiereformen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Hinweis: Dieses Event ist ein Event von Das Progressive Zentrum und findet nicht auf dem Mitmacht 2026 x reCampaign-Gelände statt. Wer teilnehmen möchte, muss sich vorab für das Event anmelden. Eine Teilnahme ist erst nach Bestätigung der Anmeldung garantiert."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gerade in Zeiten, in denen die Zivilgesellschaft unter Druck steht, wollen wir nicht isoliert agieren, sondern Netzwerke stärken und gegenseitig Sichtbarkeit schaffen. Deshalb verbinden wir Mitmacht 2026 x reCampaign mit dem Event „Wann gelingen Demokratiereformen?\" von Das Progressive Zentrum. Uns ist wichtig, dass alle Teilnehmenden genau den Input bekommen, der für ihre Arbeit relevant ist, und wir ermutigen deswegen diejenigen, die mit dem Thema zu tun haben, sich für die Veranstaltung vorab anzumelden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im von der VolkswagenStiftung geförderten Projekt Demokratiereformen in der Berliner Republikhat Das Progressive Zentrum untersucht, warum nur wenige Vorhaben für Demokratiereformen in Deutschland umgesetzt werden oder die erhoffte Wirkung erzielen. Beispiele dafür sind die wiederholten Reformen des Bundestagswahlrechts und die ausbleibende Institutionalisierung von Bürgerräten auf Bundesebene.",
+     "links": [
+      {
+       "text": "Demokratiereformen in der Berliner Republik",
+       "url": "https://www.progressives-zentrum.org/project/demokratiereformen-in-der-berliner-republik/"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "In ihrem Projekt hat Das Progressive Zentrum untersucht, warum das so ist – und was Akteure aus Politik und Zivilgesellschaft daraus für künftige Reformvorhaben lernen können. Die abschließenden Erkenntnisse wurden in der Studie Praxishandbuch Demokratiereformen gebündelt. Die Studie werden Dr. Andreas Oldenbourg und Carl Schüppel am 24. September 2026 ab 17:30 Uhr der Öffentlichkeit vorstellen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Anschließend folgt eine Diskussion unter anderem mit:"
+    },
+    {
+     "type": "listItem",
+     "text": "Prof. Dr. Norbert Lammert, Präsident des Deutschen Bundestages a. D."
+    },
+    {
+     "type": "listItem",
+     "text": "Dr. Irene Mihalic, Erste Parlamentarische Geschäftsführerin der Bundestagsfraktion Bündnis 90/Die Grünen"
+    },
+    {
+     "type": "listItem",
+     "text": "Prof. Dr. Florian Grotz, Professor für Politikwissenschaft an der Helmut-Schmidt-Universität Hamburg und Projektleitung"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hier geht es zur Anmeldung.",
+     "links": [
+      {
+       "text": "Hier geht es zur Anmeldung.",
+       "url": "https://www.progressives-zentrum.org/events/wann-gelingen-demokratiereformen-vorstellung-und-diskussion-des-praxishandbuchs-demokratiereformen/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "do32",
+   "date": "2026-09-24",
+   "start": "18:30",
+   "end": "18:45",
+   "format": "rahmen",
+   "title": "Treffpunkt und Abfahrt Community Abend",
+   "people": "",
+   "room": "Shed Außenbereich",
+   "teaser": "Der Programmtag ist vorbei. Mitmacht noch nicht. Wir spazieren gemeinsam raus aufs Tempelhofer Feld, essen und trinken zusammen, reden weiter, lernen uns besser kennen und machen uns einen schönen Abend.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/raus-aufs-feld-der-mitmacht-community-abend",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Nach dem letzten Programmpunkt treffen wir uns am Campus und spazieren gemeinsam zum Tempel Garten auf dem Tempelhofer Feld."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was dort passiert, bestimmen wir selbst: weiterreden oder abschalten, neue Leute kennenlernen oder bei den alten hängenbleiben, Ideen weiterspinnen oder sie für heute einfach mal gut sein lassen. Hauptsache, wir bleiben noch ein bisschen zusammen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Denn zwischen all dem Denken, Diskutieren und Machen soll bei Mitmacht auch Platz für das sein, was mindestens genauso wichtig ist: eine gute Zeit miteinander."
+    },
+    {
+     "type": "paragraph",
+     "text": "Also: Kommt mit raus."
+    },
+    {
+     "type": "paragraph",
+     "text": "Für diejenigen, die direkt zum Tempel Garten kommen möchten: ab 19:00 Uhr ist für uns reserviert (Selbstzahler, nur Kartenzahlung möglich). Hier geht es zur Location: https://tempelgarten.berlin/",
+     "links": [
+      {
+       "text": "https://tempelgarten.berlin/",
+       "url": "https://tempelgarten.berlin/"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Bei Schlechtwetter: Wir sagen euch vor Ort, wie’s weitergeht."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Wouter Bernhardt",
+     "organisation": "Offene Gesellschaft",
+     "role": "Projektleiter"
+    },
+    {
+     "name": "Ronja Lamberty",
+     "organisation": "Faktor D",
+     "role": "Kommunikation & Kampagnen"
+    },
+    {
+     "name": "Aurélie Karadjov",
+     "organisation": "Faktor D",
+     "role": "Projektmanagerin Deutschland"
+    }
+   ]
+  },
+  {
+   "id": "do33",
+   "date": "2026-09-24",
+   "start": "19:30",
+   "end": "21:00",
+   "format": "rahmen",
+   "title": "Community Abend",
+   "people": "",
+   "room": "Tempel Garten, Tempelhofer Feld",
+   "note": "Nur bei gutem Wetter · ab 19:00 reserviert, Selbstzahler (nur Kartenzahlung)",
+   "teaser": "Der Programmtag ist vorbei. Mitmacht noch nicht. Wir spazieren gemeinsam raus aufs Tempelhofer Feld, essen und trinken zusammen, reden weiter, lernen uns besser kennen und machen uns einen schönen Abend.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/raus-aufs-feld-der-mitmacht-community-abend",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Nach dem letzten Programmpunkt treffen wir uns am Campus und spazieren gemeinsam zum Tempel Garten auf dem Tempelhofer Feld."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was dort passiert, bestimmen wir selbst: weiterreden oder abschalten, neue Leute kennenlernen oder bei den alten hängenbleiben, Ideen weiterspinnen oder sie für heute einfach mal gut sein lassen. Hauptsache, wir bleiben noch ein bisschen zusammen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Denn zwischen all dem Denken, Diskutieren und Machen soll bei Mitmacht auch Platz für das sein, was mindestens genauso wichtig ist: eine gute Zeit miteinander."
+    },
+    {
+     "type": "paragraph",
+     "text": "Also: Kommt mit raus."
+    },
+    {
+     "type": "paragraph",
+     "text": "Für diejenigen, die direkt zum Tempel Garten kommen möchten: ab 19:00 Uhr ist für uns reserviert (Selbstzahler, nur Kartenzahlung möglich). Hier geht es zur Location: https://tempelgarten.berlin/",
+     "links": [
+      {
+       "text": "https://tempelgarten.berlin/",
+       "url": "https://tempelgarten.berlin/"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Bei Schlechtwetter: Wir sagen euch vor Ort, wie’s weitergeht."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Wouter Bernhardt",
+     "organisation": "Offene Gesellschaft",
+     "role": "Projektleiter"
+    },
+    {
+     "name": "Ronja Lamberty",
+     "organisation": "Faktor D",
+     "role": "Kommunikation & Kampagnen"
+    },
+    {
+     "name": "Aurélie Karadjov",
+     "organisation": "Faktor D",
+     "role": "Projektmanagerin Deutschland"
+    }
+   ]
+  },
+  {
+   "id": "fr00",
+   "date": "2026-09-25",
+   "start": "08:45",
+   "end": "09:15",
+   "format": "rahmen",
+   "title": "Ankommen",
+   "people": "",
+   "room": ""
+  },
+  {
+   "id": "fr01",
+   "date": "2026-09-25",
+   "start": "09:15",
+   "end": "09:30",
+   "format": "rahmen",
+   "title": "Tagesauftakt",
+   "people": "Faktor D",
+   "room": "Cube Plenum",
+   "subtitle": "Der Start in den Tag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/tagesauftakt-5"
+  },
+  {
+   "id": "fr02",
+   "date": "2026-09-25",
+   "start": "09:30",
+   "end": "10:30",
+   "format": "panel",
+   "title": "Wer schreibt die Regeln? KI, Macht und Demokratie",
+   "people": "Markus Beckedahl, Laura Dornheim, Max Senges & Paula Peters",
+   "room": "Cube Plenum",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wer-schreibt-die-regeln-ki-macht-und-demokratie",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Künstliche Intelligenz verändert die Spielregeln der Demokratie. Doch wer schreibt diese neuen Regeln, und wer profitiert davon?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Panel diskutieren Laura Dornheim, Max Senges und Markus Beckedahl, wo KI demokratische Teilhabe stärkt, und wo sie sie gefährdet. Welche Formen politischer Beteiligung entstehen? Wem gehört die digitale Infrastruktur? Und: Wie kann die Zivilgesellschaft KI aktiv mitgestalten, statt ihr nur zuzusehen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam mit dem Publikum geht es um die Frage, welche KI wir für eine demokratische Gesellschaft brauchen, und wer die Macht hat, sie zu gestalten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Das Panel findet in Partnerschaft mit Change.org statt."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Markus Beckedahl",
+     "organisation": "Zentrum für Digitalrechte und Demokratie | re:publica",
+     "role": "Geschäftsführer"
+    },
+    {
+     "name": "Dr. Laura Dornheim",
+     "organisation": "Stadt München",
+     "role": "IT-Referentin und Chief Digital Officer (CDO)"
+    },
+    {
+     "name": "Max Senges",
+     "organisation": "UdK/IEB & Rulemapping",
+     "role": "Direktor"
+    },
+    {
+     "name": "Paula Peters",
+     "organisation": "Change.org",
+     "role": "Head of Europe"
+    }
+   ]
+  },
+  {
+   "id": "fr03",
+   "date": "2026-09-25",
+   "start": "10:30",
+   "end": "11:15",
+   "format": "rahmen",
+   "title": "Impuls: „Treffpunkt Demokratie“",
+   "people": "Kai Schächtele, Marc Steinemann, Kathrin Hartmann & Judith Galka",
+   "room": "Cube Plenum",
+   "subtitle": "Dritte Orte, Dialog und der neue Demokratie-Guide für Bibliotheken",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wo-demokratie-raum-bekommt",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Ob Bibliothek, Nachbarschaftstreff oder Kulturort: Dritte Orte sind Räume, in denen Demokratie im Alltag stattfindet - dort, wo Menschen mit unterschiedlichen Perspektiven ins Gespräch kommen. Wie das gelingen und gestärkt werden kann, zeigt dieser Programmpunkt in drei Schritten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Auftakt: Interaktiver Dialog"
+    },
+    {
+     "type": "paragraph",
+     "text": "Journalist und Dialogexperte Kai Schächtele öffnet mit Erfahrungen aus zehn Jahren Arbeit an gesellschaftlichen Verständigungsprozessen - warum Fakten allein selten reichen und welche Fehler er gemacht hat. Die Teilnehmenden sind dabei nicht nur Publikum, sondern selbst gefragt: eigene Erfahrungen und Fragen fließen aktiv ins Gespräch ein."
+    },
+    {
+     "type": "paragraph",
+     "text": "Launch: Der Demokratie Guide für Bibliotheken"
+    },
+    {
+     "type": "paragraph",
+     "text": "Kathrin Hartmann (Deutscher Bibliotheksverband), Judith Galka (Stadtbibliothek Spandau) und Marc Steinemann (Faktor D) stellen live das neue Handbuch „Treffpunkt Demokratie\" vor - mit Praxisbeispielen und Methoden, wie Bibliotheken Dialog ermöglichen und demokratische Teilhabe stärken."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ausblick: Allianz Dritte Orte"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Blick auf die Allianz Dritte Orte und das entstehende Playbook Dritte Orte: Wie lassen sich Bibliotheken, Kulturorte und Nachbarschaftstreffs als demokratische Orte stärken - und wie gelingt das gemeinsam?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Kai Schächtele",
+     "organisation": "Mehr Demokratie",
+     "role": "Journalist, Moderator, Cultural Producer"
+    },
+    {
+     "name": "Kathrin Hartmann",
+     "organisation": "Deutscher Bibliotheksverband e.V.",
+     "role": "Stellvertretende Geschäftsführerin"
+    },
+    {
+     "name": "Marc Steinemann",
+     "organisation": "Faktor D",
+     "role": "Projektmanager Schweiz"
+    },
+    {
+     "name": "Judith Galka",
+     "organisation": "Stadtbibliothek Spandau",
+     "role": "Stellv. Fachbereichsleitung"
+    }
+   ]
+  },
+  {
+   "id": "fr-p1",
+   "date": "2026-09-25",
+   "start": "11:15",
+   "end": "11:45",
+   "format": "pause",
+   "title": "Pause"
+  },
+  {
+   "id": "fr04",
+   "date": "2026-09-25",
+   "start": "11:15",
+   "end": "17:30",
+   "format": "kultur",
+   "title": "Mini Ting",
+   "people": "Silvan Groher & Ralph Moser",
+   "room": "Shed Foyer",
+   "subtitle": "Geben ist leicht. Nehmen ist die eigentliche Kunst.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/mini-ting-ein-vertrauensexperiment-mit-geld",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mini-Ting ist eine Installation und ein Vertrauensexperiment in Echtzeit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein offener Geldtopf mitten im Festivalgeschehen: Ab 2 EUR kann jede und jeder mitmachen. Wer Bedarf oder Lust hat, nimmt heraus, was er oder sie braucht. Bis 250 EUR pro Person und Tag – keine Jury, keine Begründung. Nur eine Notiz, wofür."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Notizen sind ein Teil des Experiments. Sie zeigen, ob Vertrauen trägt, und wofür Menschen Geld brauchen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was hier sichtbar wird, ist auch eine demokratische Frage: Wem trauen wir zu, Geld sinnvoll zu verwenden? Wer entscheidet, was Bedarf ist? Was passiert, wenn Umverteilung nicht über Institutionen, sondern von Mensch zu Mensch läuft?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aus früheren Durchläufen wissen wir: Es entstehen Momente der Irritation, der Überraschung, manchmal gibt es Tränen. Wir vertrauen dem Geld oft stärker als unseren Mitmenschen. Mini-Ting dreht das spielerisch um."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es gibt zwei Modi:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Selbsterklärend: Die Installation steht offen zugänglich, mit Spielregeln und einer Box für Wünsche und Rückmeldungen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Betreut: Wir sind vor Ort, geben Anstoß, beobachten und kommen mit den Mitmachenden ins Gespräch."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Silvan Groher",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Geschäftsführer"
+    },
+    {
+     "name": "Ralph Moser",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Co-Gründer"
+    }
+   ]
+  },
+  {
+   "id": "fr05",
+   "date": "2026-09-25",
+   "start": "11:15",
+   "end": "17:30",
+   "format": "kultur",
+   "title": "@wefightfirewithfire – Eine begehbare For-You-Page",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "note": "Moderierter Slot 12:30–13:00 Uhr",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok-2",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Moderierter Slot: Freitag, 12:30 - 13:00 Uhr"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "fr06",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:00",
+   "format": "fishbowl",
+   "title": "Die Wahlen sind entschieden – und jetzt?",
+   "people": "Christin Bohmann, Julia Reuschenbach, David Begrich & Jochen Schmidt",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Nach der Wahl ist vor der Wahl.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/die-wahlen-sind-entschieden---und-jetzt",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Die Landtagswahlen in Sachsen-Anhalt und Mecklenburg-Vorpommern sind entschieden. Doch was bedeuten die neuen politischen Kräfteverhältnisse für die demokratische Kultur und Zivilgesellschaft vor Ort und darüber hinaus?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Panel diskutiert Christin Bohmann, Chefredakteurin des MDR, gemeinsam mit Vertreter*innen aus politischer Bildung, Wahlforschung und einer lokalen Initiative, welche Veränderungen sich abzeichnen und was jetzt strategisch wichtig wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wie lassen sich demokratische Handlungsspielräume sichern, gesellschaftlicher Zusammenhalt stärken und demokratische Institutionen auch in schwierigen Zeiten resilient halten? Und welche Erfahrungen aus Ostdeutschland sind auch für demokratische Kräfte in Österreich, der Schweiz und anderen Teilen Deutschlands relevant?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Neben Julia Reuschenbach und Christin Bohmann ist auch Jochen Schmidt, Direktor der Landeszentrale für Politische Bildung Mecklenburg-Vorpommern, vor Ort. Weitere Speaker*innen veröffentlichen wir im Laufe der kommenden Wochen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Christin Bohmann",
+     "organisation": "Mitteldeutscher Rundfunk (MDR)",
+     "role": "Hauptredaktionsleiterin Information + Innovation / Chefredakteurin"
+    },
+    {
+     "name": "Julia Reuschenbach",
+     "organisation": "Universität Hamburg",
+     "role": "Senior Lecturer"
+    },
+    {
+     "name": "Jochen Schmidt",
+     "organisation": "Landeszentrale für politische Bildung Mecklenburg-Vorpommern",
+     "role": "Direktor"
+    },
+    {
+     "name": "David Begrich",
+     "organisation": "Miteinander e.V.",
+     "role": "Bildungsreferent"
+    }
+   ]
+  },
+  {
+   "id": "fr07",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:15",
+   "format": "kultur",
+   "title": "Kopf aus, Demokratie an!",
+   "people": "Christiane Gutzmann",
+   "room": "Shed 5. OG – A5.07",
+   "subtitle": "Kreative Kurz-Coachings zum Neu- und Umdenken",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/kopf-aus-demokratie-an-3",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In den Kopf-aus-Coaching-Sessions von Ideenschmiedin Christiane Gutzmann kannst Du im 1:1-Setting mit ungewöhnlichen Kreativmethoden und ordentlich Augenzwinkern eine von Dir mitgebrachte Frage, Herausforderung oder Überzeugung, die Dich persönlich oder rund um die Mitmacht und Demokratie beschäftigt, auf untypische Art angehen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit Fantasie, Kreativität, Witz, Körper, Bewegung und klarem Post-it Verbot entstehen neue Blickwinkel, unerwartete Aha-Momente oder absurde Ideen zur Veränderung. Vielleicht schmunzelst Du auch einfach nur irritiert. Alles fine, Hauptsache raus aus´m Kopf!"
+    },
+    {
+     "type": "paragraph",
+     "text": "Du hast keine konkrete Herausforderung, aber willst trotzdem eine Kopf-aus-Coaching-Sessions erleben? Komm vorbei, wir finden schon was, was wir zusammen umdenken können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Session: ca. 10-20 min Walk-in Zeiten: 11.45-13.15 Uhr / 14.45-16 Uhr / 16.15-17.30 Uhr"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Christiane Gutzmann",
+     "organisation": "Selbstständig",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr08",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:15",
+   "format": "strategie",
+   "title": "Mehr Beteiligung – Jetzt!",
+   "people": "Caro Hammoutene & Linda Simon",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Strategische Überlegungen, um Beteiligung aufs nächste Level zu bringen",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/mehr-beteiligung-asap",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Es gibt viel Wissen über Beteiligung. Das Problem ist nicht fehlendes Know-how, sondern dass gute Beteiligung noch zu wenig eingefordert, vorausgesetzt und strukturell abgesichert wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "Lasst uns gemeinsam strategisch überlegen, was relevant ist, um unsere Demokratien durch mehr Beteiligung aufs nächste Level zu bringen. Sowohl was Methoden selbst als auch mögliche Wege der Institutionalisierung betrifft."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wie können wir gemeinsame Ziele effizienter und effektiver erreichen? Wo lohnt es sich, Allianzen zu schmieden? Wo sind wir bereits Pionier*innen und können einander unterstützen? Und welche Good Practices gibt es für Institutionalisierung?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Wir bieten Raum zum Austausch und Vernetzen – für die gemeinsamen Strategien von morgen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Strategierunde richtet sich insbesondere an Menschen, die in ihrem beruflichen Alltag mit dem Thema konkret zu tun haben."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Caro Hammoutene",
+     "organisation": "KOMMA - Gemeinsam Medienvielfalt gestalten",
+     "role": "Co-Geschäftsführerin"
+    },
+    {
+     "name": "Linda Simon",
+     "organisation": "YEP - Stimme der Jugend",
+     "role": "Geschäftsführung"
+    }
+   ]
+  },
+  {
+   "id": "fr09",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:15",
+   "format": "strategie",
+   "title": "What Actually Works in Democracy Narratives (ENG)",
+   "people": "Tin Gazivoda & Arun Chaudhary",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "A peer-level exchange for democracy communicators",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/strategierunde-narrative",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "This session is for people already working on democracy and narrative strategy - in campaigns, civil society, journalism, or political communication - looking for a strategic exchange among peers."
+    },
+    {
+     "type": "paragraph",
+     "text": "Using D-Hub's Anti-Authoritarian Toolkit and its global cases as shared reference points, we'll discuss what transfers across contexts and what doesn't - sequencing and combining narrative strategies, the trade-offs between universal messaging and targeted mobilization, and how to measure whether a strategy is working."
+    },
+    {
+     "type": "paragraph",
+     "text": "One strategic thread we'll dig into: sprinkling political content into non-political spaces - culture, sports, entertainment, everyday community life. Who has tried this, what worked, and who in the room would be willing to carry democratic narratives into spaces that aren't obviously \"political\" at all?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Bring a live challenge from your own work - a message that isn't landing, or a strategic decision you're unsure about - to workshop with the group."
+    },
+    {
+     "type": "paragraph",
+     "text": "This strategy session is aimed in particular at people who deal with this topic directly in their day-to-day professional work."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Tin Gazivoda",
+     "organisation": "D Hub",
+     "role": "Development Director"
+    },
+    {
+     "name": "Arun Chaudhary",
+     "organisation": "Committee",
+     "role": "Founder:/creative director"
+    }
+   ]
+  },
+  {
+   "id": "fr10",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:15",
+   "format": "strategie",
+   "title": "Wem gehören die Worte?",
+   "people": "Paula-Charlotte Y. Matlach, Josefa Kny & Nathalie Rücker",
+   "room": "Shed EG – A0.05",
+   "subtitle": "Eine starke Demokratie braucht eine starke Öffentlichkeit.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wem-gehoren-die-worte-demokratie-meinungsfreiheit-und-der-kampf-um-unsere-offentlichkeit",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Öffentlichkeit ist die Grundlage demokratischer Aushandlung – und zugleich hart umkämpft: durch Plattformlogiken, Desinformation, schwindendes Vertrauen und eine zunehmend fragmentierte Medienlandschaft. Wer sie verteidigen will, braucht gute Argumente und eine Erzählung, die trägt."
+    },
+    {
+     "type": "paragraph",
+     "text": "In dieser Strategierunde entwickeln wir gemeinsam die Grundlage für ein Argumentarium rund um Öffentlichkeit und Informationsgesellschaft. Welche Überzeugungen zu demokratischer Öffentlichkeit teilen wir? Wie und wem erzählen wir diese? Wo kommt es zu Missverständnissen? Und wie können wir Menschen zu Multiplikator*innen eines demokratischen Verständnisses von Öffentlichkeit machen – von der Minister*in bis zum*r nachrichtenmüden Social-Media-User*in?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Session findet statt im Rahmen der Allianz für Öffentlichkeit von Faktor D. Gehostet wird sie vom Institute for Strategic Dialogue in Kooperation mit betterplace lab und der Allianz für die resiliente Informationsgesellschaft."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Strategierunde richtet sich insbesondere an Menschen, die in ihrem beruflichen Alltag mit dem Thema konkret zu tun haben."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Paula-Charlotte Y. Matlach",
+     "organisation": "ISD Germany",
+     "role": "Senior Analyst"
+    },
+    {
+     "name": "Josefa Kny",
+     "organisation": "betterplace lab",
+     "role": "Geschäftsführerin"
+    },
+    {
+     "name": "Nathalie Rücker",
+     "organisation": "Institute for Srategic Dialogue (ISD)",
+     "role": "Senior Manager, Capacity Building and Civic Action"
+    }
+   ]
+  },
+  {
+   "id": "fr11",
+   "date": "2026-09-25",
+   "start": "11:45",
+   "end": "13:15",
+   "format": "strategie",
+   "title": "Dritte Orte erzählen",
+   "people": "Leon Erlenhorst & Dorothea Kerrutt",
+   "room": "Shed 5. OG – A5.06",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/dritte-orte-erzahlen-welche-narrative-schaffen-verstandnis-unterstutzung-und-wirkung",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Dritte Orte sind Räume der Begegnung, des Austauschs und gelebter Demokratie. Für viele Menschen und Entscheidungsträger*innen bleibt ihr Wert jedoch abstrakt – zu selten wird er in gute Geschichten übersetzt und oft erreichen die Botschaften vor allem die, die ohnehin schon überzeugt sind."
+    },
+    {
+     "type": "paragraph",
+     "text": "In dieser Strategie-Session arbeiten wir daran, das zu ändern. Gemeinsam mit Dorothea Kerrutt von der Körber-Stiftung, Host des Roundtable Dritte Orte, und mit Leon Erlenhorst von der Kampagnenagentur Media Force diskutieren wir: Welche Bilder, Geschichten und Narrative machen den Wert Dritter Orte auch für Menschen greifbar, die noch nicht überzeugt sind – Fördernde, Kommunen, Politik, breite Öffentlichkeit? Wie lässt sich das Abstrakte (gesellschaftliche Infrastruktur, Demokratieraum, Zusammenhalt) so erzählen, dass es im Alltag wiedererkannt wird?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ausgangspunkt ist der Erfahrungsschatz der Teilnehmenden selbst: Was hat in der eigenen Kommunikationsarbeit funktioniert, was nicht? Daraus entwickeln wir gemeinsam Botschaften und Erzählansätze, die über die eigene Bubble hinaus wirken – damit einzelne gute Beispiele zu einer gemeinsamen, überzeugenden Erzählung für Dritte Orte werden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Strategierunde richtet sich insbesondere an Menschen, die in ihrem beruflichen Alltag mit dem Thema konkret zu tun haben."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Dorothea Kerrutt",
+     "organisation": "Körber-Stiftung",
+     "role": "Programmleiterin"
+    },
+    {
+     "name": "Leon Erlenhorst",
+     "organisation": "Media Force",
+     "role": "Strategy Lead"
+    }
+   ]
+  },
+  {
+   "id": "fr05b",
+   "date": "2026-09-25",
+   "start": "12:30",
+   "end": "13:00",
+   "format": "kultur",
+   "title": "Moderierter Slot: @wefightfirewithfire",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "note": "Gemeinsam Videos dekonstruieren",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/moderierter-slot-i-wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "fr-p2",
+   "date": "2026-09-25",
+   "start": "13:15",
+   "end": "14:45",
+   "format": "pause",
+   "title": "Mittagspause"
+  },
+  {
+   "id": "fr12",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "15:30",
+   "format": "workshop",
+   "title": "„Im Krisenstab“",
+   "people": "Manuel Wischnewski",
+   "room": "Cube 1. OG – 1.06",
+   "subtitle": "Wir müssen uns krisenfest machen. Aber obwohl wir viele sinnvolle Antworten sogar kennen, fällt es uns oft schwer, ins Handeln zu kommen.",
+   "websiteTime": "14:45–16:00",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/im-krisenstab-handlungsfahigkeit-im-speed-format",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Zivilgesellschaft und Staat müssen sich krisenfest machen. Schwierige, manchmal schier unmögliche Entscheidungen müssen in rasender Geschwindigkeit getroffen werden. Und obwohl wir viele sinnvolle Antworten sogar kennen, fällt es uns schwer, ins Handeln zu kommen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Praxisworkshop bilden wir mehrere Krisenstäbe, die auf ein realistisches demokratiefeindliches Bedrohungsszenario reagieren müssen. Im konkreten Tun erfahren wir, wovon Handlungsfähigkeit in Drucksituationen abhängt – und was sie stärkt."
+    },
+    {
+     "type": "paragraph",
+     "text": "Anfang 2026 hat der Deutsche Volkshochschul-Verband das Projekt vhs: demokratiestark aufgelegt. Ein Ziel des Projekts ist es, die über 800 Volkshochschulen des Landes dabei zu unterstützen, ihre Resilienz gegenüber demokratiefeindlichen Kräften weiter auszubauen. So wappnet sich das größte Weiterbildungsnetzwerk Deutschlands strategisch für kommende Herausforderungen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Aus dieser konkreten Projektpraxis heraus ist der Workshop entwickelt worden. Er richtet sich an alle, die die Themen Resilienz und Handlungsfähigkeit in der Strategie und Praxis ihrer Organisation verankern wollen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Manuel Wischnewski",
+     "organisation": "Deutscher Volkshochschul-Verband e.V.",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr13",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "15:30",
+   "format": "fishbowl",
+   "title": "Selbstgestaltete Freiräume: Mikro-Partizipation & Makro-Wirkung",
+   "people": "Alberta Sinani",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Mikro-Partizipation als Ausgangspunkt für gesellschaftliche Teilhabe.",
+   "category": "Austauschformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/selbstgestaltete-freiraume-mikro-partizipation-makro-wirkung",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie entsteht Partizipation dort, wo formale Zugänge fehlen? Und was passiert, wenn Menschen mit Flucht- und Migrationsgeschichte beginnen, ihre eigenen Räume zu gestalten?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Unser Austauschformat setzt an der Mikro‑Ebene von Teilhabe an. Anhand eines konkreten Fallbeispiels aus unserer Praxis zeigen wir, wie Menschen sich im Alltag organisieren, Nachbarschaften mitgestalten und eigene Begegnungs‑ und Handlungsräume schaffen: Räume, in denen sie ihre Fähigkeiten einbringen, Verantwortung übernehmen und Selbstwirksamkeit erfahren. Was klein beginnt (eine Idee, ein Ort, eine Initiative) entfaltet dabei oft eine größere Wirkung: Mikro‑Partizipation wird zur Grundlage für ermächtigte, politische und gesellschaftliche Teilhabe auf Makro‑Ebene."
+    },
+    {
+     "type": "paragraph",
+     "text": "Unser Format lädt zum Austausch ein: Welche Räume und welche „Ermöglicher*innen” braucht Beteiligung? Welche Rollen nehmen Organisationen ein? Und wie können diese Akteur*innen selbst Vertrauen innerhalb von Communities aufbauen und dort Mikro-Prozesse ermöglichen, die nachhaltig zu mehr Partizipation einladen und befähigen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Alberta Sinani",
+     "organisation": "Verein Fremde Werden Freunde",
+     "role": "Projektmanagement"
+    }
+   ]
+  },
+  {
+   "id": "fr14",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "15:30",
+   "format": "workshop",
+   "title": "Wie Ehrenamtliche mit Haustürgesprächen Wahlen bewegen",
+   "people": "Milena Glimbovski",
+   "room": "Cube 1. OG – 1.03",
+   "subtitle": "Welche Sprache öffnet Türen und was macht dieses Modell übertragbar?",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/berlinzusammen-wie-ehrenamtliche-mit-hausturgesprachen-wahlen-bewegen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Haustürgespräche gelten international als eine der wirksamsten Methoden politischer Mobilisierung. Aber wie fühlt sich das in der Praxis an und funktioniert das auch in Berlin?"
+    },
+    {
+     "type": "paragraph",
+     "text": "BerlinZusammen ist eine überparteiliche Kampagne, die im Vorfeld der Berliner Abgeordnetenhauswahl 2026 auf genau diese Methode setzt. Mit einer Stadtvereinbarung verpflichten sich Kandidierende der demokratischen Parteien zu konkreten Forderungen rund um Miete, ÖPNV und Bildung, und erhalten im Gegenzug aktive Wahlkampfunterstützung durch ehrenamtliche Haustürgespräche."
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop teilen wir, was wir in den letzten Monaten gelernt haben: Welche Sprache öffnet Türen? Was überrascht uns an den Gesprächen? Und was macht dieses Modell übertragbar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nach dem Erfahrungsbericht führen wir live ein Haustürgespräch vor und laden die Teilnehmenden ein, es selbst auszuprobieren. Denn das Handwerk lässt sich lernen. Und es braucht mehr Menschen, die es anwenden."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Milena Glimbovski",
+     "organisation": "BerlinZusammen",
+     "role": "Campaignerin"
+    }
+   ]
+  },
+  {
+   "id": "fr15",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Gemeinsam den Angriffen der Zivilgesellschaft etwas entgegensetzen",
+   "people": "Sascha Nicke",
+   "room": "Cube 1. OG – 1.05",
+   "subtitle": "Strategien gegen die Delegitimierung der Zivilgesellschaft.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/gemeinsam-den-angriffen-auf-die-zivilgesellschaft-etwas-entgegensetzen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Die Zivilgesellschaft bildet die demokratische Infrastruktur einer Gesellschaft, im DACH-Raum genauso wie in anderen europäischen Staaten und darüber hinaus. Sie steht gegenwärtig jedoch massiv unter Druck: vor allem, weil sie Angriffen und Einschüchterungen von antidemokratischen Akteur*innen ausgesetzt und seit Beginn des Jahres 2025 mit einer Delegitimierungskampagne konfrontiert ist. Diese hat durch die Übernahme falscher Vorwürfe aus dem rechtsextremen Spektrum durch demokratische Akteur*innen eine neue gesamtgesellschaftliche Dimension erreicht."
+    },
+    {
+     "type": "paragraph",
+     "text": "Das Hauptziel des Workshops ist es, Strategien zu entwickeln, wie ZGOs eigene Inhalte über ihre Bubble hinweg verbreiten und damit eigene Narrative sowie ein positives Bild von der Zivilgesellschaft in die Gesellschaft tragen können."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Sascha Nicke",
+     "organisation": "Maecenata Stiftung",
+     "role": "Programm Manager"
+    }
+   ]
+  },
+  {
+   "id": "fr16",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Scheinwerfer an! Interessen wirksam in Politik und Verwaltung vertreten",
+   "people": "Franz Knoppe",
+   "room": "Cube 1. OG – 1.02",
+   "subtitle": "Praktische Einblicke in gelingende Interessenvertretung",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/scheinwerfer-an-interessen-wirksam-in-politik-und-verwaltung-vertreten",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Gute Anliegen brauchen Gehör – in Politik, Verwaltung und bei Entscheidungsträger*innen. Wie gelingt strategische Interessenvertretung, ohne sich zu verzetteln?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Workshop gibt Einblicke in eine gelingende Interessenvertretung. Böse Zungen sprechen von Lobbyismus, schmeichelnde Stimmen von Public Affairs. Gemeint ist die strategische Kommunikation und Beziehungsarbeit von Unternehmen, Verbänden oder NGOs mit politischen Entscheidungsträger*innen, Behörden und der Gesellschaft. Neben praktischen Insights, die in keinem Handbuch stehen, teilt Franz Knoppe persönliche Berichte gelungener und misslungener politischer Kommunikation."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Teilnehmenden bekommen Antworten auf Fragen wie: Wie bereitet ihr Gespräche mit Politik und Verwaltung klug vor? Wie formuliert ihr klare Forderungen und holt Politik und Verwaltung ins Boot?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Teilnehmenden lernen den Policy Cycle und seine Phasen kennen. Anhand konkreter Beispiele werden verschiedene Interventionsmöglichkeiten, von „umarmenden“ (z.B. Grußworten) bis zu „angreifenden“ Formaten (z.B. Kunstaktionen), sowie geeignete Adressat*innen und Zeitpunkte zur Erreichung von Entscheidungsträger*innen vorgestellt. Ein Schwerpunkt liegt auf den entscheidenden Do’s und Don'ts im Umgang mit Politik und Verwaltung. Der Workshop gliedert sich in einen einstündigen Vortrag und anschließende Fragen sowie Diskussion. Franz Knoppe berät zivilgesellschaftliche Organisationen und arbeitet für das Sozialministerium Sachsen."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Franz Knoppe",
+     "organisation": "Geschäftsführer Grass Lifter gUG",
+     "role": "Geschäftsführer"
+    }
+   ]
+  },
+  {
+   "id": "fr17",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Nur wer gehört wird, fühlt sich zugehörig",
+   "people": "Stephanie Puls & Marlen Nebelung",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Zuhören als demokratische Praxis",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/nur-wer-gehort-wird-fuhlt-sich-zugehorig",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Gesellschaftlicher Zusammenhalt entsteht nicht von selbst. Viele Menschen fühlen sich übergangen, missverstanden oder nicht mehr wirklich angesprochen – nicht mehr gehört. Gleichzeitig fehlen Orte, an denen echte Begegnung mit Menschen unterschiedlichster Perspektiven möglich ist – ganz ohne Bewertung, ohne Unterbrechung und ohne unmittelbare Gegenposition."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit „Zuhören Berlin“ schaffen wir öffentliche Zuhörräume: in Bibliotheken, im Stadtraum und überall dort, wo Menschen aufeinandertreffen. Der Beitrag zeigt, wie Zuhören als demokratische Praxis konkret gestaltet und erfahrbar gemacht werden kann, und welche Wirkung echte Aufmerksamkeit auf Verbindung, Vertrauen und Beteiligung hat."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Workshop teilen wir Erfahrungen aus öffentlichen Zuhörformaten, sprechen über Herausforderungen und laden die Teilnehmenden ein, selbst Methoden des Zuhörens zu erproben. Gemeinsam erkunden wir, wie niedrigschwellige Räume für Begegnung entstehen können – und warum Zuhören eine gesellschaftliche Schlüsselkompetenz für die Zukunft ist."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Stephanie Puls",
+     "organisation": "ProSieben/Sat.1 und Zuhören Berlin",
+     "role": "Gründerin"
+    },
+    {
+     "name": "Marlen Nebelung",
+     "organisation": "Psychologin, Gesundheitswissenschaftlerin und Zuhören Berlin",
+     "role": "Mitgründerin"
+    }
+   ]
+  },
+  {
+   "id": "fr18",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Von Begegnung bis Protest, von digitalem Campaigning bis zum vor Ort Organizing",
+   "people": "Kira Hoffmann & Pauline Uhrmeister",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "Wie Demokratiepraktiken gemeinsam mehr Wirkung entfalten können.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/von-begegnung-bis-protest-von-digitalem-campaigning-bis-zum-vor-ort-organizing-wie-bundeln-wir-wirksam-unsere-krafte-und-strategien",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Viele Menschen setzen enorme Ressourcen - Zeit, Wissen und Geld - für eine resiliente Demokratie ein. Doch angesichts der aktuellen Herausforderungen reicht ein Nebeneinander nicht mehr aus: Wie entfalten wir mit unseren demokratischen Innovationen gemeinsam spürbar mehr Wirkung?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Wenn dich diese Frage auch bewegt, bist du hier genau richtig. Gemeinsam blicken wir darauf, was eine bessere demokratische Zukunft von uns fordert und welche Praktiken wir jetzt dringend brauchen.Unser Ansatz: Radikale Ehrlichkeit. Woran scheitern wir bisher? Was lernen wir aus Fehlern und Erfolgen? Und wie können scheinbar gegensätzliche Strategien im Zusammenspiel ihr volles Potenzial entfalten?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Genau das haben wir dieses Jahr beim Move Democracy Camp erprobt. In diesem Experimentierraum kamen Demokratie-Praktiker:innen aus ganz Deutschland zusammen - Menschen, die Begegnung ermöglichen, Protest organisieren, Community Organizing betreiben, Kampagnen organisieren und Beteiligung vor Ort oder digital gestalten. Aus unseren Learnings und dem intensiven Austausch über Organisationsgrenzen hinweg sind bereits konkrete Ideen und Synergieprojekte entstanden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Beim Mitmacht-Festival öffnen wir die Türen: Wir teilen unsere Ergebnisse und arbeiten anschließend ko-kreativ an den entstandenen Ansätzen weiter."
+    },
+    {
+     "type": "paragraph",
+     "text": "Freu dich auf spannende Einblicke und konkrete Projekte, darunter:"
+    },
+    {
+     "type": "paragraph",
+     "text": "- Strategien für eine Demokratie der Würde und die Umverteilung von Macht."
+    },
+    {
+     "type": "paragraph",
+     "text": "- Eine geplante Netflix-Doku-Serie, die berührende Geschichten von Demokratie-Held:innen, ihrem Scheitern und ihrer Begeisterung erzählt."
+    },
+    {
+     "type": "paragraph",
+     "text": "- Ein fortlaufender Experimentierraum, um von unterschiedlichen Demokratie-Praktiken zu lernen, Wirkungslogiken zu analysieren und Train-the-Trainer-Angebote zu schaffen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tausch dich mit uns zu den Learnings aus und denke Kooperationen mit uns weiter. Wir freuen uns auf dich!"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Kira Hoffmann",
+     "organisation": "openPetition gGmbH",
+     "role": "Politische Kommunikation"
+    },
+    {
+     "name": "Pauline Uhrmeister",
+     "organisation": "openPetition",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr19",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Powerhouse Bibliothek",
+   "people": "Isabell Kolditz & Wouter Bernhardt",
+   "room": "Shed EG – A0.05",
+   "subtitle": "Mehr bewegen mit der Kraftzentralen unserer demokratischen Zukunft.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/der-unterschatzte-ort-warum-demokratie-bibliotheken-braucht",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wenn es um Demokratie, gesellschaftlichen Zusammenhalt und Begegnung geht, steht die Bibliothek selten ganz oben auf der Liste. Zu Unrecht."
+    },
+    {
+     "type": "paragraph",
+     "text": "Bibliotheken sind öffentliche Räume, die Menschen zusammenbringen, Wissen zugänglich machen und Austausch ermöglichen. Sie sind niedrigschwellig, werden von vielen Menschen als vertrauenswürdig wahrgenommen und sind oft genau dort präsent, wo andere demokratische Infrastrukturen fehlen. Trotzdem sind sie für viele Initiativen, Kampagnen und Veranstaltungsplanende selten die erste Wahl."
+    },
+    {
+     "type": "paragraph",
+     "text": "Das wollen wir ändern! Anhand konkreter Praxisbeispiele erarbeiten wir, wie Bibliotheken für demokratische Arbeit eingebunden werden können. Der Workshop verbindet dabei Inspiration mit Handwerkszeug: Die Teilnehmenden lernen Bibliotheken als wirkungsvolle Verbündete kennen, entwickeln eigene Anwendungsideen und nehmen konkrete Ansätze für ihre zukünftigen Veranstaltungen, Beteiligungsformate und Aktionen mit."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Isabell Kolditz",
+     "organisation": "Initiative Offene Gesellschaft e.V.",
+     "role": "Kommunikationsleitung"
+    },
+    {
+     "name": "Wouter Bernhardt",
+     "organisation": "Offene Gesellschaft",
+     "role": "Projektleiter"
+    }
+   ]
+  },
+  {
+   "id": "fr20",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "workshop",
+   "title": "Von Wut zu Handlung: Emotionen als politische Kraft",
+   "people": "Amani Abuzahra",
+   "room": "Shed 5. OG – A5.06"
+  },
+  {
+   "id": "fr21",
+   "date": "2026-09-25",
+   "start": "14:45",
+   "end": "16:00",
+   "format": "kultur",
+   "title": "Kopf aus, Demokratie an!",
+   "people": "Christiane Gutzmann",
+   "room": "Shed 5. OG – A5.07",
+   "subtitle": "Kreative Kurz-Coachings zum Neu- und Umdenken",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/kopf-aus-demokratie-an",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In den Kopf-aus-Coaching-Sessions von Ideenschmiedin Christiane Gutzmann kannst Du im 1:1-Setting mit ungewöhnlichen Kreativmethoden und ordentlich Augenzwinkern eine von Dir mitgebrachte Frage, Herausforderung oder Überzeugung, die Dich persönlich oder rund um die Mitmacht und Demokratie beschäftigt, auf untypische Art angehen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit Fantasie, Kreativität, Witz, Körper, Bewegung und klarem Post-it Verbot entstehen neue Blickwinkel, unerwartete Aha-Momente oder absurde Ideen zur Veränderung. Vielleicht schmunzelst Du auch einfach nur irritiert. Alles fine, Hauptsache raus aus´m Kopf!"
+    },
+    {
+     "type": "paragraph",
+     "text": "Du hast keine konkrete Herausforderung, aber willst trotzdem eine Kopf-aus-Coaching-Sessions erleben? Komm vorbei, wir finden schon was, was wir zusammen umdenken können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Session: ca. 10-20 min Walk-in Zeiten: 11.45-13.15 Uhr / 14.45-16 Uhr / 16.15-17.30 Uhr"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Christiane Gutzmann",
+     "organisation": "Selbstständig",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr-p3",
+   "date": "2026-09-25",
+   "start": "16:00",
+   "end": "16:15",
+   "format": "pause",
+   "title": "Pause"
+  },
+  {
+   "id": "fr22",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:00",
+   "format": "workshop",
+   "title": "Der Angriff läuft: Mit offensivem Handlungsnarrativ zum Erfolg",
+   "people": "Annika Lipke & Felix Bähr",
+   "room": "Cube 1. OG – 1.06",
+   "subtitle": "Bedrohungen kommunikativ in kollektive Handlungsfähigkeit übersetzen.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/der-angriff-lauft-mit-offensivem-handlungsnarrativ-zum-erfolg",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Gesellschaftliche Bedrohungen erzeugen oft Ohnmacht. Viele Organisationen reagieren darauf defensiv, vorsichtig oder zu langsam. In diesem Workshop zeigen wir anhand der CORRECTIV-Herbstkampagne „Der Angriff läuft“, wie sich Bedrohung kommunikativ in kollektive Handlungsfähigkeit übersetzen lässt: mit klarer Haltung, offensivem Narrativ und agilen Kampagnenstrukturen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wir geben einen ehrlichen Einblick in die Entwicklung der Kampagne – von der narrativen Zuspitzung über interne Abstimmungsprozesse bis hin zu schnellem, inhouse organisiertem Campaigning unter Zeitdruck. Gemeinsam analysieren wir, welche Narrative mobilisieren, wo Organisationen sich selbst ausbremsen und welche Strukturen schnelle Reaktionsfähigkeit ermöglichen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In einer Arbeitsphase übertragen die Teilnehmenden zentrale Ansätze direkt auf eigene Themen oder Kampagnen: Welche Bedrohung oder Herausforderung soll kommunikativ gedreht werden? Welche Narrative schaffen Handlung statt Ohnmacht? Die Ergebnisse werden anschließend gemeinsam reflektiert und weitergedacht."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Annika Lipke",
+     "organisation": "CORRECTIV",
+     "role": ""
+    },
+    {
+     "name": "Felix Bähr",
+     "organisation": "CORRECTIV",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr23",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:00",
+   "format": "workshop",
+   "title": "Von der Entwicklung zur Skalierung – Was Demokratieprojekte erfolgreich macht",
+   "people": "Amelie Zimmermann",
+   "room": "Shed EG – B0.09 & 10",
+   "subtitle": "Vom Pilotprojekt zum bundesweiten Erfolgsformat für Dritte Orte.",
+   "websiteTime": "16:15–17:30",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/von-der-entwicklung-zur-skalierung---was-demokratieprojekte-erfolgreich-macht",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Wie gelingt es, eine gute Projektidee in unterschiedliche Regionen, Kontexte und Zielgruppen zu tragen? Anhand des „Aktionslabors Redaktionelle Gesellschaft\", einer Hands-on-Ausstellung für Informations- und Nachrichtenkompetenz, gibt Dr. Amelie Zimmermann Einblicke in die unterschiedlichen Phasen eines Demokratieprojekts an mehr als 50 Ausstellungsorten: von der Idee und Konzeption über die Zusammenarbeit mit Partner*innen bis hin zur erfolgreichen Skalierung in mehrere Bundesländer."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam werden die zentralen Erfolgsfaktoren identifiziert: klare Zieldefinition, passende Partnerstrukturen, wirksame Zielgruppenansprache und lernende Projektentwicklung."
+    },
+    {
+     "type": "paragraph",
+     "text": "Der Workshop richtet sich an alle, die Beteiligungs-, Demokratie- oder Kulturprojekte entwickeln und nachhaltig an Dritten Orten verankern möchten. Die Leitfrage dabei lautet: Wie wird aus einem erfolgreichen Pilotprojekt ein skalierbares Format, das auch an unterschiedlichen Dritten Orten Wirkung entfaltet?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Amelie Zimmermann",
+     "organisation": "ZEIT STIFTUNG BUCERIUS",
+     "role": "Leitung Bucerius Lab"
+    }
+   ]
+  },
+  {
+   "id": "fr24",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:30",
+   "format": "workshop",
+   "title": "Strategien gegen Klima-Desinformation und Diskursverschleppung",
+   "people": "Anna Pixer",
+   "room": "Cube 1. OG – 1.05",
+   "subtitle": "Verschleppungsstrategien erkennen und wirksame Gegenstrategien entwickeln.",
+   "category": "Strategiebeitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/strategie-gegen-klima-desinformation-und-diskursverschleppung",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Klima-Desinformation und gezielte Diskursverschleppung sind keine Zufälle. Sie folgen einem Plan."
+    },
+    {
+     "type": "paragraph",
+     "text": "Begriffe und Narrative, die Klimaschutzmaßnahmen blockieren oder von der Agenda drängen, folgen verschiedenen Strategien und wandern von Blockierer*innen in Mainstream-Medien. Während Klimawandelleugnung seltener wird, wird jetzt mehr über Verantwortungsabgabe, den Verweis auf Scheinlösungen oder negative Narrative politisch Einfluss ausgeübt. Progressive Klimapolitik leidet darunter – in Deutschland, Österreich und der EU. Die Muster sind ähnlich, die Wirkung messbar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Das KONTEXT-Institut analysiert diese Entwicklungen in Österreich seit 2023 jährlich. Die aktuellen Diskursanalysedaten zeigen: Wer die Mechanismen kennt, kann sie durchbrechen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop stellen wir Verschleppungsstrategien vor und werfen einen Blick auf die Verteilung der Diskursmacht im (österreichischen) Klimadiskurs. Daraus leiten wir Gegenstrategien ab und erarbeiten ein strategisches Instrument für Zivilgesellschaft, Medien und politische Akteur*innen, das aus der Analyse realer Diskursdynamiken abgeleitet ist. Kein Defensiv-Reflex, sondern eine Offensivstrategie: Wie kann Verschleppung entkräftet werden? Welche Kommunikationsstrategien funktionieren nachweislich? Und wie können wir sie gemeinsam stärken?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam entwickeln wir im Workshop konkrete Ansätze weiter: raus aus der Defensive, rein in einen konstruktiven Klimadiskurs. Dabei sammeln und diskutieren wir positive Gegenbeispiele aus der Praxis der unterschiedlichen Workshop-Teilnehmenden: Initiativen und Narrative, die wirken. Denn gegen Desinformation hilft vor allem eines: eine starke, abgestimmte Gemeinschaft, die gemeinsam die Erzählung zurückgewinnt."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Anna Pixer",
+     "organisation": "KONTEXT Institut",
+     "role": "Analystin"
+    }
+   ]
+  },
+  {
+   "id": "fr25",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:30",
+   "format": "workshop",
+   "title": "Spielerisch demokratischen Austausch an Begegnungsorten ermöglichen",
+   "people": "Tom Luckner",
+   "room": "Shed EG – A0.03 & 04",
+   "subtitle": "Methoden für demokratischen Austausch an Dritten Orten.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/spielerisch-demokratischen-austausch-an-begegnungsorten-ermoglichen",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Das zunehmende Interesse an Dritten Orten basiert unter anderem auf der Idee, dass sie als demokratische Aushandlungsorte gesellschaftlichen Zusammenhalt stärken und der zunehmenden Vereinzelung entgegenwirken. Doch um dieses Potenzial zu entfalten, müssen Menschen dort tatsächlich in tieferen Austausch miteinander kommen. Das gestaltet sich in der Realität oft schwieriger als es klingt."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die JoDDiD hat es sich zur Aufgabe gemacht, ästhetische und raumbezogene Materialien zu entwickeln, die genau diesem Zweck dienen: Interaktion zu politischen Themen im öffentlichen Raum zu initiieren."
+    },
+    {
+     "type": "paragraph",
+     "text": "Im Beitrag können nach einem kurzen Input einige der kostenlos verfügbaren Materialien kennengelernt, ausprobiert und anschließend diskutiert werden. Mit dabei sind unter anderem die Positionierungsteppiche und das Politische Speeddating. Im letzten Teil des Beitrags besteht darüber hinaus die Möglichkeit zum gemeinsamen Erfahrungsaustausch."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Tom Luckner",
+     "organisation": "John-Dewey-Forschungsstelle für die Didaktik der Demokratie (JoDDiD)",
+     "role": "Wissenschaftlicher Mitarbeiter - Beratung & Innovation"
+    }
+   ]
+  },
+  {
+   "id": "fr26",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:30",
+   "format": "workshop",
+   "title": "Die Autoritären sind gut organisiert. Wir jetzt auch.",
+   "people": "Anne Isakowitsch & Jill Berger",
+   "room": "Cube 1. OG – 1.02",
+   "subtitle": "Strategien gegen Angriffe rechtsextremer Akteur*innen auf NGOs und die Zivilgesellschaft.",
+   "category": "Gute-Praxis-Beitrag",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/die-autoritaren-sind-gut-organisiert-wir-jetzt-auch",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "NGOs werden immer mehr zur Zielscheibe von rechtsextremen Akteur*innen. Welche Strategien stecken dahinter, und wie können Organisationen reagieren, ohne sich einschüchtern zu lassen oder in die Rechtfertigungsfalle zu stolpern?"
+    },
+    {
+     "type": "paragraph",
+     "text": "In den letzten Jahren werden Angriffe auf NGOs und gemeinnützige Organisationen immer strategischer geführt. Doxing, parlamentarische Anfragen oder gezielte Kampagnen haben ein klares Ziel: Sie versuchen die Zivilgesellschaft einzuschüchtern, zu delegitimieren und zu zermürben."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Zivilgesellschaft ist aber nicht hilflos. Wer sich fürs Gemeinwohl einsetzt, sollte das tun können, ohne Angst vor Hass, Hetze oder persönlicher Bedrohung haben zu müssen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In dieser Session stellen wir einen Leitfaden vor, der hilft, besser auf Angriffe zu reagieren. Wir teilen unser Erfahrungswissen zu typischen Angriffsstrategien, zeigen konkrete Gegenmaßnahmen und geben Tipps für die Kommunikation: Wann reagieren und wann nicht? Wie Haltung zeigen, ohne sich zu rechtfertigen? Wie handlungsfähig bleiben, ohne den Konflikt zu eskalieren?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam mit dem Publikum diskutieren wir, wie Organisationen sich vorbereiten können, solidarisch reagieren und Angriffe als das benennen, was sie sind: Angriffe auf demokratische Infrastruktur."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Jill Berger",
+     "organisation": "Zukunft Demokratie",
+     "role": "Leitung Kommunikation und Kampagnenarbeit"
+    },
+    {
+     "name": "Anne Isakowitsch",
+     "organisation": "Amadeu Antonio Stiftung",
+     "role": "Communications Director"
+    }
+   ]
+  },
+  {
+   "id": "fr27",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:30",
+   "format": "fishbowl",
+   "title": "Nach dem Bürger*innenrat: Was bleibt?",
+   "people": "Konstanze Mohr",
+   "room": "Shed 5. OG – Community Space",
+   "subtitle": "Wie die Beteiligung junger Menschen nach dem Bürger*innenrat weitergehen kann.",
+   "category": "Austauschformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/nach-dem-burger-innenrat-was-bleibt",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Was passiert mit dem Engagement von jungen Menschen, nachdem sie an einem Bürger*innenrat oder einem anderen deliberativen Beteiligungsformat teilgenommen haben? Oft endet ihre Rolle bereits mit der Übergabe von Empfehlungen – obwohl gerade dann viel demokratische Energie und Motivation vorhanden sind."
+    },
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop bringen wir Perspektiven aus mehreren Formaten zusammen: Assemble Now! von Pro Futuris und CRIN, Alumni des Bürger*innenrats Bildung und Lernen der Montag Stiftung Denkwerkstatt sowie das Wissen junger Menschen aus weiteren deliberativen Prozessen wie der European Young Citizens’ Assembly on Pollinators."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gemeinsam fragen wir: Welche Erfahrungen machen junge Menschen in solchen Formaten? Was brauchen sie, um danach weiterwirken zu können? Und wie können Organisationen, Verwaltungen und Stiftungen Alumni nicht nur als Testimonials, sondern als Mitgestalter*innen demokratischer Praxis langfristig einbinden?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Konstanze Mohr",
+     "organisation": "Pro Futuris",
+     "role": "Projektmitarbeiterin"
+    }
+   ]
+  },
+  {
+   "id": "fr28",
+   "date": "2026-09-25",
+   "start": "16:15",
+   "end": "17:30",
+   "format": "kultur",
+   "title": "Kopf aus, Demokratie an!",
+   "people": "Christiane Gutzmann",
+   "room": "Shed 5. OG – A5.07",
+   "subtitle": "Kreative Kurz-Coachings zum Neu- und Umdenken",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/kopf-aus-demokratie-an-2",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In den Kopf-aus-Coaching-Sessions von Ideenschmiedin Christiane Gutzmann kannst Du im 1:1-Setting mit ungewöhnlichen Kreativmethoden und ordentlich Augenzwinkern eine von Dir mitgebrachte Frage, Herausforderung oder Überzeugung, die Dich persönlich oder rund um die Mitmacht und Demokratie beschäftigt, auf untypische Art angehen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mit Fantasie, Kreativität, Witz, Körper, Bewegung und klarem Post-it Verbot entstehen neue Blickwinkel, unerwartete Aha-Momente oder absurde Ideen zur Veränderung. Vielleicht schmunzelst Du auch einfach nur irritiert. Alles fine, Hauptsache raus aus´m Kopf!"
+    },
+    {
+     "type": "paragraph",
+     "text": "Du hast keine konkrete Herausforderung, aber willst trotzdem eine Kopf-aus-Coaching-Sessions erleben? Komm vorbei, wir finden schon was, was wir zusammen umdenken können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Session: ca. 10-20 min Walk-in Zeiten: 11.45-13.15 Uhr / 14.45-16 Uhr / 16.15-17.30 Uhr"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Christiane Gutzmann",
+     "organisation": "Selbstständig",
+     "role": ""
+    }
+   ]
+  },
+  {
+   "id": "fr29",
+   "date": "2026-09-25",
+   "start": "17:30",
+   "end": "18:00",
+   "format": "rahmen",
+   "title": "Ankommen, Bar & Fingerfood",
+   "people": "",
+   "room": "Cube Plenum"
+  },
+  {
+   "id": "fr30",
+   "date": "2026-09-25",
+   "start": "18:00",
+   "end": "18:20",
+   "format": "rahmen",
+   "title": "Finales Festival Wrap-Up & Danksagung",
+   "people": "",
+   "room": "Cube Plenum"
+  },
+  {
+   "id": "fr31",
+   "date": "2026-09-25",
+   "start": "18:20",
+   "end": "23:30",
+   "format": "rahmen",
+   "title": "Mitmacht 2026 x reCampaign Party",
+   "people": "Lilly Mortis, BB Ray, kaloppa",
+   "room": "Cube Plenum",
+   "subtitle": "Die große Mitmacht 2026 x reCampaign Party",
+   "teaser": "Drei Tage denken, streiten, ausprobieren, Leute kennenlernen und gemeinsame Sache machen. Freitagabend feiern wir Mitmacht und alles, was daraus noch werden kann.",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wir-feiern-mitmacht",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mit gutem Essen, Drinks, Musik, Tanz und einem finalen Mitmacht 2026 x reCampaign Wrap-Up von Faktor D. Und weil wir zum Finale ruhig ein bisschen auftragen dürfen, haben wir noch etwas vorbereitet, das wir wirklich nicht vorwegnehmen wollen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Nur so viel: Lilly Mortis wird da sein. Es könnte glamourös werden und ziemlich spektakulär."
+    },
+    {
+     "type": "paragraph",
+     "text": "Musikalische Untermalung gibt es außerdem von BB Ray und kaloppa.",
+     "links": [
+      {
+       "text": "BB Ray",
+       "url": "https://soundcloud.com/undine-gkdftwifhgigkj"
+      },
+      {
+       "text": "kaloppa",
+       "url": "https://soundcloud.com/kaloppa"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Demokratiearbeit darf nicht nur Kraft kosten. Sie darf auch Kraft geben. Sie darf laut sein, schön, überraschend und verdammt unterhaltsam."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Lilly Mortis",
+     "organisation": "Kabaret Klub",
+     "role": "Diva"
+    },
+    {
+     "name": "Renee van Bavel",
+     "organisation": "Renee van Bavel",
+     "role": "Künstlerin"
+    }
+   ]
+  },
+  {
+   "id": "sa00",
+   "date": "2026-09-26",
+   "start": "09:30",
+   "end": "10:00",
+   "format": "rahmen",
+   "title": "Ankommen",
+   "people": "",
+   "room": ""
+  },
+  {
+   "id": "sa01",
+   "date": "2026-09-26",
+   "start": "10:00",
+   "end": "12:30",
+   "format": "kultur",
+   "title": "WIR FAHREN – Brücken zwischen Sozialraum und Demokratie",
+   "people": "Yasin Yazar",
+   "room": "Shed Außenbereich",
+   "subtitle": "Ein Foto- und Audiowalk durch Neukölln.",
+   "websiteTime": "10:00–12:00",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wir-fahren---brucken-zwischen-sozialraum-und-demokratie",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Vom SRH Campus aus laufen wir gemeinsam mit dir die Sonnenallee hinunter – bis hinein in die Weiße Siedlung. Mit analogen Einwegkameras, Audioaufnahmen und einem Handscanner halten wir fest, was sonst übersehen wird: Stimmen, Klänge, Spuren eines Quartiers, das oft beschrieben, aber selten gehört wird."
+    },
+    {
+     "type": "paragraph",
+     "text": "Wer uns unterwegs begegnet, kann spontan mitmachen. Aus den Begegnungen wird Material. Am Ende übergeben wir dieses als Handlungsempfehlung und Good-Practice-Modell an Faktor D."
+    },
+    {
+     "type": "paragraph",
+     "text": "Du läufst nicht durch ein Quartier – du läufst mit den Menschen, die es bewohnen. Es geht um Begegnung im Alltagsraum sowie Sichtbarkeit und eine Stimme für die, die sonst ungehört bleiben. Geführt von der Initiative artwalks.arttalks (Rhein-Neckar) gemeinsam mit vier jungen Co-Gestaltenden aus Ludwigshafen und Mannheim."
+    },
+    {
+     "type": "paragraph",
+     "text": "Treffpunkt für den Spaziergang ist um 10.00 Uhr vor dem Haupteingang der SRH University."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Yasin Yazar",
+     "organisation": "Künstlerinitiative artwalks.arttalks",
+     "role": "Geschäftsführer"
+    }
+   ]
+  },
+  {
+   "id": "sa02",
+   "date": "2026-09-26",
+   "start": "10:30",
+   "end": "11:45",
+   "format": "kultur",
+   "title": "When Feelings Meet Politics – Exploring Emotions as Democratic Practice",
+   "people": "Nina Wienkoop & Emily Poel",
+   "room": "Shed 5. OG – A5.06",
+   "subtitle": "Über das Zusammenwirken von Demokratie und Embodiment.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/when-feelings-meet-politics---exploring-emotions-as-democratic-practice",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "In diesem Workshop untersuchen die Teilnehmenden, wie Demokratie und Embodiment zusammenwirken, um menschliche Verbindungen und sozialen Wandel anzustoßen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Unser Ausgangspunkt ist die Erkenntnis, dass Demokratie nicht nur ein politisches System ist, sondern auch ein Rahmen, der körperlich erlebt werden kann. Die Art und Weise, wie wir fühlen, stehen, atmen, sprechen, zuhören und reagieren, prägt unser Denken und Handeln in der Welt – und wie wir andere im täglichen Leben wahrnehmen und mit ihnen interagieren."
+    },
+    {
+     "type": "paragraph",
+     "text": "Eine kurze theoretische Einführung aus Politikwissenschaft, Sozialpsychologie und Embodiment-Forschung bietet den Rahmen. Der Schwerpunkt des Workshops liegt jedoch auf dem eigenen Erleben."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die Teilnehmenden lernen, wie emotionale Reaktionen im Körper entstehen und die politische Wahrnehmung und das eigene Handeln beeinflussen. Gemeinsam werden wir untersuchen, wie sich verschiedene emotionale Zustände körperlich manifestieren – zum Beispiel Ohnmacht oder Einsamkeit –, und wie sie in Energie, Klarheit und Absicht umgewandelt werden können."
+    },
+    {
+     "type": "paragraph",
+     "text": "Durch Übungen, Selbstreflexionen und Perspektivwechsel werden die Teilnehmenden unmittelbar erfahren, dass sie nicht nur Beobachter*innen des politischen Lebens sind, sondern aktive Mitgestalter*innen, die sich in Resonanz mit sich selbst, anderen und der Welt bewegen. Als Ergebnis erleben sie ihre eigene innere Stärke, ihren Gestaltungsraum, ihre (kollektive) Handlungsmacht sowie das Gefühl von Verantwortung und Verbundenheit, das weit über den Raum des Workshops hinausreicht."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Emily Poel",
+     "organisation": "embodiment at work",
+     "role": "Embodiment-Praktikerin, Trainerin und Beraterin"
+    },
+    {
+     "name": "Nina Wienkoop",
+     "organisation": "Institut für Protest- und Bewegungsforschung",
+     "role": "Vorstandsmitglied"
+    }
+   ]
+  },
+  {
+   "id": "sa03",
+   "date": "2026-09-26",
+   "start": "10:30",
+   "end": "12:00",
+   "format": "kultur",
+   "title": "Mini Ting",
+   "people": "Silvan Groher & Ralph Moser",
+   "room": "Shed Foyer",
+   "subtitle": "Geben ist leicht. Nehmen ist die eigentliche Kunst.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/mini-ting-ein-vertrauensexperiment-mit-geld-2",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Mini-Ting ist eine Installation und ein Vertrauensexperiment in Echtzeit."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein offener Geldtopf mitten im Festivalgeschehen: Ab 2 EUR kann jede und jeder mitmachen. Wer Bedarf oder Lust hat, nimmt heraus, was er oder sie braucht. Bis 250 EUR pro Person und Tag – keine Jury, keine Begründung. Nur eine Notiz, wofür."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diese Notizen sind ein Teil des Experiments. Sie zeigen, ob Vertrauen trägt, und wofür Menschen Geld brauchen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Was hier sichtbar wird, ist auch eine demokratische Frage: Wem trauen wir zu, Geld sinnvoll zu verwenden? Wer entscheidet, was Bedarf ist? Was passiert, wenn Umverteilung nicht über Institutionen, sondern von Mensch zu Mensch läuft?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aus früheren Durchläufen wissen wir: Es entstehen Momente der Irritation, der Überraschung, manchmal gibt es Tränen. Wir vertrauen dem Geld oft stärker als unseren Mitmenschen. Mini-Ting dreht das spielerisch um."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es gibt zwei Modi:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Selbsterklärend: Die Installation steht offen zugänglich, mit Spielregeln und einer Box für Wünsche und Rückmeldungen."
+    },
+    {
+     "type": "paragraph",
+     "text": "Betreut: Wir sind vor Ort, geben Anstoß, beobachten und kommen mit den Mitmachenden ins Gespräch."
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Silvan Groher",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Geschäftsführer"
+    },
+    {
+     "name": "Ralph Moser",
+     "organisation": "Ting | Verein Grundeinkommen",
+     "role": "Co-Gründer"
+    }
+   ]
+  },
+  {
+   "id": "sa04",
+   "date": "2026-09-26",
+   "start": "10:30",
+   "end": "12:00",
+   "format": "kultur",
+   "title": "@wefightfirewithfire – Eine begehbare For-You-Page",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "note": "Moderierter Slot 11:00–11:30 Uhr",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok-3",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen? Moderierter Slot: Samstag, 11:00–11:30 Uhr"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "sa04b",
+   "date": "2026-09-26",
+   "start": "11:00",
+   "end": "11:30",
+   "format": "kultur",
+   "title": "Moderierter Slot: @wefightfirewithfire",
+   "people": "mediale pfade",
+   "room": "Shed 5. OG – A5.03",
+   "note": "Gemeinsam Videos dekonstruieren",
+   "subtitle": "Rechtsextreme Strategien auf TikTok erkennen, verstehen und gemeinsam hinterfragen.",
+   "category": "Kunst- und Kulturformat",
+   "url": "https://www.faktor-d.org/mitmachen-veranstaltungen/moderierter-slot-i-wefightfirewithfire---eine-begehbare-for-you-page-uber-rechte-strategien-auf-tiktok-copy",
+   "description": [
+    {
+     "type": "paragraph",
+     "text": "Fight Fire With Fire (@wefightfirewithfire) ist ein TikTok-Experiment von medialepfade.org."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ein Jahr lang haben wir durch die strategische Verwendung von Hooks, Sounds und erzählerischen Brüchen mit den Logiken der Plattform gespielt. Das sind dieselben Mechanismen, mit denen auch rechtsextreme Online-Akteur*innen Reichweite erzielen. Wir setzen sie ein, um sie offenzulegen und für demokratische Kommunikation umzudeuten."
+    },
+    {
+     "type": "paragraph",
+     "text": "Die begehbare Installation übersetzt dieses Experiment in einen erfahrbaren Raum. Besucher*innen treten in eine räumliche For-You-Page ein, in der die Grenzen zwischen Original und demokratischem Gegenimpuls wahrnehmbar werden. Offene Stationen machen die Projektarbeit, redaktionelle Prozesse und Herausforderungen nachvollziehbar. An einer Reflexionswand sammeln sich über die Festivaltage hinweg die Eindrücke der Besucher*innen."
+    },
+    {
+     "type": "paragraph",
+     "text": "In zwei moderierten Gesprächen dekonstruieren wir gemeinsam einzelne Videos und sprechen über mögliche Adaptionen für die eigene Kommunikationsarbeit. Die offene Frage, die wir mitbringen: Kann man Feuer wirklich mit Feuer bekämpfen?"
+    }
+   ],
+   "speakers": [
+    {
+     "name": "Serkan Ünsal",
+     "organisation": "medialepfade.org",
+     "role": "Projektleitung"
+    },
+    {
+     "name": "Fabian",
+     "organisation": "medialepfade.org",
+     "role": "Content Creator"
+    },
+    {
+     "name": "Becci Pelvan",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Iliane Kiefer",
+     "organisation": "medialepfade.org",
+     "role": "Redakteurin für Wissenschaftskommunikation und Social Media"
+    },
+    {
+     "name": "Lou Huber-Eustachi",
+     "organisation": "medialepfade.org",
+     "role": ""
+    },
+    {
+     "name": "Kaija Strack",
+     "organisation": "medialepfade.org",
+     "role": "Content Creatorin"
+    }
+   ]
+  },
+  {
+   "id": "sa-end",
+   "date": "2026-09-26",
+   "start": "12:00",
+   "end": "12:00",
+   "format": "ende",
+   "title": "Ende"
+  }
+ ]
+}
