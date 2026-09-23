@@ -38,6 +38,31 @@ export const LI_ERRORS: Record<string, string> = {
 
 export const LINKEDIN_URL_RE = /^https:\/\/www\.linkedin\.com\/in\/[A-Za-z0-9_%.-]+\/?$/;
 
+/* Sync-Metadaten: changedAt nur bei echten Nutzeränderungen */
+const SYNC_KEY = "mm-program-sync";
+type SyncMeta = { changedAt: number; syncedUserId: string | null };
+function readSyncMeta(): SyncMeta {
+  try {
+    const m = JSON.parse(localStorage.getItem(SYNC_KEY) ?? "{}");
+    return { changedAt: Number(m.changedAt) || 0, syncedUserId: typeof m.syncedUserId === "string" ? m.syncedUserId : null };
+  } catch {
+    return { changedAt: 0, syncedUserId: null };
+  }
+}
+function writeSyncMeta(m: SyncMeta) {
+  try {
+    localStorage.setItem(SYNC_KEY, JSON.stringify(m));
+  } catch {
+    /* voll */
+  }
+}
+export function markProgramChanged() {
+  writeSyncMeta({ ...readSyncMeta(), changedAt: Date.now() });
+}
+function clearSyncedUser() {
+  writeSyncMeta({ ...readSyncMeta(), syncedUserId: null });
+}
+
 export function initials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? parts[parts.length - 1]![0] : "")).toUpperCase() || "?";
@@ -59,7 +84,7 @@ export function useCommunity(opts: {
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [firstLogin, setFirstLogin] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const mergedFor = useRef<string | null>(null);
+  const [sync, setSync] = useState<{ state: "idle" | "ok" | "error" | "offline"; at: number | null }>({ state: "idle", at: null });
   const remoteIds = useRef<Set<string>>(new Set());
   const userId = session?.user.id ?? null;
 
@@ -98,6 +123,7 @@ export function useCommunity(opts: {
 
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      if (event === "SIGNED_OUT") clearSyncedUser();
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED" || event === "INITIAL_SESSION") {
         setSession(s);
       }
@@ -124,23 +150,22 @@ export function useCommunity(opts: {
     if (online) void loadPeople();
   }, [online, loadPeople, userId]);
 
-  /* Profil, Rolle, Zusagen laden und mit localStorage vereinigen */
+  /* Profil, Rolle laden */
   useEffect(() => {
     if (!userId) {
       setProfile(null);
       setIsAdmin(false);
       setPublicIds({});
-      mergedFor.current = null;
       remoteIds.current = new Set();
+      setSync({ state: "idle", at: null });
       return;
     }
-    if (!online || mergedFor.current === userId) return;
+    if (!online) return;
     let cancelled = false;
     (async () => {
-      const [{ data: p }, { data: roles }, { data: att }] = await Promise.all([
+      const [{ data: p }, { data: roles }] = await Promise.all([
         supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done").eq("id", userId).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
-        supabase.from("attendance").select("session_id, is_public").eq("user_id", userId),
       ]);
       if (cancelled) return;
       if (p) {
@@ -148,49 +173,127 @@ export function useCommunity(opts: {
         if (!p.profile_done) setFirstLogin(true);
       }
       setIsAdmin(!!roles?.some((r) => r.role === "admin"));
-      const map: Record<string, boolean> = {};
-      (att ?? []).forEach((a) => (map[a.session_id] = a.is_public));
-      remoteIds.current = new Set(Object.keys(map));
-      setPublicIds(map);
-      mergedFor.current = userId;
-      setSel((cur) => Array.from(new Set([...cur, ...Object.keys(map)])));
     })();
     return () => {
       cancelled = true;
     };
-  }, [userId, online, setSel]);
+  }, [userId, online]);
 
-  /* Änderungen der Auswahl nachsenden */
-  useEffect(() => {
-    if (!userId || !online || mergedFor.current !== userId) return;
-    const t = setTimeout(async () => {
-      const want = new Set(sel);
-      const add = sel.filter((id) => !remoteIds.current.has(id));
-      const del = [...remoteIds.current].filter((id) => !want.has(id));
-      if (add.length) {
-        const { error: e } = await supabase
-          .from("attendance")
-          .upsert(add.map((session_id) => ({ user_id: userId, session_id, is_public: false })), {
-            onConflict: "user_id,session_id",
-            ignoreDuplicates: true,
-          });
-        if (!e) add.forEach((id) => remoteIds.current.add(id));
-      }
-      if (del.length) {
-        const { error: e } = await supabase.from("attendance").delete().eq("user_id", userId).in("session_id", del);
-        if (!e) {
+  /* Programm-Abgleich: erster Sync vereinigt, danach „last writer wins" */
+  const selRef = useRef(sel);
+  selRef.current = sel;
+  const running = useRef(false);
+  const rerun = useRef(false);
+  const reconcile = useCallback(async (): Promise<void> => {
+    if (!userId) return;
+    if (!navigator.onLine) {
+      setSync((s) => ({ ...s, state: "offline" }));
+      return;
+    }
+    if (running.current) {
+      rerun.current = true;
+      return;
+    }
+    running.current = true;
+    try {
+      const meta = readSyncMeta();
+      const [{ data: p, error: pe }, { data: att, error: ae }] = await Promise.all([
+        supabase.from("profiles").select("program_updated_at").eq("id", userId).maybeSingle(),
+        supabase.from("attendance").select("session_id, is_public").eq("user_id", userId),
+      ]);
+      if (pe || ae) throw pe || ae;
+      const map: Record<string, boolean> = {};
+      (att ?? []).forEach((a) => (map[a.session_id] = a.is_public));
+      const remote = new Set(Object.keys(map));
+      remoteIds.current = new Set(remote);
+      setPublicIds(map);
+      const remoteAt = p?.program_updated_at ? new Date(p.program_updated_at).getTime() : 0;
+      const local = selRef.current;
+
+      const pushTo = async (want: string[], at: number) => {
+        const w = new Set(want);
+        const add = want.filter((id) => !remote.has(id));
+        const del = [...remote].filter((id) => !w.has(id));
+        if (add.length) {
+          const { error: e } = await supabase
+            .from("attendance")
+            .upsert(add.map((session_id) => ({ user_id: userId, session_id, is_public: false })), {
+              onConflict: "user_id,session_id",
+              ignoreDuplicates: true,
+            });
+          if (e) throw e;
+          add.forEach((id) => remoteIds.current.add(id));
+        }
+        if (del.length) {
+          const { error: e } = await supabase.from("attendance").delete().eq("user_id", userId).in("session_id", del);
+          if (e) throw e;
           del.forEach((id) => remoteIds.current.delete(id));
           setPublicIds((m) => {
             const n = { ...m };
             del.forEach((id) => delete n[id]);
             return n;
           });
-          if (del.some((id) => publicIds[id])) void loadPeople();
+          if (del.some((id) => map[id])) void loadPeople();
         }
+        const { error: e } = await supabase.from("profiles").update({ program_updated_at: new Date(at).toISOString() }).eq("id", userId);
+        if (e) throw e;
+      };
+
+      if (meta.syncedUserId !== userId) {
+        // Erster Sync dieses Geräts mit diesem Konto: vereinigen
+        const union = Array.from(new Set([...local, ...remote]));
+        const at = Date.now();
+        await pushTo(union, at);
+        writeSyncMeta({ changedAt: at, syncedUserId: userId });
+        if (union.length !== local.length) setSel(() => union);
+      } else if (remoteAt > meta.changedAt) {
+        // Profil ist neuer: lokale Liste ersetzen
+        writeSyncMeta({ ...meta, changedAt: remoteAt });
+        const next = [...remote];
+        const same = next.length === local.length && next.every((id) => local.includes(id));
+        if (!same) setSel(() => next);
+      } else {
+        const same = local.length === remote.size && local.every((id) => remote.has(id));
+        if (!same || remoteAt !== meta.changedAt) await pushTo(local, meta.changedAt || Date.now());
       }
-    }, 800);
+      setSync({ state: "ok", at: Date.now() });
+    } catch (e) {
+      console.info("[mm-sync] Fehler", e);
+      setSync((s) => ({ ...s, state: navigator.onLine ? "error" : "offline" }));
+    } finally {
+      running.current = false;
+      if (rerun.current) {
+        rerun.current = false;
+        void reconcile();
+      }
+    }
+  }, [userId, setSel, loadPeople]);
+
+  // bei Login, Online-Wechsel und Änderungen der Auswahl (entprellt)
+  useEffect(() => {
+    if (!userId) return;
+    if (!online) {
+      setSync((s) => ({ ...s, state: "offline" }));
+      return;
+    }
+    const t = setTimeout(() => void reconcile(), 800);
     return () => clearTimeout(t);
-  }, [sel, userId, online, publicIds, loadPeople]);
+  }, [sel, userId, online, reconcile]);
+
+  // beim Wieder-Sichtbarwerden erneut abgleichen; bei Fehler alle 30 s erneut
+  useEffect(() => {
+    if (!userId) return;
+    const vis = () => {
+      if (document.visibilityState === "visible") void reconcile();
+    };
+    document.addEventListener("visibilitychange", vis);
+    return () => document.removeEventListener("visibilitychange", vis);
+  }, [userId, reconcile]);
+  useEffect(() => {
+    if (sync.state !== "error") return;
+    const t = setTimeout(() => void reconcile(), 30000);
+    return () => clearTimeout(t);
+  }, [sync.state, reconcile]);
 
   const login = useCallback(() => {
     if (configured === false) {
@@ -201,6 +304,7 @@ export function useCommunity(opts: {
   }, [configured]);
 
   const logout = useCallback(async () => {
+    clearSyncedUser();
     await supabase.auth.signOut();
     notify("Abgemeldet");
   }, [notify]);
@@ -275,7 +379,7 @@ export function useCommunity(opts: {
   );
 
   return {
-    session, userId, profile, isAdmin, publicIds, people, stand, configured, firstLogin, error,
+    sync, session, userId, profile, isAdmin, publicIds, people, stand, configured, firstLogin, error,
     clearError: () => setError(null), login, logout, saveProfile, setPublic, deleteAccount, setHidden, loadPeople,
   };
 }

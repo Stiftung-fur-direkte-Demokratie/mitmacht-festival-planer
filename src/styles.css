@@ -575,3 +575,5 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
   .hero{padding-top:calc(16px + env(safe-area-inset-top,0px))}
   .hero:not(:has(.herofaces)){padding-bottom:14px}
 }
+.backupline{margin:0 0 8px;font-size:13.5px;line-height:1.45;color:var(--ink-soft)}
+.backupline .linkbtn{font-size:inherit;padding:0;display:inline}

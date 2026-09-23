@@ -46,7 +46,7 @@ import {
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
 import { Avatar, AvatarStack, HeroFaces, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
-import { useCommunity } from "@/lib/community";
+import { markProgramChanged, useCommunity } from "@/lib/community";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -812,10 +812,12 @@ function Planner() {
     const s = BY_ID[id];
     if (!s) return;
     if (sel.includes(id)) {
+      markProgramChanged();
       setSel(sel.filter((x) => x !== id));
       showToast("Aus deinem Programm entfernt");
     } else {
       const cl = clashesFor(s, selected);
+      markProgramChanged();
       setSel([...sel, id]);
       showToast(cl.length ? "Gemerkt – mit Überschneidung" : "Zu deinem Programm hinzugefügt");
     }
@@ -1151,6 +1153,7 @@ function Planner() {
                 type="button"
                 className="btn primary small"
                 onClick={() => {
+                  markProgramChanged();
                   setSel(shareIds);
                   setShareIds(null);
                   showToast("Programm übernommen");
@@ -1162,6 +1165,7 @@ function Planner() {
                 type="button"
                 className="btn small"
                 onClick={() => {
+                  markProgramChanged();
                   setSel((cur) => Array.from(new Set([...cur, ...shareIds])));
                   setShareIds(null);
                   showToast("Sessions hinzugefügt");
@@ -1309,6 +1313,27 @@ function Planner() {
               </div>
             ) : (
               <>
+                <p className="backupline" role="status">
+                  {cm.userId ? (
+                    !online || cm.sync.state === "offline" ? (
+                      "Offline – wird gesichert, sobald du wieder online bist"
+                    ) : cm.sync.state === "error" ? (
+                      "Sicherung fehlgeschlagen – wird erneut versucht"
+                    ) : cm.sync.at ? (
+                      `☁︎ In deinem Profil gesichert · zuletzt ${new Date(cm.sync.at).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" })}`
+                    ) : (
+                      "☁︎ Wird in deinem Profil gesichert …"
+                    )
+                  ) : (
+                    <>
+                      Nur auf diesem Gerät gespeichert.{" "}
+                      <button type="button" className="linkbtn" onClick={cm.login} disabled={!online}>
+                        Mit LinkedIn anmelden
+                      </button>
+                      , um dein Programm im Profil zu sichern und auf allen Geräten zu haben. Das veröffentlicht nichts: Deine Sessions bleiben privat, bis du sie einzeln freigibst.
+                    </>
+                  )}
+                </p>
                 <p className="remline">
                   <Icon name="bell" />
                   {rem.on ? (
@@ -1514,6 +1539,7 @@ function Planner() {
                           type="button"
                           className="btn danger small"
                           onClick={() => {
+                            markProgramChanged();
                             setSel([]);
                             setConfirmClear(false);
                             showToast("Programm geleert");

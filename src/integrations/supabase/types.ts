@@ -67,6 +67,7 @@ export type Database = {
           linkedin_url: string | null
           organisation: string | null
           profile_done: boolean
+          program_updated_at: string | null
           role_title: string | null
           updated_at: string
           visible: boolean
@@ -81,6 +82,7 @@ export type Database = {
           linkedin_url?: string | null
           organisation?: string | null
           profile_done?: boolean
+          program_updated_at?: string | null
           role_title?: string | null
           updated_at?: string
           visible?: boolean
@@ -95,6 +97,7 @@ export type Database = {
           linkedin_url?: string | null
           organisation?: string | null
           profile_done?: boolean
+          program_updated_at?: string | null
           role_title?: string | null
           updated_at?: string
           visible?: boolean
