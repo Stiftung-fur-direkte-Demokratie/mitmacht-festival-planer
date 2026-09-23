@@ -49,8 +49,8 @@ export function SettingsDialog(p: SettingsProps) {
     const focusFirst = () => {
       const list = focusables();
       if (list.length) list[0]!.focus();
-      console.log("MMFOCUS", list[0]?.outerHTML.slice(0,80), "->", document.activeElement?.className);
       else panel?.focus();
+      console.log("MMFOCUS", list[0]?.outerHTML.slice(0, 80), "->", document.activeElement?.className);
     };
     const t1 = setTimeout(focusFirst, 30);
     const t2 = setTimeout(focusFirst, 150);
