@@ -20,7 +20,10 @@ export const subscribeSchema = z.object({
     .max(100)
     .refine((ids) => ids.every((id) => !!PUSH_BY_ID[id]), "unbekannte Session-id"),
   leadMinutes: z.union([z.literal(5), z.literal(10), z.literal(15)]),
-  platform: z.enum(["ios", "android", "desktop"]),
+  platform: z.preprocess(
+    (v) => (typeof v === "string" ? v.trim().toLowerCase() : v),
+    z.enum(["ios", "android", "desktop"]).catch("desktop"),
+  ),
 });
 
 export const endpointBody = z.object({ endpoint: endpointSchema });

@@ -45,13 +45,17 @@ async function post(path: string, body: unknown) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  let data: { ok?: boolean; error?: string } = {};
+  let data: { ok?: boolean; error?: string; detail?: string } = {};
   try {
     data = await res.json();
   } catch {
     /* leer */
   }
-  if (!res.ok || !data.ok) throw new Error(data.error || `Server ${res.status}`);
+  if (!res.ok || !data.ok) {
+    const err = new Error(data.error || `Server ${res.status}`) as Error & { detail?: string };
+    if (data.detail) err.detail = data.detail;
+    throw err;
+  }
   return data;
 }
 
@@ -59,8 +63,10 @@ export async function syncSubscription(
   sub: PushSubscription,
   sessionIds: string[],
   leadMinutes: number,
-  platform: "ios" | "android" | "desktop",
+  platformLabel: string,
 ) {
+  const p = String(platformLabel ?? "").trim().toLowerCase();
+  const platform = p === "ios" || p === "android" ? p : "desktop";
   const j = sub.toJSON();
   return post("/api/public/push/subscribe", {
     subscription: { endpoint: j.endpoint, keys: j.keys },

@@ -6,7 +6,11 @@ export const Route = createFileRoute("/api/public/push/subscribe")({
     handlers: {
       POST: async ({ request }) => {
         const parsed = subscribeSchema.safeParse(await readJson(request));
-        if (!parsed.success) return json({ ok: false, error: parsed.error.issues[0]?.message ?? "ungültig" }, 400);
+        if (!parsed.success) {
+          const issue = parsed.error.issues[0];
+          const field = issue?.path.join(".") || "unbekannt";
+          return json({ ok: false, error: `Anmeldung beim Server fehlgeschlagen (Feld: ${field})`, detail: issue?.message ?? "ungültig" }, 400);
+        }
         const { subscription, sessionIds, leadMinutes, platform } = parsed.data;
         const db = await admin();
         const { error } = await db.from("push_subscriptions").upsert(
