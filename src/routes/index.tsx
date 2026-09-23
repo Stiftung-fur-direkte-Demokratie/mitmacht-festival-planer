@@ -575,13 +575,17 @@ function Planner() {
             <Icon name="gear" />
             <span className="lbl">Einstellungen</span>
           </button>
-          <p className="eyebrow">
-            Das Demokratiefestival · <b>×reCampaign</b>
-          </p>
+          <p className="eyebrow">Online-Planer:in für</p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
-            {"Dein Festival-Programm 🚀 zusammenstellen & gleich in Kalender eintragen. Läuft sogar offline als App 🤩"}
+            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩 Wir freuen uns auf Festival mit euch!"}
           </p>
+          <img
+            className="teamimg"
+            src={teamImg.url}
+            alt="Sandro, Sophie, Lisa, Daniel und Niklaus"
+            loading="lazy"
+          />
           <p className="facts">
             <span>23.–26. September 2026</span>
             <span>SRH Hochschule Berlin</span>
