@@ -576,10 +576,10 @@ function Planner() {
             <Icon name="gear" />
             <span className="lbl">Einstellungen</span>
           </button>
-          <p className="eyebrow">Online-Planer:in für</p>
+          <p className="eyebrow">Online-Planer:in [Beta 2.1]</p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
-            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩 Wir freuen uns auf Festival mit euch!"}
+            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩 Wir freuen uns aufs Festival mit euch, Team "}<a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
           </p>
           <img
             className="teamimg"
