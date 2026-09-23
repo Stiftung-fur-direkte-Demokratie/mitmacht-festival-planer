@@ -101,6 +101,7 @@ export function SessionCard({
   gcalOpened,
   onOpenGcal,
   onUnmarkGcal,
+  extra,
 }: {
   s: Item;
   now: NowInfo;
@@ -114,6 +115,7 @@ export function SessionCard({
   gcalOpened?: boolean;
   onOpenGcal?: (id: string) => void;
   onUnmarkGcal?: (id: string) => void;
+  extra?: React.ReactNode;
 }) {
   const st = statusOf(s, now);
   const hasDetails = !!(s.description?.length || s.speakers?.length || s.teaser || s.url);
@@ -148,6 +150,7 @@ export function SessionCard({
             </span>
           </p>
         )}
+        {extra}
         {hasDetails && (
           <button
             type="button"
