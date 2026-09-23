@@ -57,7 +57,7 @@ export const Route = createFileRoute("/api/public/auth/linkedin/callback")({
         if (!tokens.access_token) return appError("failed", ret);
         if (tokens.id_token) {
           const p = decodeJwtPayload(tokens.id_token);
-          if (p && p.nonce && p.nonce !== st.nonce) return appError("state", ret);
+          if (p && p["nonce"] && p["nonce"] !== st.nonce) return appError("state", ret);
         }
 
         let info: z.infer<typeof userinfoSchema>;

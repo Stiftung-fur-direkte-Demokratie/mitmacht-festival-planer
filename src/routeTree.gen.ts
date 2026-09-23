@@ -10,14 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicAuthAccountRouteImport } from './routes/api/public/auth/account'
 import { Route as ApiPublicPushSendRemindersRouteImport } from './routes/api/public/push/send-reminders'
 import { Route as ApiPublicPushSubscribeRouteImport } from './routes/api/public/push/subscribe'
 import { Route as ApiPublicPushTestRouteImport } from './routes/api/public/push/test'
 import { Route as ApiPublicPushUnsubscribeRouteImport } from './routes/api/public/push/unsubscribe'
+import { Route as ApiPublicAuthLinkedinCallbackRouteImport } from './routes/api/public/auth/linkedin/callback'
+import { Route as ApiPublicAuthLinkedinStartRouteImport } from './routes/api/public/auth/linkedin/start'
+import { Route as ApiPublicAuthLinkedinStatusRouteImport } from './routes/api/public/auth/linkedin/status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAuthAccountRoute = ApiPublicAuthAccountRouteImport.update({
+  id: '/api/public/auth/account',
+  path: '/api/public/auth/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPushSendRemindersRoute =
@@ -42,59 +51,105 @@ const ApiPublicPushUnsubscribeRoute =
     path: '/api/public/push/unsubscribe',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicAuthLinkedinCallbackRoute =
+  ApiPublicAuthLinkedinCallbackRouteImport.update({
+    id: '/api/public/auth/linkedin/callback',
+    path: '/api/public/auth/linkedin/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicAuthLinkedinStartRoute =
+  ApiPublicAuthLinkedinStartRouteImport.update({
+    id: '/api/public/auth/linkedin/start',
+    path: '/api/public/auth/linkedin/start',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicAuthLinkedinStatusRoute =
+  ApiPublicAuthLinkedinStatusRouteImport.update({
+    id: '/api/public/auth/linkedin/status',
+    path: '/api/public/auth/linkedin/status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
   '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
+  '/api/public/auth/linkedin/callback': typeof ApiPublicAuthLinkedinCallbackRoute
+  '/api/public/auth/linkedin/start': typeof ApiPublicAuthLinkedinStartRoute
+  '/api/public/auth/linkedin/status': typeof ApiPublicAuthLinkedinStatusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
   '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
+  '/api/public/auth/linkedin/callback': typeof ApiPublicAuthLinkedinCallbackRoute
+  '/api/public/auth/linkedin/start': typeof ApiPublicAuthLinkedinStartRoute
+  '/api/public/auth/linkedin/status': typeof ApiPublicAuthLinkedinStatusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
   '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
+  '/api/public/auth/linkedin/callback': typeof ApiPublicAuthLinkedinCallbackRoute
+  '/api/public/auth/linkedin/start': typeof ApiPublicAuthLinkedinStartRoute
+  '/api/public/auth/linkedin/status': typeof ApiPublicAuthLinkedinStatusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/public/auth/account'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
     | '/api/public/push/unsubscribe'
+    | '/api/public/auth/linkedin/callback'
+    | '/api/public/auth/linkedin/start'
+    | '/api/public/auth/linkedin/status'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/public/auth/account'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
     | '/api/public/push/unsubscribe'
+    | '/api/public/auth/linkedin/callback'
+    | '/api/public/auth/linkedin/start'
+    | '/api/public/auth/linkedin/status'
   id:
     | '__root__'
     | '/'
+    | '/api/public/auth/account'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
     | '/api/public/push/unsubscribe'
+    | '/api/public/auth/linkedin/callback'
+    | '/api/public/auth/linkedin/start'
+    | '/api/public/auth/linkedin/status'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicAuthAccountRoute: typeof ApiPublicAuthAccountRoute
   ApiPublicPushSendRemindersRoute: typeof ApiPublicPushSendRemindersRoute
   ApiPublicPushSubscribeRoute: typeof ApiPublicPushSubscribeRoute
   ApiPublicPushTestRoute: typeof ApiPublicPushTestRoute
   ApiPublicPushUnsubscribeRoute: typeof ApiPublicPushUnsubscribeRoute
+  ApiPublicAuthLinkedinCallbackRoute: typeof ApiPublicAuthLinkedinCallbackRoute
+  ApiPublicAuthLinkedinStartRoute: typeof ApiPublicAuthLinkedinStartRoute
+  ApiPublicAuthLinkedinStatusRoute: typeof ApiPublicAuthLinkedinStatusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -104,6 +159,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/account': {
+      id: '/api/public/auth/account'
+      path: '/api/public/auth/account'
+      fullPath: '/api/public/auth/account'
+      preLoaderRoute: typeof ApiPublicAuthAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/push/send-reminders': {
@@ -134,15 +196,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPushUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/auth/linkedin/callback': {
+      id: '/api/public/auth/linkedin/callback'
+      path: '/api/public/auth/linkedin/callback'
+      fullPath: '/api/public/auth/linkedin/callback'
+      preLoaderRoute: typeof ApiPublicAuthLinkedinCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/linkedin/start': {
+      id: '/api/public/auth/linkedin/start'
+      path: '/api/public/auth/linkedin/start'
+      fullPath: '/api/public/auth/linkedin/start'
+      preLoaderRoute: typeof ApiPublicAuthLinkedinStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/auth/linkedin/status': {
+      id: '/api/public/auth/linkedin/status'
+      path: '/api/public/auth/linkedin/status'
+      fullPath: '/api/public/auth/linkedin/status'
+      preLoaderRoute: typeof ApiPublicAuthLinkedinStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicAuthAccountRoute: ApiPublicAuthAccountRoute,
   ApiPublicPushSendRemindersRoute: ApiPublicPushSendRemindersRoute,
   ApiPublicPushSubscribeRoute: ApiPublicPushSubscribeRoute,
   ApiPublicPushTestRoute: ApiPublicPushTestRoute,
   ApiPublicPushUnsubscribeRoute: ApiPublicPushUnsubscribeRoute,
+  ApiPublicAuthLinkedinCallbackRoute: ApiPublicAuthLinkedinCallbackRoute,
+  ApiPublicAuthLinkedinStartRoute: ApiPublicAuthLinkedinStartRoute,
+  ApiPublicAuthLinkedinStatusRoute: ApiPublicAuthLinkedinStatusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
