@@ -468,11 +468,6 @@ export function SettingsDialog(p: SettingsProps) {
           </section>
         </div>
 
-        <div className="sheet-foot">
-          <button type="button" className="btn primary" onClick={p.onClose}>
-            Fertig
-          </button>
-        </div>
       </div>
     </div>
   );

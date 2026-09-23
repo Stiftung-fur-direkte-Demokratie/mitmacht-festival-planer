@@ -666,3 +666,26 @@ html{background:var(--bg)}
 .notifyrow{border:0;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:4px 18px}
 .notifyrow legend{font-weight:600;font-size:14px;padding:0;width:100%}
 .notifyrow .consent{margin:4px 0}
+
+/* ---------- Druck-Feedback, Toggles, Toast-Varianten, Onboarding ---------- */
+button,.btn,a.btn,[role="tab"],.linkbtn,.settingsbtn{transition:transform .12s ease,filter .12s ease,background-color .15s ease;-webkit-tap-highlight-color:transparent}
+button:not([disabled]):active,.btn:not([disabled]):active,a.btn:active,[role="tab"]:active{transform:scale(.95);filter:brightness(.9)}
+.switch input{appearance:none;-webkit-appearance:none;flex:none;width:48px;height:28px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background-color .2s ease;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgb(0 0 0 / .3);transition:transform .2s ease}
+.switch input:checked{background:var(--keynote)}
+.switch input:checked::after{transform:translateX(20px)}
+.switch input:active::after{width:26px}
+.switch input:focus-visible{outline:2px solid var(--keynote);outline-offset:2px}
+.switch input:disabled{opacity:.45;cursor:not-allowed}
+.notifyrow .switch{margin-right:18px}
+.toast.show{animation:toast-pop .28s ease}
+.toast.err{background:var(--red);color:var(--red-ink)}
+@keyframes toast-pop{0%{transform:translate(-50%,20px) scale(.9)}70%{transform:translate(-50%,-3px) scale(1.03)}100%{transform:translate(-50%,0) scale(1)}}
+.onb-backdrop{display:flex;align-items:flex-end;justify-content:center;z-index:70}
+.onb{background:var(--surface);color:var(--ink);width:100%;max-width:440px;border-radius:24px 24px 0 0;padding:24px 20px calc(20px + env(safe-area-inset-bottom,0px));text-align:center;animation:slide-up .28s ease}
+@media (min-width:640px){.onb-backdrop{align-items:center}.onb{border-radius:24px}}
+.onb-ico{font-size:40px;line-height:1}
+.onb h2{margin:10px 0 6px;font-size:20px}
+.onb p{margin:0 0 18px;color:var(--ink-soft);font-size:15px}
+.onb-actions{display:flex;flex-direction:column;gap:10px}
+@keyframes slide-up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
