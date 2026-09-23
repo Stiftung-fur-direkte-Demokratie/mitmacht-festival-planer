@@ -105,17 +105,40 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
+self.addEventListener("push", (event) => {
+  let d = {};
+  try {
+    d = event.data ? event.data.json() : {};
+  } catch {
+    d = { body: event.data ? event.data.text() : "" };
+  }
+  const title = d.title || "Mitmacht 2026";
+  // iOS: jeder Push MUSS eine Benachrichtigung zeigen.
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: d.body || "",
+      tag: d.tag || undefined,
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
+      data: { url: d.url || "/#mein" },
+    }),
+  );
+});
+
 self.addEventListener("notificationclick", (event) => {
   const id = (event.notification && event.notification.tag) || "";
+  const dataUrl = event.notification && event.notification.data && event.notification.data.url;
   event.notification.close();
-  const target = "/" + (id ? "?s=" + encodeURIComponent(id) : "") + "#mein";
+  const target = dataUrl || "/" + (id ? "?s=" + encodeURIComponent(id) : "") + "#mein";
+  const sessionId = id && id.indexOf("mm-") !== 0 ? id : "";
   event.waitUntil(
     (async () => {
       const list = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
       for (const client of list) {
         if (new URL(client.url).origin === self.location.origin) {
           await client.focus();
-          client.postMessage({ type: "open-session", id });
+          if (sessionId) client.postMessage({ type: "open-session", id: sessionId });
+          else if ("navigate" in client) await client.navigate(target).catch(() => null);
           return;
         }
       }
