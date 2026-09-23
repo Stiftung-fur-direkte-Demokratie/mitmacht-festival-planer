@@ -1152,7 +1152,7 @@ function Planner() {
                 setConfirmClear(false);
               }}
             >
-              Community
+              Community{inbox.unreadTotal > 0 && <> <span className="count" aria-label={`${inbox.unreadTotal} ungelesene Nachrichten`}>{inbox.unreadTotal}</span></>}
             </button>
           </div>
             <span className="barbtns">
@@ -1444,6 +1444,46 @@ function Planner() {
             onLogin={cm.login}
             onOpenProfile={() => setProfileOpen(true)}
             currentUserId={cm.userId}
+            sub={cmSub}
+            onSub={(v) => {
+              setCmSub(v);
+              if (v === "postfach") void inbox.loadInbox();
+            }}
+            unread={inbox.unreadTotal}
+            blockedIds={blockedIds}
+            onMessage={messagePerson}
+            inbox={
+              <>
+                {cm.isAdmin && <AdminReports reports={inbox.reports} online={online} onHide={(uid, h) => void cm.setHidden(uid, h).then(() => inbox.loadReports())} />}
+                <InboxList
+                  loggedIn={!!cm.userId}
+                  online={online}
+                  items={inbox.items}
+                  loginReason={loginReason}
+                  configured={cm.configured}
+                  onOpen={openItem}
+                  onLogin={cm.login}
+                  pushHint={
+                    cm.userId && push.state !== "active" ? (
+                      <div className="notice small">
+                        <div className="row">
+                          <p>
+                            {ios && !standalone
+                              ? "Push für neue Nachrichten: auf dem iPhone zuerst zum Home-Bildschirm hinzufügen."
+                              : "Push aktivieren, um neue Nachrichten zu sehen"}
+                          </p>
+                          {!(ios && !standalone) && (
+                            <button type="button" className="btn small" onClick={() => void enableMsgPush()} disabled={!online}>
+                              Push aktivieren
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ) : null
+                  }
+                />
+              </>
+            }
             onHide={(uid, h) => void cm.setHidden(uid, h)}
           />
         ) : (
@@ -1838,7 +1878,42 @@ function Planner() {
         }}
         onDelete={cm.deleteAccount}
         onNotify={showToast}
+        blocks={inbox.blocks}
+        onUnblock={(uid) => void inbox.unblock(uid).then((ok) => showToast(ok ? "Blockierung aufgehoben" : "Nicht möglich"))}
       />
+
+      {openConv && cm.userId && (() => {
+        const it = openConv.conversationId ? inbox.items.find((i) => i.conversation_id === openConv.conversationId) : undefined;
+        return (
+          <ConversationSheet
+            open
+            onClose={() => setOpenConv(null)}
+            partner={openConv.partner}
+            conversationId={openConv.conversationId}
+            messages={openConv.conversationId ? inbox.messages[openConv.conversationId] ?? [] : []}
+            userId={cm.userId}
+            online={online}
+            canReply={it ? it.can_reply : true}
+            partnerGone={it ? !it.partner_exists : false}
+            blockedMe={it ? it.blocked_me : false}
+            onSend={async (body) => {
+              const r = await inbox.send({ conversationId: openConv.conversationId, to: openConv.partner.id }, body);
+              if (r.ok && !openConv.conversationId) setOpenConv((c) => (c ? { ...c, conversationId: r.conversationId } : c));
+              return r;
+            }}
+            onBlock={async () => {
+              const ok = await inbox.block(openConv.partner.id);
+              showToast(ok ? "Blockiert" : "Blockieren fehlgeschlagen");
+              return ok;
+            }}
+            onReport={async (reason) => {
+              const r = await inbox.report(null, openConv.partner.id, reason);
+              if (r.ok) showToast("Danke, deine Meldung ist beim Team angekommen");
+              return r;
+            }}
+          />
+        );
+      })()}
 
       <SettingsDialog
         open={settingsOpen}
