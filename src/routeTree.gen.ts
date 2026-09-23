@@ -14,6 +14,9 @@ import { Route as ApiPublicFeedbackRouteImport } from './routes/api/public/feedb
 import { Route as ApiPublicAuthAccountRouteImport } from './routes/api/public/auth/account'
 import { Route as ApiPublicFeedbackExportRouteImport } from './routes/api/public/feedback/export'
 import { Route as ApiPublicMessagesSendRouteImport } from './routes/api/public/messages/send'
+import { Route as ApiPublicNotifyRunRouteImport } from './routes/api/public/notify/run'
+import { Route as ApiPublicNotifyTestRouteImport } from './routes/api/public/notify/test'
+import { Route as ApiPublicNotifyUnsubscribeRouteImport } from './routes/api/public/notify/unsubscribe'
 import { Route as ApiPublicPushSendRemindersRouteImport } from './routes/api/public/push/send-reminders'
 import { Route as ApiPublicPushSubscribeRouteImport } from './routes/api/public/push/subscribe'
 import { Route as ApiPublicPushTestRouteImport } from './routes/api/public/push/test'
@@ -47,6 +50,22 @@ const ApiPublicMessagesSendRoute = ApiPublicMessagesSendRouteImport.update({
   path: '/api/public/messages/send',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicNotifyRunRoute = ApiPublicNotifyRunRouteImport.update({
+  id: '/api/public/notify/run',
+  path: '/api/public/notify/run',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicNotifyTestRoute = ApiPublicNotifyTestRouteImport.update({
+  id: '/api/public/notify/test',
+  path: '/api/public/notify/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicNotifyUnsubscribeRoute =
+  ApiPublicNotifyUnsubscribeRouteImport.update({
+    id: '/api/public/notify/unsubscribe',
+    path: '/api/public/notify/unsubscribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPushSendRemindersRoute =
   ApiPublicPushSendRemindersRouteImport.update({
     id: '/api/public/push/send-reminders',
@@ -94,6 +113,9 @@ export interface FileRoutesByFullPath {
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
+  '/api/public/notify/run': typeof ApiPublicNotifyRunRoute
+  '/api/public/notify/test': typeof ApiPublicNotifyTestRoute
+  '/api/public/notify/unsubscribe': typeof ApiPublicNotifyUnsubscribeRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -108,6 +130,9 @@ export interface FileRoutesByTo {
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
+  '/api/public/notify/run': typeof ApiPublicNotifyRunRoute
+  '/api/public/notify/test': typeof ApiPublicNotifyTestRoute
+  '/api/public/notify/unsubscribe': typeof ApiPublicNotifyUnsubscribeRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -123,6 +148,9 @@ export interface FileRoutesById {
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
+  '/api/public/notify/run': typeof ApiPublicNotifyRunRoute
+  '/api/public/notify/test': typeof ApiPublicNotifyTestRoute
+  '/api/public/notify/unsubscribe': typeof ApiPublicNotifyUnsubscribeRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -139,6 +167,9 @@ export interface FileRouteTypes {
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
+    | '/api/public/notify/run'
+    | '/api/public/notify/test'
+    | '/api/public/notify/unsubscribe'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -153,6 +184,9 @@ export interface FileRouteTypes {
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
+    | '/api/public/notify/run'
+    | '/api/public/notify/test'
+    | '/api/public/notify/unsubscribe'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -167,6 +201,9 @@ export interface FileRouteTypes {
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
+    | '/api/public/notify/run'
+    | '/api/public/notify/test'
+    | '/api/public/notify/unsubscribe'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -181,6 +218,9 @@ export interface RootRouteChildren {
   ApiPublicFeedbackRoute: typeof ApiPublicFeedbackRouteWithChildren
   ApiPublicAuthAccountRoute: typeof ApiPublicAuthAccountRoute
   ApiPublicMessagesSendRoute: typeof ApiPublicMessagesSendRoute
+  ApiPublicNotifyRunRoute: typeof ApiPublicNotifyRunRoute
+  ApiPublicNotifyTestRoute: typeof ApiPublicNotifyTestRoute
+  ApiPublicNotifyUnsubscribeRoute: typeof ApiPublicNotifyUnsubscribeRoute
   ApiPublicPushSendRemindersRoute: typeof ApiPublicPushSendRemindersRoute
   ApiPublicPushSubscribeRoute: typeof ApiPublicPushSubscribeRoute
   ApiPublicPushTestRoute: typeof ApiPublicPushTestRoute
@@ -225,6 +265,27 @@ declare module '@tanstack/react-router' {
       path: '/api/public/messages/send'
       fullPath: '/api/public/messages/send'
       preLoaderRoute: typeof ApiPublicMessagesSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/notify/run': {
+      id: '/api/public/notify/run'
+      path: '/api/public/notify/run'
+      fullPath: '/api/public/notify/run'
+      preLoaderRoute: typeof ApiPublicNotifyRunRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/notify/test': {
+      id: '/api/public/notify/test'
+      path: '/api/public/notify/test'
+      fullPath: '/api/public/notify/test'
+      preLoaderRoute: typeof ApiPublicNotifyTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/notify/unsubscribe': {
+      id: '/api/public/notify/unsubscribe'
+      path: '/api/public/notify/unsubscribe'
+      fullPath: '/api/public/notify/unsubscribe'
+      preLoaderRoute: typeof ApiPublicNotifyUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/push/send-reminders': {
@@ -295,6 +356,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicFeedbackRoute: ApiPublicFeedbackRouteWithChildren,
   ApiPublicAuthAccountRoute: ApiPublicAuthAccountRoute,
   ApiPublicMessagesSendRoute: ApiPublicMessagesSendRoute,
+  ApiPublicNotifyRunRoute: ApiPublicNotifyRunRoute,
+  ApiPublicNotifyTestRoute: ApiPublicNotifyTestRoute,
+  ApiPublicNotifyUnsubscribeRoute: ApiPublicNotifyUnsubscribeRoute,
   ApiPublicPushSendRemindersRoute: ApiPublicPushSendRemindersRoute,
   ApiPublicPushSubscribeRoute: ApiPublicPushSubscribeRoute,
   ApiPublicPushTestRoute: ApiPublicPushTestRoute,

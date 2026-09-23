@@ -29,6 +29,10 @@ export type MyProfile = {
   accept_messages: boolean;
   contact_email: string | null;
   phone: string | null;
+  notify_morning_push: boolean;
+  notify_morning_email: boolean;
+  notify_evening_push: boolean;
+  notify_evening_email: boolean;
 };
 
 const CACHE_KEY = "mm-community-cache";
@@ -202,7 +206,7 @@ export function useCommunity(opts: {
     let cancelled = false;
     (async () => {
       const [{ data: p }, { data: roles }] = await Promise.all([
-        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone").eq("id", userId).maybeSingle(),
+        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone, notify_morning_push, notify_morning_email, notify_evening_push, notify_evening_email").eq("id", userId).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
       ]);
       if (cancelled) return;
@@ -348,13 +352,13 @@ export function useCommunity(opts: {
   }, [notify]);
 
   const saveProfile = useCallback(
-    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at" | "accept_messages" | "contact_email" | "phone">>) => {
+    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at" | "accept_messages" | "contact_email" | "phone" | "notify_morning_push" | "notify_morning_email" | "notify_evening_push" | "notify_evening_email">>) => {
       if (!userId) return false;
       const { data, error: e } = await supabase
         .from("profiles")
         .update({ ...patch, profile_done: true })
         .eq("id", userId)
-        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone")
+        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone, notify_morning_push, notify_morning_email, notify_evening_push, notify_evening_email")
         .maybeSingle();
       if (e || !data) {
         notify("Speichern fehlgeschlagen");
@@ -481,4 +485,26 @@ export function formatNational(n: string, cc: string): string {
     parts[parts.length - 1] += l;
   }
   return parts.join(" ");
+}
+
+/* ---- Tägliche Benachrichtigungen ---- */
+export type NotifyStatus = { smtp: boolean; recipient: string | null; pushDevices: number };
+async function bearer() {
+  const { data } = await supabase.auth.getSession();
+  const t = data.session?.access_token;
+  return t ? { Authorization: `Bearer ${t}` } : null;
+}
+export async function loadNotifyStatus(): Promise<NotifyStatus | null> {
+  const h = await bearer();
+  if (!h) return null;
+  const r = await fetch("/api/public/notify/test", { headers: h }).catch(() => null);
+  if (!r?.ok) return null;
+  return (await r.json()) as NotifyStatus;
+}
+export async function sendNotifyTest(): Promise<{ ok: boolean; push?: string; email?: string; error?: string }> {
+  const h = await bearer();
+  if (!h) return { ok: false, error: "Nicht angemeldet" };
+  const r = await fetch("/api/public/notify/test", { method: "POST", headers: h }).catch(() => null);
+  if (!r) return { ok: false, error: "Keine Verbindung" };
+  return (await r.json().catch(() => ({ ok: false, error: "Fehler" }))) as { ok: boolean; push?: string; email?: string; error?: string };
 }
