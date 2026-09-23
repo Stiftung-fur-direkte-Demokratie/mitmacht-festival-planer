@@ -459,7 +459,29 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .statusline.caution{color:var(--caution)}
 .cm-you{font-weight:500;color:var(--ink-soft);font-size:.85em}
 .cm-actions .btn{gap:8px;display:inline-flex;align-items:center}
-.cm-nolink{margin:0;font-size:13px;color:var(--ink-soft)}
+.pubwarn{margin:14px 0 4px;padding:10px 12px;border-radius:12px;font-size:14px;font-weight:600;color:var(--caution);box-shadow:inset 0 0 0 1.5px var(--caution);background:color-mix(in srgb,var(--caution) 8%,transparent)}
+.phonerow{display:flex;gap:8px}
+.phonerow select{font:inherit;font-size:16px;padding:10px 8px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);flex:none}
+.phonerow input{flex:1;min-width:0}
+.field textarea{font:inherit;font-weight:400;font-size:16px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical}
+.fb-count{font-weight:400;font-size:12px;color:var(--ink-soft);justify-self:end}
+.fb-head h3{margin:10px 0 2px;font-size:17px}
+.fb-q{border:0;padding:0;margin:14px 0 0}
+.fb-q legend{font-weight:700;font-size:15px;padding:0}
+.fb-stars{display:flex;gap:2px}
+.fb-stars label{width:44px;height:44px;display:grid;place-items:center;font-size:30px;line-height:1;color:var(--line);cursor:pointer;position:relative;border-radius:10px}
+.fb-stars label.on{color:var(--keynote)}
+.fb-stars input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.fb-stars label:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:1px}
+.fb-scale{margin:0;font-size:12.5px;color:var(--ink-soft)}
+.ratebtn{margin-top:8px}
+.fb-table-wrap{overflow-x:auto;margin:8px 0}
+.fb-table{width:100%;border-collapse:collapse;font-size:13px}
+.fb-table th,.fb-table td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.fb-table td:not(:first-child),.fb-table th:not(:first-child){text-align:center;white-space:nowrap}
+.fb-when{color:var(--ink-soft);white-space:nowrap}
+.iconbtn.small{width:32px;height:32px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .li-help{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
 .statusline.sub2{font-weight:500;color:var(--ink-soft);font-size:13.5px}
 .steps{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}

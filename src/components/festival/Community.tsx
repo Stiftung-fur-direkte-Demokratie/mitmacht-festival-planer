@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { BY_ID, DAYS, mins, type Item, type NowInfo } from "@/lib/festival";
-import { initials, normalizeLinkedIn, type CommunityPerson, type MyProfile } from "@/lib/community";
+import { detectCc, formatNational, formatPhone, initials, normalizeEmail, normalizeLinkedIn, normalizePhone, PHONE_CODES, type CommunityPerson, type MyProfile } from "@/lib/community";
 import { Icon } from "./Icons";
 import { MessageIcon } from "./Inbox";
 
