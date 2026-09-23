@@ -758,6 +758,29 @@ function Planner() {
     setInstallEvt(null);
   };
 
+  /* ---- Erstes Öffnen: Installations- und Push-Hinweis ---- */
+  const [onboard, setOnboard] = useState<null | "install" | "push">(null);
+  const onboardQueue = useRef<("install" | "push")[]>([]);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        if (localStorage.getItem("mm-onboard-done")) return;
+        localStorage.setItem("mm-onboard-done", "1");
+      } catch {
+        return;
+      }
+      if (window.self !== window.top && !/[?&]onboard/.test(location.search)) return;
+      const q: ("install" | "push")[] = [];
+      const sa = window.matchMedia("(display-mode: standalone)").matches || (navigator as { standalone?: boolean }).standalone === true;
+      if (!sa) q.push("install");
+      if (typeof Notification !== "undefined" && Notification.permission === "default" && !(isIos() && !sa)) q.push("push");
+      onboardQueue.current = q.slice(1);
+      if (q[0]) setOnboard(q[0]);
+    }, 1200);
+    return () => clearTimeout(t);
+  }, []);
+  const closeOnboard = () => setOnboard(onboardQueue.current.shift() ?? null);
+
   const openSettings = () => {
     setUpdateMsg(null);
     setSettingsOpen(true);
@@ -1978,8 +2001,14 @@ function Planner() {
         onResetOffline={doResetOffline}
         remOn={rem.on}
         remLead={rem.lead}
-        onRemOn={(v) => setRem((r) => ({ ...r, on: v }))}
-        onRemLead={(v) => setRem((r) => ({ ...r, lead: v }))}
+        onRemOn={(v) => {
+          setRem((r) => ({ ...r, on: v }));
+          showToast(v ? "Erinnerungen eingeschaltet ✓" : "Erinnerungen ausgeschaltet ✓");
+        }}
+        onRemLead={(v) => {
+          setRem((r) => ({ ...r, lead: v }));
+          showToast(`Vorlauf ${v} Min gespeichert ✓`);
+        }}
         perm={perm}
         onAskPermission={() => void askPermission()}
         onTestNotification={() => void testNotification()}
@@ -2018,7 +2047,43 @@ function Planner() {
         }}
       />
 
-      <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">
+      {onboard && (
+        <div className="sheet-backdrop onb-backdrop" onClick={closeOnboard}>
+          <div className="onb" role="dialog" aria-modal="true" aria-labelledby="onb-t" onClick={(e) => e.stopPropagation()}>
+            {onboard === "install" ? (
+              <>
+                <div className="onb-ico" aria-hidden="true">📲</div>
+                <h2 id="onb-t">Zum Home-Bildschirm hinzufügen</h2>
+                <p>
+                  {ios
+                    ? "Tippe in Safari unten auf „Teilen“ und dann auf „Zum Home-Bildschirm“. So startet der Planer wie eine App – auch offline."
+                    : "Installiere den Planer als App: schneller Start, funktioniert auch offline."}
+                </p>
+                <div className="onb-actions">
+                  {installEvt ? (
+                    <button type="button" className="btn primary" onClick={() => { void installApp(); closeOnboard(); }}>Jetzt installieren</button>
+                  ) : (
+                    <button type="button" className="btn primary" onClick={() => { closeOnboard(); openSettings(); }}>So geht&#39;s</button>
+                  )}
+                  <button type="button" className="btn" onClick={closeOnboard}>Später</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="onb-ico" aria-hidden="true">🔔</div>
+                <h2 id="onb-t">Push-Meldungen aktivieren</h2>
+                <p>Wir erinnern dich kurz vor deinen Sessions – auch wenn die App geschlossen ist.</p>
+                <div className="onb-actions">
+                  <button type="button" className="btn primary" onClick={() => { closeOnboard(); void askPermission(); }}>Aktivieren</button>
+                  <button type="button" className="btn" onClick={closeOnboard}>Später</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div className={`toast${toast ? " show" : ""}${/fehlgeschlagen|nicht erlaubt|nicht möglich|nicht unterstützt|fehler|ungültig/i.test(toast) ? " err" : ""}`} role="status" aria-live="polite">
         {toast}
       </div>
     </div>

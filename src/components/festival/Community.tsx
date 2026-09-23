@@ -636,7 +636,7 @@ export function ProfileSheet(p: {
                 ] as const).map(([k, label]) => (
                   <fieldset className="notifyrow" key={k}>
                     <legend>{label}</legend>
-                    <label className="consent">
+                    <label className="switch">
                       <input
                         type="checkbox"
                         checked={prof[`notify_${k}_push`]}
@@ -645,7 +645,7 @@ export function ProfileSheet(p: {
                       />
                       <span>Push</span>
                     </label>
-                    <label className="consent">
+                    <label className="switch">
                       <input
                         type="checkbox"
                         checked={prof[`notify_${k}_email`]}
@@ -742,11 +742,6 @@ export function ProfileSheet(p: {
               </section>
             </>
           )}
-        </div>
-        <div className="sheet-foot">
-          <button type="button" className="btn primary" onClick={p.onClose}>
-            Fertig
-          </button>
         </div>
       </div>
     </div>
