@@ -303,7 +303,7 @@ function Planner() {
   /* ---- Sticky-Titel ---- */
   const [stuck, setStuck] = useState(false);
   useEffect(() => {
-    const on = () => setStuck(window.scrollY > (barRef.current?.offsetTop ?? 0) - 2 && window.scrollY > 40);
+    const on = () => setStuck((document.querySelector(".hero")?.getBoundingClientRect().bottom ?? 1) <= 0);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
