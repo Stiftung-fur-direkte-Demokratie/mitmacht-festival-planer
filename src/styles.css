@@ -562,3 +562,5 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
   .viewrow .views{gap:2px;padding:3px}
   .viewrow .views button{font-size:12.5px;padding:8px 2px;overflow:hidden;text-overflow:ellipsis}
 }
+.viewrow .views{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:420px){.viewrow .views .count{display:none}}
