@@ -1141,6 +1141,7 @@ function Planner() {
           </div>
         </details>
         <div className="foot srcnote">
+          <h2 className="foothead">About Online-Planer:in für Mitmacht 2026</h2>
           <div className="sync">
             <span className="dot" />
             <span>Deine Auswahl wird in diesem Browser gespeichert.</span>
@@ -1151,18 +1152,14 @@ function Planner() {
               Programm auf faktor-d.org ↗
             </a>
           </div>
-        </div>
-        <div className="teamblock">
-          <p>
-            Wir freuen uns aufs Festival mit euch, Team{" "}
-            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
-          </p>
+          <div>Wir freuen uns aufs Festival mit euch!</div>
           <img className="teamimg" src={teamImg.url} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
-        </div>
-
-        <div className="foot">
           <div>
-            Das ist ein Online-Tool der Stiftung für Direkte Demokratie mit Inhalten von{" "}
+            Online-Planer:in ist eine Toolbox der{" "}
+            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">
+              Stiftung für Direkte Demokratie
+            </a>{" "}
+            mit Inhalten von{" "}
             <a
               href="https://www.faktor-d.org/mitmachen/mitmacht-festival/2026/programm"
               target="_blank"
@@ -1173,12 +1170,7 @@ function Planner() {
             .
           </div>
           <div>
-            © 2026 – Stiftung für direkte Demokratie –{" "}
-            <a
-              href="https://www.demokratie.ch/datenschutz"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://www.demokratie.ch/datenschutz" target="_blank" rel="noopener noreferrer">
               Datenschutzerklärung
             </a>
           </div>
