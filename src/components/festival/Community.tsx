@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { BY_ID, DAYS, mins, type Item, type NowInfo } from "@/lib/festival";
-import { initials, normalizeLinkedIn, type CommunityPerson, type MyProfile } from "@/lib/community";
+import { detectCc, formatNational, formatPhone, initials, normalizeEmail, normalizeLinkedIn, normalizePhone, PHONE_CODES, type CommunityPerson, type MyProfile } from "@/lib/community";
 import { Icon } from "./Icons";
 import { MessageIcon } from "./Inbox";
 
@@ -196,6 +196,16 @@ export function CommunityView(p: {
                   </div>
                 </div>
                 <div className="cm-actions">
+                  {x.accept_messages && x.user_id !== p.currentUserId && !p.blockedIds.has(x.user_id) && (
+                    <button
+                      type="button"
+                      className="btn small"
+                      onClick={() => p.onMessage(x)}
+                      aria-label={`${x.display_name} eine Nachricht schreiben`}
+                    >
+                      <MessageIcon size={16} /> Nachricht
+                    </button>
+                  )}
                   {x.linkedin_url ? (
                     <a
                       className="btn primary small"
@@ -211,18 +221,15 @@ export function CommunityView(p: {
                       LinkedIn-Link ergänzen
                     </button>
                   ) : null}
-                  {x.accept_messages && x.user_id !== p.currentUserId && !p.blockedIds.has(x.user_id) && (
-                    <button
-                      type="button"
-                      className="btn small"
-                      onClick={() => p.onMessage(x)}
-                      aria-label={`${x.display_name} eine Nachricht schreiben`}
-                    >
-                      <MessageIcon size={16} /> Nachricht
-                    </button>
+                  {x.contact_email && (
+                    <a className="btn small" href={`mailto:${x.contact_email}`} aria-label={`${x.display_name} eine E-Mail schreiben`}>
+                      <MailIcon /> E-Mail
+                    </a>
                   )}
-                  {!x.linkedin_url && x.user_id !== p.currentUserId && !(x.accept_messages && !p.blockedIds.has(x.user_id)) && (
-                    <p className="cm-nolink">Noch kein LinkedIn-Link hinterlegt</p>
+                  {x.phone && (
+                    <a className="btn small" href={`tel:${x.phone}`} aria-label={`${x.display_name} anrufen (${formatPhone(x.phone)})`}>
+                      <PhoneIcon /> Anrufen
+                    </a>
                   )}
                   {p.isAdmin && (
                     <button type="button" className="linkbtn" onClick={() => p.onHide(x.user_id, !x.hidden)} disabled={!p.online}>
@@ -278,6 +285,22 @@ export function CommunityView(p: {
   );
 }
 
+function MailIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+function PhoneIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+    </svg>
+  );
+}
+
 export function ProfileSheet(p: {
   open: boolean;
   onClose: () => void;
@@ -299,6 +322,9 @@ export function ProfileSheet(p: {
   const [role, setRole] = useState("");
   const [org, setOrg] = useState("");
   const [li, setLi] = useState("");
+  const [email, setEmail] = useState("");
+  const [cc, setCc] = useState<string>("+41");
+  const [phoneNum, setPhoneNum] = useState("");
   const [consent, setConsent] = useState(false);
   const [confirmDel, setConfirmDel] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -310,6 +336,15 @@ export function ProfileSheet(p: {
     setRole(prof.role_title ?? "");
     setOrg(prof.organisation ?? "");
     setLi(prof.linkedin_url ?? "");
+    setEmail(prof.contact_email ?? "");
+    if (prof.phone) {
+      const d = detectCc(prof.phone);
+      setCc(d ?? "other");
+      setPhoneNum(d ? formatNational(prof.phone.slice(d.length), d) : prof.phone);
+    } else {
+      setCc("+41");
+      setPhoneNum("");
+    }
     setConsent(false);
     setConfirmDel(false);
     setErr(null);
@@ -363,14 +398,41 @@ export function ProfileSheet(p: {
     if (!n) return setErr("Bitte einen Namen angeben.");
     const url = raw ? normalizeLinkedIn(raw) : "";
     if (url === null) return setErr(LI_URL_ERR);
+    const mail = normalizeEmail(email);
+    if (mail === null) return setErr("Bitte eine gültige E-Mail-Adresse eingeben.");
+    const tel = normalizePhone(phoneNum, cc);
+    if (tel === null) return setErr("Bitte eine gültige Mobilnummer eingeben, z. B. 079 123 45 67.");
     setLi(url);
+    setEmail(mail);
+    if (tel) {
+      const d = detectCc(tel);
+      setCc(d ?? "other");
+      setPhoneNum(d ? formatNational(tel.slice(d.length), d) : formatPhone(tel));
+    }
     setErr(null);
     await p.onSave({
+      contact_email: mail || null,
+      phone: tel || null,
       display_name: n.slice(0, 80),
       role_title: role.trim().slice(0, 80) || null,
       organisation: org.trim().slice(0, 80) || null,
       linkedin_url: url || null,
     });
+  };
+
+  const onPhoneInput = (val: string) => {
+    const t = val.replace(/[\s\-().\/]/g, "");
+    if (/^(\+|00)/.test(t)) {
+      const full = normalizePhone(t, cc);
+      const d = full ? detectCc(full) : null;
+      if (full && d) {
+        setCc(d);
+        setPhoneNum(formatNational(full.slice(d.length), d));
+        return;
+      }
+      if (cc !== "other" && t.length > 3) setCc("other");
+    }
+    setPhoneNum(val);
   };
 
   const off = !p.online;
@@ -446,6 +508,49 @@ export function ProfileSheet(p: {
                     </button>
                   )}
                 </div>
+                <div className="pubwarn" role="note">
+                  Achtung: E-Mail und Mobilnummer sind öffentlich – alle Besucher:innen dieser Website sehen sie (auch ohne
+                  Anmeldung), solange du in der Community sichtbar bist. Trag sie nur ein, wenn du so kontaktiert werden möchtest.
+                </div>
+                <label className="field">
+                  E-Mail <span className="opt">(freiwillig)</span>
+                  <input
+                    value={email}
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    maxLength={254}
+                    placeholder="name@beispiel.ch"
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={off}
+                  />
+                </label>
+                <div className="field">
+                  <label htmlFor="prof-phone">
+                    Mobilnummer <span className="opt">(freiwillig)</span>
+                  </label>
+                  <div className="phonerow">
+                    <select aria-label="Ländervorwahl" value={cc} onChange={(e) => setCc(e.target.value)} disabled={off}>
+                      {PHONE_CODES.map((c) => (
+                        <option key={c.cc} value={c.cc}>
+                          {c.label}
+                        </option>
+                      ))}
+                      <option value="other">Andere</option>
+                    </select>
+                    <input
+                      id="prof-phone"
+                      value={phoneNum}
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete={cc === "other" ? "tel" : "tel-national"}
+                      maxLength={24}
+                      placeholder={cc === "other" ? "+…" : "79 123 45 67"}
+                      onChange={(e) => onPhoneInput(e.target.value)}
+                      disabled={off}
+                    />
+                  </div>
+                </div>
                 {err && <p className="clash" role="alert">{err}</p>}
                 <div className="btnrow">
                   <button type="button" className="btn primary small" onClick={() => void saveForm()} disabled={off}>
@@ -466,7 +571,7 @@ export function ProfileSheet(p: {
                   <label className="consent">
                     <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={off} />
                     <span>
-                      Ich willige ein, dass mein Name, Profilbild, Funktion/Organisation, LinkedIn-Link und die von mir
+                      Ich willige ein, dass mein Name, Profilbild, Funktion/Organisation, LinkedIn-Link, E-Mail-Adresse und Mobilnummer (falls angegeben) und die von mir
                       freigegebenen Sessions öffentlich auf dieser Seite angezeigt werden. Ich kann das jederzeit widerrufen.{" "}
                       <a href={PRIVACY} target="_blank" rel="noopener noreferrer">
                         Datenschutzerklärung ↗

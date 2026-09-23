@@ -112,6 +112,24 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback_writes: {
+        Row: {
+          at: string
+          id: number
+          key: string
+        }
+        Insert: {
+          at?: string
+          id?: number
+          key: string
+        }
+        Update: {
+          at?: string
+          id?: number
+          key?: string
+        }
+        Relationships: []
+      }
       message_reports: {
         Row: {
           created_at: string
@@ -208,12 +226,14 @@ export type Database = {
           accept_messages: boolean
           avatar_url: string | null
           consent_at: string | null
+          contact_email: string | null
           display_name: string
           hidden_by_admin: boolean
           id: string
           linkedin_sub: string | null
           linkedin_url: string | null
           organisation: string | null
+          phone: string | null
           profile_done: boolean
           program_updated_at: string | null
           role_title: string | null
@@ -224,12 +244,14 @@ export type Database = {
           accept_messages?: boolean
           avatar_url?: string | null
           consent_at?: string | null
+          contact_email?: string | null
           display_name?: string
           hidden_by_admin?: boolean
           id: string
           linkedin_sub?: string | null
           linkedin_url?: string | null
           organisation?: string | null
+          phone?: string | null
           profile_done?: boolean
           program_updated_at?: string | null
           role_title?: string | null
@@ -240,12 +262,14 @@ export type Database = {
           accept_messages?: boolean
           avatar_url?: string | null
           consent_at?: string | null
+          contact_email?: string | null
           display_name?: string
           hidden_by_admin?: boolean
           id?: string
           linkedin_sub?: string | null
           linkedin_url?: string | null
           organisation?: string | null
+          phone?: string | null
           profile_done?: boolean
           program_updated_at?: string | null
           role_title?: string | null
@@ -363,6 +387,48 @@ export type Database = {
           },
         ]
       }
+      session_feedback: {
+        Row: {
+          client_id: string
+          comment: string | null
+          created_at: string
+          id: string
+          q_content: number
+          q_interaction: number
+          q_overall: number
+          session_id: string
+          share_name: boolean
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          client_id: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          q_content: number
+          q_interaction: number
+          q_overall: number
+          session_id: string
+          share_name?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          client_id?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          q_content?: number
+          q_interaction?: number
+          q_overall?: number
+          session_id?: string
+          share_name?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
@@ -413,10 +479,12 @@ export type Database = {
         Returns: {
           accept_messages: boolean
           avatar_url: string
+          contact_email: string
           display_name: string
           hidden: boolean
           linkedin_url: string
           organisation: string
+          phone: string
           role_title: string
           session_ids: string[]
           user_id: string

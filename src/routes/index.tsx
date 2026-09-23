@@ -48,6 +48,9 @@ import {
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
+import { AdminFeedback, FeedbackSheet } from "@/components/festival/Feedback";
+import { useFeedback } from "@/lib/feedback";
+import { canRateAt, sessionEndMs } from "@/lib/feedback-rules";
 import { Avatar, AvatarStack, HeroFaces, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
 import { markProgramChanged, useCommunity } from "@/lib/community";
 
@@ -94,6 +97,7 @@ function Planner() {
   const [view, setView] = useState<"all" | "mine" | "community">("all");
   const [cmSub, setCmSub] = useState<"leute" | "postfach">("leute");
   const [pendingInbox, setPendingInbox] = useState<string | null>(null);
+  const [rateId, setRateId] = useState<string | null>(null);
   const [openConv, setOpenConv] = useState<{ conversationId: string | null; partner: ConvPartner } | null>(null);
   const [loginReason, setLoginReason] = useState(false);
   const [msgPush, setMsgPush] = useState(false);
@@ -194,6 +198,13 @@ function Planner() {
       if (ids.length) setShareIds(ids);
     }
     const focusId = params.get("s");
+    const rateParam = params.get("rate");
+    if (rateParam) {
+      if (BY_ID[rateParam]) setRateId(rateParam);
+      params.delete("rate");
+      const qs = params.toString();
+      history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+    }
     const inboxId = params.get("inbox");
     if (inboxId && /^[0-9a-f-]{36}$/i.test(inboxId)) {
       setPendingInbox(inboxId);
@@ -357,6 +368,8 @@ function Planner() {
       /* ignorieren */
     }
   };
+  const fb = useFeedback({ userId: cm.userId, online, notify: showToast });
+  const nowMs = now.date ? Date.parse(`${now.date}T${now.time}:00+02:00`) : 0;
   const [cmSession, setCmSession] = useState<string | null>(null);
   const inbox = useInbox({ userId: cm.userId, online, isAdmin: cm.isAdmin, openId: openConv?.conversationId ?? null });
   useEffect(() => {
@@ -434,9 +447,16 @@ function Planner() {
   const cardExtra = (id: string, mine: boolean) => {
     const ps = peopleBySession[id] ?? [];
     const showToggle = mine && !!cm.userId;
-    if (!ps.length && !showToggle) return undefined;
+    const it = BY_ID[id];
+    const showRate = mine && !!it && canRateAt(it, nowMs);
+    if (!ps.length && !showToggle && !showRate) return undefined;
     return (
       <>
+        {showRate && (
+          <button type="button" className={`btn small ratebtn${fb.rated[id] ? "" : " primary"}`} onClick={() => setRateId(id)}>
+            {fb.rated[id] ? (fb.queuedIds.has(id) ? "Bewertet ✓ (wird gesendet) – ändern" : "Bewertet ✓ – ändern") : "Bewerten"}
+          </button>
+        )}
         <AvatarStack people={ps} onClick={() => openCommunityFor(id)} />
         {showToggle && (
           <label className="switch small pubtoggle">
@@ -458,6 +478,13 @@ function Planner() {
     [sel],
   );
   const clashesOf = useCallback((s: Item) => clashesFor(s, selected), [selected]);
+  const rateBanner = useMemo(() => {
+    if (!nowMs) return null;
+    const c = selected
+      .filter((s) => sessionEndMs(s) <= nowMs && canRateAt(s, nowMs) && !fb.rated[s.id] && !fb.dismissed.includes(s.id))
+      .sort((a, b) => sessionEndMs(b) - sessionEndMs(a));
+    return c[0] ?? null;
+  }, [selected, nowMs, fb.rated, fb.dismissed]);
 
   /* ---- Lokale Erinnerungen ---- */
   const remRef = useRef(rem);
@@ -1295,6 +1322,22 @@ function Planner() {
           </div>
         )}
 
+        {rateBanner && (
+          <div className="notice small">
+            <div className="row">
+              <p>
+                Wie war „{rateBanner.title}“?{" "}
+                <button type="button" className="linkbtn" onClick={() => setRateId(rateBanner.id)}>
+                  Jetzt bewerten (10 Sekunden)
+                </button>
+              </p>
+              <button type="button" className="linkbtn close" aria-label="Hinweis schließen" onClick={() => fb.dismiss(rateBanner.id)}>
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+
         {shareIds && (
           <div className="share" role="status">
             <p>{shareIds.length} Sessions übernehmen?</p>
@@ -1949,6 +1992,24 @@ function Planner() {
         onClearLog={clearReminderLog}
         push={push}
         onTestPush={() => void testPush()}
+        adminSlot={cm.isAdmin ? <AdminFeedback online={online} /> : undefined}
+      />
+
+      <FeedbackSheet
+        session={rateId ? BY_ID[rateId] ?? null : null}
+        initial={rateId ? fb.rated[rateId] : undefined}
+        loggedIn={!!cm.userId}
+        online={online}
+        onClose={() => setRateId(null)}
+        onSubmit={async (r) => {
+          const id = rateId!;
+          const res = await fb.submit(id, r);
+          if (res.ok) {
+            setRateId(null);
+            showToast(res.queued ? "Gespeichert – wird gesendet, sobald du online bist" : "Danke für deine Bewertung ✓");
+          }
+          return res;
+        }}
       />
 
       <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">

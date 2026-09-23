@@ -12,6 +12,8 @@ export type CommunityPerson = {
   session_ids: string[];
   hidden: boolean;
   accept_messages: boolean;
+  contact_email: string | null;
+  phone: string | null;
 };
 
 export type MyProfile = {
@@ -25,6 +27,8 @@ export type MyProfile = {
   consent_at: string | null;
   profile_done: boolean;
   accept_messages: boolean;
+  contact_email: string | null;
+  phone: string | null;
 };
 
 const CACHE_KEY = "mm-community-cache";
@@ -198,7 +202,7 @@ export function useCommunity(opts: {
     let cancelled = false;
     (async () => {
       const [{ data: p }, { data: roles }] = await Promise.all([
-        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages").eq("id", userId).maybeSingle(),
+        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone").eq("id", userId).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
       ]);
       if (cancelled) return;
@@ -344,13 +348,13 @@ export function useCommunity(opts: {
   }, [notify]);
 
   const saveProfile = useCallback(
-    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at" | "accept_messages">>) => {
+    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at" | "accept_messages" | "contact_email" | "phone">>) => {
       if (!userId) return false;
       const { data, error: e } = await supabase
         .from("profiles")
         .update({ ...patch, profile_done: true })
         .eq("id", userId)
-        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages")
+        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages, contact_email, phone")
         .maybeSingle();
       if (e || !data) {
         notify("Speichern fehlgeschlagen");
@@ -416,4 +420,65 @@ export function useCommunity(opts: {
     sync, session, userId, profile, isAdmin, publicIds, people, stand, configured, firstLogin, error,
     clearError: () => setError(null), login, logout, saveProfile, setPublic, deleteAccount, setHidden, loadPeople,
   };
+}
+
+/* ---- Öffentliche Kontaktangaben ---- */
+export const PHONE_CODES = [
+  { cc: "+41", label: "🇨🇭 +41" },
+  { cc: "+49", label: "🇩🇪 +49" },
+  { cc: "+43", label: "🇦🇹 +43" },
+  { cc: "+423", label: "🇱🇮 +423" },
+  { cc: "+33", label: "🇫🇷 +33" },
+  { cc: "+39", label: "🇮🇹 +39" },
+  { cc: "+31", label: "🇳🇱 +31" },
+  { cc: "+32", label: "🇧🇪 +32" },
+  { cc: "+352", label: "🇱🇺 +352" },
+  { cc: "+44", label: "🇬🇧 +44" },
+  { cc: "+1", label: "🇺🇸 +1" },
+] as const;
+export const PHONE_RE = /^\+[1-9][0-9]{6,14}$/;
+export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+export function normalizeEmail(input: string): string | null {
+  const v = input.trim().toLowerCase();
+  if (!v) return "";
+  return v.length <= 254 && EMAIL_RE.test(v) ? v : null;
+}
+
+/** Ländervorwahl aus einer E.164-Nummer erkennen (längster Treffer) */
+export function detectCc(e164: string): string | null {
+  const hit = [...PHONE_CODES].sort((a, b) => b.cc.length - a.cc.length).find((c) => e164.startsWith(c.cc));
+  return hit?.cc ?? null;
+}
+
+/** Eingabe → E.164 (oder "" für leer, null für ungültig). cc = "other" erwartet volle Nummer mit + */
+export function normalizePhone(input: string, cc: string): string | null {
+  let v = input.replace(/[\s\-().\/]/g, "");
+  if (!v) return "";
+  if (v.startsWith("00")) v = "+" + v.slice(2);
+  let out: string;
+  if (v.startsWith("+")) out = v;
+  else {
+    if (cc === "other") return null;
+    out = cc + v.replace(/^0+/, "");
+  }
+  return PHONE_RE.test(out) ? out : null;
+}
+
+/** Anzeige mit Leerzeichen, z. B. +41 79 123 45 67 */
+export function formatPhone(e164: string): string {
+  const cc = detectCc(e164);
+  if (!cc) return e164;
+  return cc + " " + formatNational(e164.slice(cc.length), cc);
+}
+export function formatNational(n: string, cc: string): string {
+  if ((cc === "+41" || cc === "+423") && n.length === 9) return `${n.slice(0, 2)} ${n.slice(2, 5)} ${n.slice(5, 7)} ${n.slice(7)}`;
+  if (cc === "+49" && n.length >= 10) return `${n.slice(0, 3)} ${n.slice(3)}`;
+  const parts: string[] = [];
+  for (let i = 0; i < n.length; i += 3) parts.push(n.slice(i, i + 3));
+  if (parts.length > 1 && parts[parts.length - 1]!.length === 1) {
+    const l = parts.pop()!;
+    parts[parts.length - 1] += l;
+  }
+  return parts.join(" ");
 }
