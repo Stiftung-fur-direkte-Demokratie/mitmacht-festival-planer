@@ -289,7 +289,7 @@ body{
 .card .note{margin:4px 0 0;font-size:14px;color:var(--ink-soft)}
 .card .sub{margin:3px 0 0;font-size:14.5px;color:var(--ink-soft);font-weight:500;text-wrap:pretty}
 .more{margin-top:8px;border:0;background:none;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer;
-  display:inline-flex;gap:6px;align-items:center;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+  display:flex;width:fit-content;gap:6px;align-items:center;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
 .more svg{width:14px;height:14px;transition:transform .2s ease}
 .more[aria-expanded="true"] svg{transform:rotate(180deg)}
 .more-panel{grid-column:1 / -1;margin:6px 4px 2px 38px;padding-top:12px;border-top:1px solid var(--line);font-size:15px;line-height:1.5;max-width:68ch}
@@ -502,7 +502,7 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;flex:none;
   background:var(--surface);color:var(--ink);font-weight:700;border:1px solid var(--line)}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.avstack{display:inline-flex;align-items:center;gap:8px;margin-top:8px;min-height:36px;background:transparent;border:0;padding:0;
+.avstack{display:flex;width:fit-content;max-width:100%;align-items:center;gap:8px;margin-top:8px;min-height:36px;background:transparent;border:0;padding:0;
   color:var(--ink-soft);font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-align:left}
 .avstack:hover{color:var(--ink)}
 .avstack .avs{display:inline-flex}
