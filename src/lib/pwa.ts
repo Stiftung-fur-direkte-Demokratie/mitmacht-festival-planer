@@ -37,6 +37,96 @@ export function swDisabled(): boolean {
   return isPreviewHost();
 }
 
+export function swDisabledReason(): string | null {
+  if (typeof window === "undefined") return "Server-Ansicht";
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("nosw")) return "mit ?nosw deaktiviert";
+  if (inIframe()) return "in der Vorschau/iframe deaktiviert";
+  if (params.get("sw") === "on") return null;
+  if (isPreviewHost()) return "auf dieser Vorschau-Domain deaktiviert";
+  return null;
+}
+
+export type NotificationResult = {
+  ok: boolean;
+  via: "sw" | "constructor" | "none";
+  error?: string;
+};
+
+export function deviceKind(): "iOS" | "Android" | "Desktop" {
+  if (typeof navigator === "undefined") return "Desktop";
+  if (isIos()) return "iOS";
+  return /Android/i.test(navigator.userAgent) ? "Android" : "Desktop";
+}
+
+export function browserInfo(): string {
+  if (typeof navigator === "undefined") return "unbekannt";
+  const ua = navigator.userAgent;
+  if (/Edg\//.test(ua)) return "Edge";
+  if (/CriOS\//.test(ua)) return "Chrome iOS";
+  if (/FxiOS\//.test(ua)) return "Firefox iOS";
+  if (/Chrome\//.test(ua)) return "Chrome";
+  if (/Firefox\//.test(ua)) return "Firefox";
+  if (/Safari\//.test(ua)) return "Safari";
+  return ua.slice(0, 80);
+}
+
+/** Liefert eine aktive Registrierung, ohne unbegrenzt auf ready zu warten. */
+export async function getSwRegistration(timeoutMs = 2000): Promise<ServiceWorkerRegistration | null> {
+  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) return null;
+  try {
+    const existing = await navigator.serviceWorker.getRegistration();
+    if (existing?.active) return existing;
+    const timeout = new Promise<null>((resolve) => window.setTimeout(() => resolve(null), timeoutMs));
+    const ready = navigator.serviceWorker.ready
+      .then((registration) => (registration.active ? registration : null))
+      .catch(() => null);
+    return await Promise.race([ready, timeout]);
+  } catch {
+    return null;
+  }
+}
+
+function errorText(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+/** Zeigt eine lokale Benachrichtigung über SW, auf Desktop ersatzweise direkt. */
+export async function showLocalNotification(
+  title: string,
+  options: NotificationOptions,
+): Promise<NotificationResult> {
+  if (typeof window === "undefined" || !("Notification" in window)) {
+    return { ok: false, via: "none", error: "Benachrichtigungen werden nicht unterstützt" };
+  }
+  if (Notification.permission !== "granted") {
+    return { ok: false, via: "none", error: "Benachrichtigungen sind nicht erlaubt" };
+  }
+  const registration = await getSwRegistration();
+  if (registration) {
+    try {
+      await registration.showNotification(title, options);
+      return { ok: true, via: "sw" };
+    } catch (error) {
+      const message = `Service Worker: ${errorText(error)}`;
+      if (deviceKind() !== "Desktop") return { ok: false, via: "none", error: message };
+    }
+  }
+  if (deviceKind() !== "Desktop") {
+    return {
+      ok: false,
+      via: "none",
+      error: `${swDisabledReason() ?? "kein aktiver Service Worker"}; mobile Direktanzeige nicht möglich`,
+    };
+  }
+  try {
+    new Notification(title, options);
+    return { ok: true, via: "constructor" };
+  } catch (error) {
+    return { ok: false, via: "none", error: errorText(error) };
+  }
+}
+
 async function unregisterAll() {
   if (!("serviceWorker" in navigator)) return;
   const regs = await navigator.serviceWorker.getRegistrations();
