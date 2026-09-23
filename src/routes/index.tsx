@@ -23,17 +23,26 @@ import {
   type NowInfo,
 } from "@/lib/festival";
 import {
+  APP_BUILD,
+  browserInfo,
   checkForUpdate,
+  deviceKind,
+  getSwRegistration,
   isIos,
   isStandalone,
   offlineStatus,
   registerServiceWorker,
   resetOffline,
+  showLocalNotification,
   swDisabled,
+  swDisabledReason,
   type OfflineStatus,
 } from "@/lib/pwa";
 import { Icon, IconSprite } from "@/components/festival/Icons";
-import { SettingsDialog } from "@/components/festival/SettingsDialog";
+import {
+  SettingsDialog,
+  type ReminderDiagnostics,
+} from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
 
 export const Route = createFileRoute("/")({
@@ -62,9 +71,11 @@ const LS_KEY = "mitmacht26-programm-v1";
 const LS_UI = LS_KEY + "-ui";
 const LS_PWA = "mitmacht26-pwa-v1";
 const LS_REM = "mitmacht26-reminders-v1";
+const LS_REM_LOG = "mitmacht26-reminder-log-v1";
 
 type Stored = { sel: string[]; gcal: Record<string, { v: string; t: number }> };
 type RemStore = { on: boolean; lead: number; notified: string[] };
+type ReminderFallback = { kind: "failed" | "missed"; title: string; start: string; room?: string };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: string }>;
@@ -99,6 +110,17 @@ function Planner() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [updateMsg, setUpdateMsg] = useState<string | null>(null);
   const [offline, setOffline] = useState<OfflineStatus>("disabled");
+  const [diagnosticsOpen, setDiagnosticsOpen] = useState(false);
+  const [remLog, setRemLog] = useState<string[]>([]);
+  const [lastCheck, setLastCheck] = useState<string | null>(null);
+  const [checkCount, setCheckCount] = useState(0);
+  const [nextExactTimer, setNextExactTimer] = useState<string | null>(null);
+  const [swDiag, setSwDiag] = useState({ registration: false, active: false, waiting: false });
+  const [copyFallback, setCopyFallback] = useState<string | null>(null);
+  const [reminderFallback, setReminderFallback] = useState<ReminderFallback | null>(null);
+  const [testDueAt, setTestDueAt] = useState<number | null>(null);
+  const exactTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const testTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ---- Laden ---- */
   useEffect(() => {
@@ -137,6 +159,11 @@ function Planner() {
           notified: Array.isArray(r.notified) ? r.notified : [],
         });
       }
+      const rawLog = localStorage.getItem(LS_REM_LOG);
+      if (rawLog) {
+        const entries = JSON.parse(rawLog) as unknown;
+        if (Array.isArray(entries)) setRemLog(entries.filter((x): x is string => typeof x === "string").slice(-40));
+      }
     } catch {
       /* ignore */
     }
@@ -151,7 +178,10 @@ function Planner() {
       if (ids.length) setShareIds(ids);
     }
     const focusId = params.get("s");
-    if (window.location.hash === "#einstellungen") setSettingsOpen(true);
+    if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
+      setSettingsOpen(true);
+      setDiagnosticsOpen(window.location.hash === "#diagnose");
+    }
     if (window.location.hash === "#mein" || focusId) setView("mine");
     if (focusId) {
       setTimeout(() => {
