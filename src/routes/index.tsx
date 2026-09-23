@@ -2008,7 +2008,7 @@ function Planner() {
           const res = await fb.submit(id, r);
           if (res.ok) {
             setRateId(null);
-            showToast(res.queued ? "Gespeichert – wird gesendet, sobald du online bist" : "Danke für deine Bewertung ✓");
+            showToast(res.queued ? "Gespeichert – wird gesendet, sobald du online bist" : "Danke für dein Feedback ✓");
           }
           return res;
         }}

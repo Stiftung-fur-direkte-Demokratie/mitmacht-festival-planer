@@ -366,6 +366,7 @@ export function useCommunity(opts: {
       }
       setProfile(data as MyProfile);
       setFirstLogin(false);
+      notify("display_name" in patch ? "Profil gespeichert ✓" : "Gespeichert ✓");
       void loadPeople();
       return true;
     },
@@ -388,6 +389,7 @@ export function useCommunity(opts: {
         ids.forEach((id) => (n[id] = value));
         return n;
       });
+      notify("Freigabe gespeichert ✓");
       void loadPeople();
     },
     [userId, notify, loadPeople],
