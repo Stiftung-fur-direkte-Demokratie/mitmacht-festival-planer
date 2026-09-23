@@ -51,7 +51,7 @@ const ORDER: Record<string, number> = Object.fromEntries(SESSIONS.map((s, i) => 
 
 export function mins(t: string) {
   const p = t.split(":");
-  return +p[0] * 60 + +p[1];
+  return Number(p[0] ?? 0) * 60 + Number(p[1] ?? 0);
 }
 export function duration(s: Item) {
   return mins(s.end) - mins(s.start);
@@ -59,8 +59,8 @@ export function duration(s: Item) {
 export function isLong(s: Item) {
   return duration(s) >= 180 || s.id === "mi00";
 }
-export function dayOf(date: string) {
-  return DAYS.find((d) => d.date === date) ?? DAYS[0];
+export function dayOf(date: string): Day {
+  return DAYS.find((d) => d.date === date) ?? (DAYS[0] as Day);
 }
 export function timeLabel(s: Item) {
   return s.start === s.end ? s.start : `${s.start} – ${s.end}`;
@@ -70,7 +70,7 @@ export function bySchedule(a: Item, b: Item) {
     (a.date < b.date ? -1 : a.date > b.date ? 1 : 0) ||
     mins(a.start) - mins(b.start) ||
     mins(a.end) - mins(b.end) ||
-    ORDER[a.id] - ORDER[b.id]
+    (ORDER[a.id] ?? 0) - (ORDER[b.id] ?? 0)
   );
 }
 
@@ -89,8 +89,8 @@ export function nowBerlin(): NowInfo {
     const p: Record<string, string> = {};
     f.formatToParts(new Date()).forEach((x) => (p[x.type] = x.value));
     return {
-      date: `${p.year}-${p.month}-${p.day}`,
-      time: `${p.hour === "24" ? "00" : p.hour}:${p.minute}`,
+      date: `${p["year"]}-${p["month"]}-${p["day"]}`,
+      time: `${p["hour"] === "24" ? "00" : p["hour"]}:${p["minute"]}`,
     };
   } catch {
     return { date: "", time: "" };
@@ -115,7 +115,8 @@ export function clashesFor(s: Item, selected: Item[]) {
 /* ---------- Suche ---------- */
 const searchCache: Record<string, string> = {};
 export function searchText(s: Item) {
-  if (searchCache[s.id] != null) return searchCache[s.id];
+  const cached = searchCache[s.id];
+  if (cached != null) return cached;
   const parts: string[] = [
     s.title,
     s.people ?? "",
