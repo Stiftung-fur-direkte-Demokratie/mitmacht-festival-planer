@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import teamImgSrc from "@/assets/team-cut.png";
+import teamImgSrc from "@/assets/team-circles.png";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ALL,
@@ -1153,7 +1153,14 @@ function Planner() {
             Wir freuen uns aufs Festival mit euch! Team{" "}
             <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
           </div>
-          <img className="teamimg" src={teamImgSrc} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
+          <figure className="teamimg">
+            <img src={teamImgSrc} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
+            <figcaption aria-hidden="true">
+              {["Sandro", "Sophie", "Lisa", "Daniel", "Niklaus"].map((n) => (
+                <span key={n}>{n}</span>
+              ))}
+            </figcaption>
+          </figure>
           <div>
             Online-Planer:in ist eine Toolbox der{" "}
             <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">
