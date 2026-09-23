@@ -378,7 +378,7 @@ function Planner() {
       return u <= r.lead && u > -1;
     });
     due.forEach((s) => void notifySession(s, n));
-    if (includeMissed && !due.length) {
+    if (includeMissed) {
       const missed = selectedRef.current
         .filter((s) => !isLong(s) && !r.notified.includes(s.id))
         .map((s) => ({ s, minutes: minutesUntilStart(s, n) }))
