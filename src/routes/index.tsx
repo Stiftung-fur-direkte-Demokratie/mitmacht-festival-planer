@@ -684,12 +684,13 @@ function Planner() {
     setPush((p) => (p.state === "active" ? p : { ...p, supported, state: "pending" }));
     try {
       const sub = await ensureSubscription();
-      await syncSubscription(sub, selectedRef.current.filter((x) => !isLong(x)).map((x) => x.id), rem.lead, deviceKind() as "ios" | "android" | "desktop");
+      await syncSubscription(sub, selectedRef.current.filter((x) => !isLong(x)).map((x) => x.id), rem.lead, deviceKind());
       addReminderLog(`Push synchronisiert (${pushHost(sub)})`);
       setPush({ supported, state: "active", error: null, subscribed: true, host: pushHost(sub), lastResponse: "ok", lastSync: stamp() });
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      addReminderLog(`Push-Fehler: ${msg}`);
+      const detail = (e as { detail?: string } | null)?.detail;
+      addReminderLog(`Push-Fehler: ${msg}${detail ? ` – Details: ${detail}` : ""}`);
       const sub = await currentSubscription().catch(() => null);
       setPush((p) => ({ ...p, supported, state: "error", error: msg, subscribed: !!sub, host: pushHost(sub), lastResponse: msg }));
     }
@@ -708,6 +709,20 @@ function Planner() {
     const again = () => void syncPush();
     window.addEventListener("online", again);
     return () => window.removeEventListener("online", again);
+  }, [syncPush]);
+
+  // Nach fehlgeschlagenem Sync erneut versuchen (Einstellungen geöffnet / App sichtbar)
+  const pushErrRef = useRef(false);
+  pushErrRef.current = push.state === "error";
+  useEffect(() => {
+    if (settingsOpen && pushErrRef.current) void syncPush();
+  }, [settingsOpen, syncPush]);
+  useEffect(() => {
+    const vis = () => {
+      if (document.visibilityState === "visible" && pushErrRef.current) void syncPush();
+    };
+    document.addEventListener("visibilitychange", vis);
+    return () => document.removeEventListener("visibilitychange", vis);
   }, [syncPush]);
 
   const testPush = async () => {
