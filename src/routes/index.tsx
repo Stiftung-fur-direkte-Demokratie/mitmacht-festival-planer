@@ -300,67 +300,139 @@ function Planner() {
   remRef.current = rem;
   const selectedRef = useRef(selected);
   selectedRef.current = selected;
+  const processingRef = useRef(new Set<string>());
 
-  const checkReminders = useCallback(() => {
+  const addReminderLog = useCallback((message: string) => {
+    const line = `${new Date().toLocaleTimeString("de-DE")} · ${message}`;
+    console.info("[mm-reminder]", message);
+    setRemLog((current) => {
+      const next = [...current, line].slice(-40);
+      try {
+        localStorage.setItem(LS_REM_LOG, JSON.stringify(next));
+      } catch {
+        /* Diagnose bleibt zumindest bis zum Neuladen sichtbar. */
+      }
+      return next;
+    });
+  }, []);
+
+  const refreshSwDiagnostics = useCallback(async () => {
+    if (!("serviceWorker" in navigator)) {
+      setSwDiag({ registration: false, active: false, waiting: false });
+      return;
+    }
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      setSwDiag({
+        registration: !!registration,
+        active: !!registration?.active,
+        waiting: !!registration?.waiting,
+      });
+    } catch {
+      setSwDiag({ registration: false, active: false, waiting: false });
+    }
+  }, []);
+
+  const notifySession = useCallback(async (s: Item, n: NowInfo) => {
+    if (processingRef.current.has(s.id)) return;
+    processingRef.current.add(s.id);
+    const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
+    const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
+    addReminderLog(`fällig: ${s.id} · ${s.title}`);
+    const result = await showLocalNotification(title, {
+      body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
+      tag: s.id,
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
+    });
+    if (result.ok) {
+      addReminderLog(`angezeigt via ${result.via}: ${s.id}`);
+      setRem((current) => current.notified.includes(s.id)
+        ? current
+        : { ...current, notified: [...current.notified, s.id] });
+    } else {
+      const reason = result.error ?? "unbekannter Fehler";
+      addReminderLog(`Fehler: ${s.id} · ${reason}`);
+      setReminderFallback({ kind: "failed", title: s.title, start: s.start, room: s.room });
+      showToast(`Erinnerung fehlgeschlagen: ${reason}`);
+      navigator.vibrate?.(200);
+    }
+    processingRef.current.delete(s.id);
+    void refreshSwDiagnostics();
+  }, [addReminderLog, refreshSwDiagnostics, showToast]);
+
+  const checkReminders = useCallback((reason = "Timer", includeMissed = false) => {
     const n = nowBerlin();
     setNow(n);
     const r = remRef.current;
-    if (!r.on || typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    const checkedAt = new Date().toLocaleTimeString("de-DE");
+    setLastCheck(checkedAt);
+    setCheckCount((count) => count + 1);
+    addReminderLog(`Prüfung (${reason}) · ${n.date} ${n.time}`);
+    if (!r.on) return;
     const due = selectedRef.current.filter((s) => {
       if (isLong(s) || r.notified.includes(s.id)) return false;
       const u = minutesUntilStart(s, n);
       return u <= r.lead && u > -1;
     });
-    if (!due.length) return;
-    void (async () => {
-      for (const s of due) {
-        const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
-        const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
-        const opts: NotificationOptions = {
-          body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
-          tag: s.id,
-          icon: "/icons/icon-192.png",
-          badge: "/icons/icon-192.png",
-        };
-        try {
-          const reg = await navigator.serviceWorker?.ready;
-          if (reg) await reg.showNotification(title, opts);
-          else new Notification(title, opts);
-        } catch {
-          try {
-            new Notification(title, opts);
-          } catch {
-            /* ignore */
-          }
-        }
+    due.forEach((s) => void notifySession(s, n));
+    if (includeMissed && !due.length) {
+      const missed = selectedRef.current
+        .filter((s) => !isLong(s) && !r.notified.includes(s.id))
+        .map((s) => ({ s, minutes: minutesUntilStart(s, n) }))
+        .filter(({ minutes }) => minutes < 0 && minutes >= -15)
+        .sort((a, b) => b.minutes - a.minutes)[0];
+      if (missed) {
+        addReminderLog(`verpasst: ${missed.s.id} · Beginn ${missed.s.start}`);
+        setReminderFallback({ kind: "missed", title: missed.s.title, start: missed.s.start, room: missed.s.room });
       }
-      setRem((cur) => ({
-        ...cur,
-        notified: Array.from(new Set([...cur.notified, ...due.map((s) => s.id)])),
-      }));
-    })();
-  }, []);
+    }
+  }, [addReminderLog, notifySession]);
 
   useEffect(() => {
-    checkReminders();
-    const t = setInterval(checkReminders, 30000);
+    checkReminders("Start");
+    const t = setInterval(() => checkReminders("30-Sekunden-Timer"), 30000);
     const vis = () => {
-      if (!document.hidden) checkReminders();
+      addReminderLog(document.hidden ? "App versteckt" : "App sichtbar");
+      if (!document.hidden) checkReminders("sichtbar", true);
     };
+    const focus = () => checkReminders("Fokus", true);
     document.addEventListener("visibilitychange", vis);
-    window.addEventListener("focus", checkReminders);
+    window.addEventListener("focus", focus);
     return () => {
       clearInterval(t);
       document.removeEventListener("visibilitychange", vis);
-      window.removeEventListener("focus", checkReminders);
+      window.removeEventListener("focus", focus);
     };
-  }, [checkReminders]);
+  }, [addReminderLog, checkReminders]);
 
   // Sofort prüfen, wenn sich Einstellungen oder Auswahl ändern
   useEffect(() => {
     if (!ready) return;
-    checkReminders();
+    checkReminders("Änderung");
   }, [ready, rem.on, rem.lead, sel, perm, checkReminders]);
+
+  /* Exakt zum nächsten Erinnerungszeitpunkt prüfen; Browser können Timer im Hintergrund drosseln. */
+  useEffect(() => {
+    if (exactTimerRef.current) clearTimeout(exactTimerRef.current);
+    setNextExactTimer(null);
+    if (!ready || !rem.on) return;
+    const n = nowBerlin();
+    const next = selected
+      .filter((s) => !isLong(s) && !rem.notified.includes(s.id))
+      .map((s) => ({ s, delay: (minutesUntilStart(s, n) - rem.lead) * 60000 }))
+      .filter(({ delay }) => delay > 0)
+      .sort((a, b) => a.delay - b.delay)[0];
+    if (!next) return;
+    const delay = Math.min(next.delay, 2147483000);
+    const target = new Date(Date.now() + delay);
+    setNextExactTimer(`${target.toLocaleString("de-DE")} · ${next.s.title}`);
+    addReminderLog(`exakter Timer geplant: ${next.s.id} in ${Math.round(delay / 60000)} Min`);
+    exactTimerRef.current = setTimeout(() => checkReminders("exakter Timer"), delay);
+    return () => {
+      if (exactTimerRef.current) clearTimeout(exactTimerRef.current);
+    };
+  }, [addReminderLog, checkReminders, ready, rem.lead, rem.notified, rem.on, selected]);
 
 
   const upcoming = useMemo(() => {
