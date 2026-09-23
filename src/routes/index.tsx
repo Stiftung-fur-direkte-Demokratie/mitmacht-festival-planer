@@ -579,14 +579,8 @@ function Planner() {
           <p className="eyebrow">Online-Planer:in [Beta 2.1]</p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
-            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩 Wir freuen uns aufs Festival mit euch, Team "}<a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
+            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩"}
           </p>
-          <img
-            className="teamimg"
-            src={teamImg.url}
-            alt="Sandro, Sophie, Lisa, Daniel und Niklaus"
-            loading="lazy"
-          />
           <p className="facts">
             <span>23.–26. September 2026</span>
             <span>
@@ -1146,6 +1140,13 @@ function Planner() {
             </div>
           </div>
         </details>
+        <div className="teamblock">
+          <p>
+            Wir freuen uns aufs Festival mit euch, Team{" "}
+            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
+          </p>
+          <img className="teamimg" src={teamImg.url} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
+        </div>
 
         <div className="foot">
           <div className="sync">
