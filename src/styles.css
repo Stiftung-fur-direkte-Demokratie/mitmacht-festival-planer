@@ -469,5 +469,28 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .foothead{margin:0;font-size:inherit;font-weight:700;color:var(--ink)}.srcnote .teamimg{margin:0}
 .teamimg img{display:block;width:100%;height:auto}.teamimg figcaption{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5%;margin-top:6px;text-align:center;font-size:12px;color:var(--ink)}
 
+.nextup.missed{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--warn)}
+.diagblock details{margin:0}
+.diagblock summary{cursor:pointer;font-size:16px;font-weight:800;padding:2px 0;list-style-position:inside}
+.diagbody{padding-top:12px;overflow-wrap:anywhere}
+.diagbody h4{margin:16px 0 7px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.diagbody h4:first-child{margin-top:0}
+.diaggrid{margin:0;display:grid;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.diaggrid div{display:grid;grid-template-columns:minmax(92px,36%) 1fr;gap:8px;padding:7px 9px;background:var(--surface)}
+.diaggrid div + div{border-top:1px solid var(--line)}
+.diaggrid dt{font-size:12px;font-weight:700;color:var(--ink-soft)}
+.diaggrid dd{margin:0;font-size:12px;font-variant-numeric:tabular-nums}
+.diagsessions{list-style:none!important;padding:0!important;margin:0!important;display:grid;gap:6px}
+.diagsessions li{display:flex;flex-direction:column;padding:8px 9px;border-radius:10px;background:var(--surface);font-size:12px}
+.diagsessions li b{font-size:12.5px}
+.diagsessions li span{color:var(--ink-soft)}
+.diagbuttons .btn{max-width:100%;white-space:normal;text-align:center}
+.diaglog{margin:0;max-height:220px;overflow:auto;padding:10px;border-radius:10px;background:var(--surface);color:var(--ink);font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
+.diagcopy{display:block;width:100%;min-height:120px;margin-top:8px;padding:9px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (max-width:380px){
+  .diaggrid div{grid-template-columns:1fr;gap:2px}
+  .diagbuttons{align-items:stretch}.diagbuttons .btn{width:100%}
+}
+
 .bartop{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .bartitle{font-weight:800;font-size:17px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}

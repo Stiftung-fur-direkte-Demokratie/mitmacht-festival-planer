@@ -68,6 +68,7 @@ export type SettingsProps = {
 
 export function SettingsDialog(p: SettingsProps) {
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const diagnosticRef = useRef<HTMLElement | null>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
 
@@ -124,6 +125,12 @@ export function SettingsDialog(p: SettingsProps) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.open]);
+
+  useEffect(() => {
+    if (!p.open || !p.diagnosticsOpen) return;
+    const timer = setTimeout(() => diagnosticRef.current?.scrollIntoView({ block: "start" }), 180);
+    return () => clearTimeout(timer);
+  }, [p.diagnosticsOpen, p.open]);
 
   if (!p.open) return null;
 
@@ -354,7 +361,7 @@ export function SettingsDialog(p: SettingsProps) {
             </ul>
           </section>
 
-          <section className="setblock diagblock" aria-labelledby="set-4">
+          <section className="setblock diagblock" aria-labelledby="set-4" ref={diagnosticRef}>
             <details open={p.diagnosticsOpen} onToggle={(e) => p.onDiagnosticsToggle(e.currentTarget.open)}>
               <summary id="set-4">Diagnose</summary>
               <div className="diagbody">

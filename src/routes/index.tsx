@@ -414,6 +414,11 @@ function Planner() {
     checkReminders("Änderung");
   }, [ready, rem.on, rem.lead, sel, perm, checkReminders]);
 
+  useEffect(() => {
+    if (!settingsOpen) return;
+    void refreshSwDiagnostics();
+  }, [settingsOpen, refreshSwDiagnostics]);
+
   /* Exakt zum nächsten Erinnerungszeitpunkt prüfen; Browser können Timer im Hintergrund drosseln. */
   useEffect(() => {
     if (exactTimerRef.current) clearTimeout(exactTimerRef.current);
