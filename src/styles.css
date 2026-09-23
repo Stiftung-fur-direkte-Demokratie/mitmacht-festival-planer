@@ -663,3 +663,6 @@ html{background:var(--bg)}
 .conv-input .btn{min-height:44px}
 .conv-count{text-align:right;margin:4px 0 0!important}
 .conv-count.over{color:var(--warn)}
+.notifyrow{border:0;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:4px 18px}
+.notifyrow legend{font-weight:600;font-size:14px;padding:0;width:100%}
+.notifyrow .consent{margin:4px 0}

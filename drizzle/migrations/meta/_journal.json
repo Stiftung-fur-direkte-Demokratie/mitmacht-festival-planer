@@ -57,6 +57,13 @@
       "when": 1790197910973,
       "tag": "0007_contact_fields_and_feedback",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790198747698,
+      "tag": "0008_daily_notifications",
+      "breakpoints": true
     }
   ]
 }
