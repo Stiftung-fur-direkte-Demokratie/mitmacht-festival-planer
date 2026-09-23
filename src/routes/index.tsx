@@ -23,17 +23,25 @@ import {
   type NowInfo,
 } from "@/lib/festival";
 import {
+  APP_BUILD,
+  browserInfo,
   checkForUpdate,
+  deviceKind,
   isIos,
   isStandalone,
   offlineStatus,
   registerServiceWorker,
   resetOffline,
+  showLocalNotification,
   swDisabled,
+  swDisabledReason,
   type OfflineStatus,
 } from "@/lib/pwa";
 import { Icon, IconSprite } from "@/components/festival/Icons";
-import { SettingsDialog } from "@/components/festival/SettingsDialog";
+import {
+  SettingsDialog,
+  type ReminderDiagnostics,
+} from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
 
 export const Route = createFileRoute("/")({
@@ -62,9 +70,11 @@ const LS_KEY = "mitmacht26-programm-v1";
 const LS_UI = LS_KEY + "-ui";
 const LS_PWA = "mitmacht26-pwa-v1";
 const LS_REM = "mitmacht26-reminders-v1";
+const LS_REM_LOG = "mitmacht26-reminder-log-v1";
 
 type Stored = { sel: string[]; gcal: Record<string, { v: string; t: number }> };
 type RemStore = { on: boolean; lead: number; notified: string[] };
+type ReminderFallback = { kind: "failed" | "missed"; title: string; start: string; room: string | undefined };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: string }>;
@@ -99,6 +109,17 @@ function Planner() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [updateMsg, setUpdateMsg] = useState<string | null>(null);
   const [offline, setOffline] = useState<OfflineStatus>("disabled");
+  const [diagnosticsOpen, setDiagnosticsOpen] = useState(false);
+  const [remLog, setRemLog] = useState<string[]>([]);
+  const [lastCheck, setLastCheck] = useState<string | null>(null);
+  const [checkCount, setCheckCount] = useState(0);
+  const [nextExactTimer, setNextExactTimer] = useState<string | null>(null);
+  const [swDiag, setSwDiag] = useState({ registration: false, active: false, waiting: false });
+  const [copyFallback, setCopyFallback] = useState<string | null>(null);
+  const [reminderFallback, setReminderFallback] = useState<ReminderFallback | null>(null);
+  const [testDueAt, setTestDueAt] = useState<number | null>(null);
+  const exactTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const testTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ---- Laden ---- */
   useEffect(() => {
@@ -137,6 +158,11 @@ function Planner() {
           notified: Array.isArray(r.notified) ? r.notified : [],
         });
       }
+      const rawLog = localStorage.getItem(LS_REM_LOG);
+      if (rawLog) {
+        const entries = JSON.parse(rawLog) as unknown;
+        if (Array.isArray(entries)) setRemLog(entries.filter((x): x is string => typeof x === "string").slice(-40));
+      }
     } catch {
       /* ignore */
     }
@@ -151,7 +177,10 @@ function Planner() {
       if (ids.length) setShareIds(ids);
     }
     const focusId = params.get("s");
-    if (window.location.hash === "#einstellungen") setSettingsOpen(true);
+    if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
+      setSettingsOpen(true);
+      setDiagnosticsOpen(window.location.hash === "#diagnose");
+    }
     if (window.location.hash === "#mein" || focusId) setView("mine");
     if (focusId) {
       setTimeout(() => {
@@ -208,7 +237,10 @@ function Planner() {
     setOffline(offlineStatus());
     const offTick = setInterval(() => setOffline(offlineStatus()), 3000);
     const onHash = () => {
-      if (window.location.hash === "#einstellungen") setSettingsOpen(true);
+      if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
+        setSettingsOpen(true);
+        setDiagnosticsOpen(window.location.hash === "#diagnose");
+      }
     };
     window.addEventListener("hashchange", onHash);
     const on = () => setOnline(true);
@@ -270,67 +302,144 @@ function Planner() {
   remRef.current = rem;
   const selectedRef = useRef(selected);
   selectedRef.current = selected;
+  const processingRef = useRef(new Set<string>());
 
-  const checkReminders = useCallback(() => {
+  const addReminderLog = useCallback((message: string) => {
+    const line = `${new Date().toLocaleTimeString("de-DE")} · ${message}`;
+    console.info("[mm-reminder]", message);
+    setRemLog((current) => {
+      const next = [...current, line].slice(-40);
+      try {
+        localStorage.setItem(LS_REM_LOG, JSON.stringify(next));
+      } catch {
+        /* Diagnose bleibt zumindest bis zum Neuladen sichtbar. */
+      }
+      return next;
+    });
+  }, []);
+
+  const refreshSwDiagnostics = useCallback(async () => {
+    if (!("serviceWorker" in navigator)) {
+      setSwDiag({ registration: false, active: false, waiting: false });
+      return;
+    }
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      setSwDiag({
+        registration: !!registration,
+        active: !!registration?.active,
+        waiting: !!registration?.waiting,
+      });
+    } catch {
+      setSwDiag({ registration: false, active: false, waiting: false });
+    }
+  }, []);
+
+  const notifySession = useCallback(async (s: Item, n: NowInfo) => {
+    if (processingRef.current.has(s.id)) return;
+    processingRef.current.add(s.id);
+    const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
+    const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
+    addReminderLog(`fällig: ${s.id} · ${s.title}`);
+    const result = await showLocalNotification(title, {
+      body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
+      tag: s.id,
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
+    });
+    if (result.ok) {
+      addReminderLog(`angezeigt via ${result.via}: ${s.id}`);
+      setRem((current) => current.notified.includes(s.id)
+        ? current
+        : { ...current, notified: [...current.notified, s.id] });
+    } else {
+      const reason = result.error ?? "unbekannter Fehler";
+      addReminderLog(`Fehler: ${s.id} · ${reason}`);
+      setReminderFallback({ kind: "failed", title: s.title, start: s.start, room: s.room });
+      showToast(`Erinnerung fehlgeschlagen: ${reason}`);
+      navigator.vibrate?.(200);
+    }
+    processingRef.current.delete(s.id);
+    void refreshSwDiagnostics();
+  }, [addReminderLog, refreshSwDiagnostics, showToast]);
+
+  const checkReminders = useCallback((reason = "Timer", includeMissed = false) => {
     const n = nowBerlin();
     setNow(n);
     const r = remRef.current;
-    if (!r.on || typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    const checkedAt = new Date().toLocaleTimeString("de-DE");
+    setLastCheck(checkedAt);
+    setCheckCount((count) => count + 1);
+    addReminderLog(`Prüfung (${reason}) · ${n.date} ${n.time}`);
+    if (!r.on) return;
     const due = selectedRef.current.filter((s) => {
       if (isLong(s) || r.notified.includes(s.id)) return false;
       const u = minutesUntilStart(s, n);
       return u <= r.lead && u > -1;
     });
-    if (!due.length) return;
-    void (async () => {
-      for (const s of due) {
-        const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
-        const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
-        const opts: NotificationOptions = {
-          body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
-          tag: s.id,
-          icon: "/icons/icon-192.png",
-          badge: "/icons/icon-192.png",
-        };
-        try {
-          const reg = await navigator.serviceWorker?.ready;
-          if (reg) await reg.showNotification(title, opts);
-          else new Notification(title, opts);
-        } catch {
-          try {
-            new Notification(title, opts);
-          } catch {
-            /* ignore */
-          }
-        }
+    due.forEach((s) => void notifySession(s, n));
+    if (includeMissed) {
+      const missed = selectedRef.current
+        .filter((s) => !isLong(s) && !r.notified.includes(s.id))
+        .map((s) => ({ s, minutes: minutesUntilStart(s, n) }))
+        .filter(({ minutes }) => minutes < 0 && minutes >= -15)
+        .sort((a, b) => b.minutes - a.minutes)[0];
+      if (missed) {
+        addReminderLog(`verpasst: ${missed.s.id} · Beginn ${missed.s.start}`);
+        setReminderFallback({ kind: "missed", title: missed.s.title, start: missed.s.start, room: missed.s.room });
       }
-      setRem((cur) => ({
-        ...cur,
-        notified: Array.from(new Set([...cur.notified, ...due.map((s) => s.id)])),
-      }));
-    })();
-  }, []);
+    }
+  }, [addReminderLog, notifySession]);
 
   useEffect(() => {
-    checkReminders();
-    const t = setInterval(checkReminders, 30000);
+    checkReminders("Start");
+    const t = setInterval(() => checkReminders("30-Sekunden-Timer"), 30000);
     const vis = () => {
-      if (!document.hidden) checkReminders();
+      addReminderLog(document.hidden ? "App versteckt" : "App sichtbar");
+      if (!document.hidden) checkReminders("sichtbar", true);
     };
+    const focus = () => checkReminders("Fokus", true);
     document.addEventListener("visibilitychange", vis);
-    window.addEventListener("focus", checkReminders);
+    window.addEventListener("focus", focus);
     return () => {
       clearInterval(t);
       document.removeEventListener("visibilitychange", vis);
-      window.removeEventListener("focus", checkReminders);
+      window.removeEventListener("focus", focus);
     };
-  }, [checkReminders]);
+  }, [addReminderLog, checkReminders]);
 
   // Sofort prüfen, wenn sich Einstellungen oder Auswahl ändern
   useEffect(() => {
     if (!ready) return;
-    checkReminders();
+    checkReminders("Änderung");
   }, [ready, rem.on, rem.lead, sel, perm, checkReminders]);
+
+  useEffect(() => {
+    if (!settingsOpen) return;
+    void refreshSwDiagnostics();
+  }, [settingsOpen, refreshSwDiagnostics]);
+
+  /* Exakt zum nächsten Erinnerungszeitpunkt prüfen; Browser können Timer im Hintergrund drosseln. */
+  useEffect(() => {
+    if (exactTimerRef.current) clearTimeout(exactTimerRef.current);
+    setNextExactTimer(null);
+    if (!ready || !rem.on) return;
+    const n = nowBerlin();
+    const next = selected
+      .filter((s) => !isLong(s) && !rem.notified.includes(s.id))
+      .map((s) => ({ s, delay: (minutesUntilStart(s, n) - rem.lead) * 60000 }))
+      .filter(({ delay }) => delay > 0)
+      .sort((a, b) => a.delay - b.delay)[0];
+    if (!next) return;
+    const delay = Math.min(next.delay, 2147483000);
+    const target = new Date(Date.now() + delay);
+    setNextExactTimer(`${target.toLocaleString("de-DE")} · ${next.s.title}`);
+    addReminderLog(`exakter Timer geplant: ${next.s.id} in ${Math.round(delay / 60000)} Min`);
+    exactTimerRef.current = setTimeout(() => checkReminders("exakter Timer"), delay);
+    return () => {
+      if (exactTimerRef.current) clearTimeout(exactTimerRef.current);
+    };
+  }, [addReminderLog, checkReminders, ready, rem.lead, rem.notified, rem.on, selected]);
 
 
   const upcoming = useMemo(() => {
@@ -358,6 +467,48 @@ function Planner() {
       next: next ? `${d ? d.short + " " : ""}${next.start} Uhr · ${next.title}` : null,
     };
   }, [selected, now]);
+
+  const diagnosticSessions = useMemo(() => selected
+    .map((s) => {
+      const minutes = minutesUntilStart(s, now);
+      const status = isLong(s)
+        ? "übersprungen (≥ 3 h)"
+        : rem.notified.includes(s.id)
+          ? "erinnert"
+          : minutes < 0 && minutes >= -15
+            ? "verpasst"
+            : minutes <= rem.lead && minutes >= 0
+              ? "fällig"
+              : "wartet";
+      return { id: s.id, title: s.title, start: s.start, minutes, status };
+    })
+    .filter((s) => s.minutes >= -15)
+    .sort((a, b) => a.minutes - b.minutes)
+    .slice(0, 5), [now, rem.lead, rem.notified, selected]);
+
+  const diagnostics: ReminderDiagnostics = {
+    device: deviceKind(),
+    browser: browserInfo(),
+    notificationSupported: typeof window !== "undefined" && "Notification" in window,
+    swSupported: typeof navigator !== "undefined" && "serviceWorker" in navigator,
+    swDisabledReason: typeof window !== "undefined" ? swDisabledReason() : "Server-Ansicht",
+    swController: typeof navigator !== "undefined" && !!navigator.serviceWorker?.controller,
+    swRegistration: swDiag.registration,
+    swActive: swDiag.active,
+    swWaiting: swDiag.waiting,
+    build: APP_BUILD,
+    berlinTime: now.date && now.time ? `${now.date} ${now.time}` : "unbekannt",
+    deviceTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "unbekannt",
+    visibility: typeof document !== "undefined" ? document.visibilityState : "unbekannt",
+    lastCheck,
+    checkCount,
+    nextTimer: testDueAt
+      ? `${new Date(testDueAt).toLocaleString("de-DE")} · Diagnose-Test`
+      : nextExactTimer,
+    sessions: diagnosticSessions,
+    log: remLog,
+    copyFallback,
+  };
 
   const askPermission = async () => {
     if (typeof Notification === "undefined") {
@@ -392,7 +543,7 @@ function Planner() {
 
   const closeSettings = () => {
     setSettingsOpen(false);
-    if (window.location.hash === "#einstellungen") {
+    if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
       history.replaceState(null, "", window.location.pathname + window.location.search);
     }
   };
@@ -421,13 +572,64 @@ function Planner() {
       icon: "/icons/icon-192.png",
       badge: "/icons/icon-192.png",
     };
+    const result = await showLocalNotification(title, opts);
+    const text = result.ok
+      ? result.via === "sw" ? "Über Service Worker angezeigt" : "Direkt angezeigt"
+      : `Fehlgeschlagen: ${result.error ?? "unbekannter Grund"}`;
+    addReminderLog(`Test: ${text}`);
+    showToast(text);
+    void refreshSwDiagnostics();
+  };
+
+  const scheduleTestReminder = () => {
+    if (testTimerRef.current) clearTimeout(testTimerRef.current);
+    const dueAt = Date.now() + 60000;
+    setTestDueAt(dueAt);
+    addReminderLog(`Test-Erinnerung geplant: ${new Date(dueAt).toLocaleTimeString("de-DE")}`);
+    showToast("Test-Erinnerung für in 1 Minute geplant");
+    testTimerRef.current = setTimeout(() => {
+      const n = nowBerlin();
+      const fake: Item = {
+        id: `diagnose-test-${dueAt}`,
+        date: n.date,
+        start: n.time,
+        end: n.time,
+        format: "rahmen",
+        title: "Diagnose-Test-Erinnerung",
+        room: "Test auf diesem Gerät",
+      };
+      addReminderLog("fällig: Diagnose-Test-Erinnerung");
+      void notifySession(fake, n);
+      setTestDueAt(null);
+    }, 60000);
+  };
+
+  useEffect(() => () => {
+    if (testTimerRef.current) clearTimeout(testTimerRef.current);
+  }, []);
+
+  const resetNotified = () => {
+    setRem((current) => ({ ...current, notified: [] }));
+    addReminderLog("Erinnert-Liste zurückgesetzt");
+    showToast("Erinnert-Liste zurückgesetzt");
+  };
+
+  const clearReminderLog = () => {
+    setRemLog([]);
+    setCopyFallback(null);
+    try { localStorage.removeItem(LS_REM_LOG); } catch { /* ignore */ }
+    console.info("[mm-reminder]", "Log geleert");
+  };
+
+  const copyReminderLog = async () => {
+    const text = remLog.join("\n") || "Noch keine Diagnose-Einträge.";
     try {
-      const reg = await navigator.serviceWorker?.ready;
-      if (reg) await reg.showNotification(title, opts);
-      else new Notification(title, opts);
-      showToast("Test-Benachrichtigung gesendet");
+      await navigator.clipboard.writeText(text);
+      setCopyFallback(null);
+      showToast("Log kopiert");
     } catch {
-      showToast("Test-Benachrichtigung nicht möglich");
+      setCopyFallback(text);
+      showToast("Log unten markieren und kopieren");
     }
   };
 
@@ -690,6 +892,14 @@ function Planner() {
                 {upcoming.s.room ? ` · ${upcoming.s.room}` : ""} (in {upcoming.mins} Min)
               </>
             )}
+          </div>
+        )}
+
+        {reminderFallback && (
+          <div className={`nextup${reminderFallback.kind === "missed" ? " missed" : ""}`} role="alert">
+            {reminderFallback.kind === "missed" ? "Verpasst? " : "Erinnerung: "}
+            <b>{reminderFallback.title}</b>{reminderFallback.kind === "missed" ? " hat" : " beginnt"} um {reminderFallback.start}
+            {reminderFallback.room ? ` · ${reminderFallback.room}` : ""}
           </div>
         )}
 
@@ -1220,6 +1430,17 @@ function Planner() {
         onTestNotification={() => void testNotification()}
         remCount={remStats.count}
         remNext={remStats.next}
+        diagnosticsOpen={diagnosticsOpen}
+        diagnostics={diagnostics}
+        onDiagnosticsToggle={setDiagnosticsOpen}
+        onCheckNow={() => {
+          checkReminders("manuell", true);
+          void refreshSwDiagnostics();
+        }}
+        onScheduleTest={scheduleTestReminder}
+        onResetNotified={resetNotified}
+        onCopyLog={() => void copyReminderLog()}
+        onClearLog={clearReminderLog}
       />
 
       <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">

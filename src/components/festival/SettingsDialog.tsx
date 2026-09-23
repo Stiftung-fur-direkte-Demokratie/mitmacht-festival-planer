@@ -2,6 +2,36 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icons";
 import type { OfflineStatus } from "@/lib/pwa";
 
+export type ReminderDiagnosticSession = {
+  id: string;
+  title: string;
+  start: string;
+  minutes: number;
+  status: string;
+};
+
+export type ReminderDiagnostics = {
+  device: string;
+  browser: string;
+  notificationSupported: boolean;
+  swSupported: boolean;
+  swDisabledReason: string | null;
+  swController: boolean;
+  swRegistration: boolean;
+  swActive: boolean;
+  swWaiting: boolean;
+  build: string;
+  berlinTime: string;
+  deviceTimezone: string;
+  visibility: string;
+  lastCheck: string | null;
+  checkCount: number;
+  nextTimer: string | null;
+  sessions: ReminderDiagnosticSession[];
+  log: string[];
+  copyFallback: string | null;
+};
+
 export type SettingsProps = {
   open: boolean;
   onClose: () => void;
@@ -26,10 +56,19 @@ export type SettingsProps = {
   onTestNotification: () => void;
   remCount: number;
   remNext: string | null;
+  diagnosticsOpen: boolean;
+  diagnostics: ReminderDiagnostics;
+  onDiagnosticsToggle: (open: boolean) => void;
+  onCheckNow: () => void;
+  onScheduleTest: () => void;
+  onResetNotified: () => void;
+  onCopyLog: () => void;
+  onClearLog: () => void;
 };
 
 export function SettingsDialog(p: SettingsProps) {
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const diagnosticRef = useRef<HTMLElement | null>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
 
@@ -86,6 +125,12 @@ export function SettingsDialog(p: SettingsProps) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.open]);
+
+  useEffect(() => {
+    if (!p.open || !p.diagnosticsOpen) return;
+    const timer = setTimeout(() => diagnosticRef.current?.scrollIntoView({ block: "start" }), 180);
+    return () => clearTimeout(timer);
+  }, [p.diagnosticsOpen, p.open]);
 
   if (!p.open) return null;
 
@@ -314,6 +359,58 @@ export function SettingsDialog(p: SettingsProps) {
                 enthält dieselbe Vorlaufzeit ({p.remLead} Minuten) als Weckzeit.
               </li>
             </ul>
+          </section>
+
+          <section className="setblock diagblock" aria-labelledby="set-4" ref={diagnosticRef}>
+            <details open={p.diagnosticsOpen} onToggle={(e) => p.onDiagnosticsToggle(e.currentTarget.open)}>
+              <summary id="set-4">Diagnose</summary>
+              <div className="diagbody">
+                <h4>Umgebung</h4>
+                <dl className="diaggrid">
+                  <div><dt>Gerät / Browser</dt><dd>{p.diagnostics.device} · {p.diagnostics.browser}</dd></div>
+                  <div><dt>Installiert</dt><dd>{p.standalone ? "ja" : "nein"}</dd></div>
+                  <div><dt>Notification</dt><dd>{p.diagnostics.notificationSupported ? `ja · ${p.perm}` : "nein"}</dd></div>
+                  <div><dt>Service Worker</dt><dd>{p.diagnostics.swSupported ? "unterstützt" : "nicht unterstützt"}</dd></div>
+                  <div><dt>SW deaktiviert</dt><dd>{p.diagnostics.swDisabledReason ?? "nein"}</dd></div>
+                  <div><dt>SW-Zustand</dt><dd>Controller {p.diagnostics.swController ? "ja" : "nein"} · Registrierung {p.diagnostics.swRegistration ? "ja" : "nein"} · active {p.diagnostics.swActive ? "ja" : "nein"} · waiting {p.diagnostics.swWaiting ? "ja" : "nein"}</dd></div>
+                  <div><dt>App-Build</dt><dd>{p.diagnostics.build}</dd></div>
+                  <div><dt>Berlin / Gerätezone</dt><dd>{p.diagnostics.berlinTime} · {p.diagnostics.deviceTimezone}</dd></div>
+                  <div><dt>Sichtbarkeit</dt><dd>{p.diagnostics.visibility}</dd></div>
+                </dl>
+
+                <h4>Timer</h4>
+                <dl className="diaggrid">
+                  <div><dt>Letzte Prüfung</dt><dd>{p.diagnostics.lastCheck ?? "noch keine"}</dd></div>
+                  <div><dt>Prüfungen</dt><dd>{p.diagnostics.checkCount}</dd></div>
+                  <div><dt>Nächster exakter Timer</dt><dd>{p.diagnostics.nextTimer ?? "nicht geplant"}</dd></div>
+                </dl>
+
+                <h4>Erinnerungen</h4>
+                <p className="statusline sub2">{p.remOn ? `An · ${p.remLead} Min vorher` : "Aus"}</p>
+                {p.diagnostics.sessions.length ? (
+                  <ul className="diagsessions">
+                    {p.diagnostics.sessions.map((s) => (
+                      <li key={s.id}><b>{s.start} · {s.title}</b><span>{Number.isFinite(s.minutes) ? `${Math.round(s.minutes)} Min · ` : ""}{s.status}</span></li>
+                    ))}
+                  </ul>
+                ) : <p className="fine">Keine gemerkten Sessions.</p>}
+
+                <div className="btnrow diagbuttons">
+                  <button type="button" className="btn small" onClick={p.onCheckNow}>Jetzt prüfen</button>
+                  <button type="button" className="btn small" onClick={p.onScheduleTest}>Test-Erinnerung in 1 Minute</button>
+                  <button type="button" className="btn small" onClick={p.onResetNotified}>Erinnert-Liste zurücksetzen</button>
+                  <button type="button" className="btn small" onClick={p.onCopyLog}>Log kopieren</button>
+                  <button type="button" className="btn small" onClick={p.onClearLog}>Log leeren</button>
+                </div>
+                <p className="fine">Einmal mit offener App testen, einmal App in den Hintergrund legen, einmal Bildschirm sperren.</p>
+
+                <h4>Log</h4>
+                <pre className="diaglog" tabIndex={0}>{p.diagnostics.log.length ? p.diagnostics.log.join("\n") : "Noch keine Einträge."}</pre>
+                {p.diagnostics.copyFallback && (
+                  <textarea className="diagcopy" readOnly value={p.diagnostics.copyFallback} aria-label="Diagnose-Log zum manuellen Kopieren" />
+                )}
+              </div>
+            </details>
           </section>
         </div>
 
