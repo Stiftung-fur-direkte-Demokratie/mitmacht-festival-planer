@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicFeedbackRouteImport } from './routes/api/public/feedback'
 import { Route as ApiPublicAuthAccountRouteImport } from './routes/api/public/auth/account'
+import { Route as ApiPublicFeedbackExportRouteImport } from './routes/api/public/feedback/export'
 import { Route as ApiPublicMessagesSendRouteImport } from './routes/api/public/messages/send'
 import { Route as ApiPublicPushSendRemindersRouteImport } from './routes/api/public/push/send-reminders'
 import { Route as ApiPublicPushSubscribeRouteImport } from './routes/api/public/push/subscribe'
@@ -25,10 +27,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicFeedbackRoute = ApiPublicFeedbackRouteImport.update({
+  id: '/api/public/feedback',
+  path: '/api/public/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAuthAccountRoute = ApiPublicAuthAccountRouteImport.update({
   id: '/api/public/auth/account',
   path: '/api/public/auth/account',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFeedbackExportRoute = ApiPublicFeedbackExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => ApiPublicFeedbackRoute,
 } as any)
 const ApiPublicMessagesSendRoute = ApiPublicMessagesSendRouteImport.update({
   id: '/api/public/messages/send',
@@ -78,7 +90,9 @@ const ApiPublicAuthLinkedinStatusRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
@@ -90,7 +104,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
@@ -103,7 +119,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
@@ -117,7 +135,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/public/feedback'
     | '/api/public/auth/account'
+    | '/api/public/feedback/export'
     | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
@@ -129,7 +149,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/public/feedback'
     | '/api/public/auth/account'
+    | '/api/public/feedback/export'
     | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
@@ -141,7 +163,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/api/public/feedback'
     | '/api/public/auth/account'
+    | '/api/public/feedback/export'
     | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
@@ -154,6 +178,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicFeedbackRoute: typeof ApiPublicFeedbackRouteWithChildren
   ApiPublicAuthAccountRoute: typeof ApiPublicAuthAccountRoute
   ApiPublicMessagesSendRoute: typeof ApiPublicMessagesSendRoute
   ApiPublicPushSendRemindersRoute: typeof ApiPublicPushSendRemindersRoute
@@ -174,12 +199,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/feedback': {
+      id: '/api/public/feedback'
+      path: '/api/public/feedback'
+      fullPath: '/api/public/feedback'
+      preLoaderRoute: typeof ApiPublicFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/auth/account': {
       id: '/api/public/auth/account'
       path: '/api/public/auth/account'
       fullPath: '/api/public/auth/account'
       preLoaderRoute: typeof ApiPublicAuthAccountRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/public/feedback/export': {
+      id: '/api/public/feedback/export'
+      path: '/export'
+      fullPath: '/api/public/feedback/export'
+      preLoaderRoute: typeof ApiPublicFeedbackExportRouteImport
+      parentRoute: typeof ApiPublicFeedbackRoute
     }
     '/api/public/messages/send': {
       id: '/api/public/messages/send'
@@ -240,8 +279,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ApiPublicFeedbackRouteChildren {
+  ApiPublicFeedbackExportRoute: typeof ApiPublicFeedbackExportRoute
+}
+
+const ApiPublicFeedbackRouteChildren: ApiPublicFeedbackRouteChildren = {
+  ApiPublicFeedbackExportRoute: ApiPublicFeedbackExportRoute,
+}
+
+const ApiPublicFeedbackRouteWithChildren =
+  ApiPublicFeedbackRoute._addFileChildren(ApiPublicFeedbackRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicFeedbackRoute: ApiPublicFeedbackRouteWithChildren,
   ApiPublicAuthAccountRoute: ApiPublicAuthAccountRoute,
   ApiPublicMessagesSendRoute: ApiPublicMessagesSendRoute,
   ApiPublicPushSendRemindersRoute: ApiPublicPushSendRemindersRoute,
