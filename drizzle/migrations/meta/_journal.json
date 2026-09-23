@@ -15,6 +15,13 @@
       "when": 1790187358478,
       "tag": "0001_push_cron_token",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790188200747,
+      "tag": "0002_community_linkedin",
+      "breakpoints": true
     }
   ]
 }

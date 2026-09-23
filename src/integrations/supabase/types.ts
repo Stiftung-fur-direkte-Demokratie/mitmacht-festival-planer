@@ -14,6 +14,93 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance: {
+        Row: {
+          created_at: string
+          is_public: boolean
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          is_public?: boolean
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          is_public?: boolean
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      oauth_states: {
+        Row: {
+          created_at: string
+          nonce: string
+          return_path: string
+          state: string
+        }
+        Insert: {
+          created_at?: string
+          nonce: string
+          return_path?: string
+          state: string
+        }
+        Update: {
+          created_at?: string
+          nonce?: string
+          return_path?: string
+          state?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          consent_at: string | null
+          display_name: string
+          hidden_by_admin: boolean
+          id: string
+          linkedin_sub: string | null
+          linkedin_url: string | null
+          organisation: string | null
+          profile_done: boolean
+          role_title: string | null
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          avatar_url?: string | null
+          consent_at?: string | null
+          display_name?: string
+          hidden_by_admin?: boolean
+          id: string
+          linkedin_sub?: string | null
+          linkedin_url?: string | null
+          organisation?: string | null
+          profile_done?: boolean
+          role_title?: string | null
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          avatar_url?: string | null
+          consent_at?: string | null
+          display_name?: string
+          hidden_by_admin?: boolean
+          id?: string
+          linkedin_sub?: string | null
+          linkedin_url?: string | null
+          organisation?: string | null
+          profile_done?: boolean
+          role_title?: string | null
+          updated_at?: string
+          visible?: boolean
+        }
+        Relationships: []
+      }
       push_config: {
         Row: {
           cron_token: string
@@ -120,15 +207,57 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin_set_hidden: {
+        Args: { _hidden: boolean; _user_id: string }
+        Returns: undefined
+      }
+      community_public: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          display_name: string
+          hidden: boolean
+          linkedin_url: string
+          organisation: string
+          role_title: string
+          session_ids: string[]
+          user_id: string
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_known_session: { Args: { _id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -255,6 +384,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
