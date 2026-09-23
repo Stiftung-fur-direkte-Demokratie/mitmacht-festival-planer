@@ -54,3 +54,34 @@ export function decodeJwtPayload(jwt: string): Record<string, unknown> | null {
     return null;
   }
 }
+
+export const STATE_COOKIE = "li_state";
+const COOKIE_ATTRS = "HttpOnly; Secure; SameSite=Lax; Path=/api/public/auth/linkedin";
+
+export function stateCookie(state: string) {
+  return `${STATE_COOKIE}=${state}; ${COOKIE_ATTRS}; Max-Age=600`;
+}
+export function clearStateCookie() {
+  return `${STATE_COOKIE}=; ${COOKIE_ATTRS}; Max-Age=0`;
+}
+export function readStateCookie(request: Request): string {
+  const raw = request.headers.get("cookie") ?? "";
+  for (const part of raw.split(";")) {
+    const [k, ...v] = part.trim().split("=");
+    if (k === STATE_COOKIE) return v.join("=");
+  }
+  return "";
+}
+export function safeEqual(a: string, b: string): boolean {
+  const ea = new TextEncoder().encode(a);
+  const eb = new TextEncoder().encode(b);
+  const len = Math.max(ea.length, eb.length);
+  let diff = ea.length ^ eb.length;
+  for (let i = 0; i < len; i++) diff |= (ea[i] ?? 0) ^ (eb[i] ?? 0);
+  return diff === 0;
+}
+export function withCookie(res: Response, cookie: string) {
+  const r = new Response(res.body, res);
+  r.headers.append("Set-Cookie", cookie);
+  return r;
+}

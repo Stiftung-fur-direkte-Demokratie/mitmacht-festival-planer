@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { admin } from "@/lib/push.server";
-import { appError, linkedinConfig, randomToken, redirect, safeReturn } from "@/lib/linkedin.server";
+import { appError, linkedinConfig, randomToken, redirect, safeReturn, stateCookie, withCookie } from "@/lib/linkedin.server";
 
 export const Route = createFileRoute("/api/public/auth/linkedin/start")({
   server: {
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/api/public/auth/linkedin/start")({
         auth.searchParams.set("state", state);
         auth.searchParams.set("nonce", nonce);
         auth.searchParams.set("scope", "openid profile email");
-        return redirect(auth.toString());
+        return withCookie(redirect(auth.toString()), stateCookie(state));
       },
     },
   },
