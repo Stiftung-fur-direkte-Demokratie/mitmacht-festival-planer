@@ -555,3 +555,10 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .viewrow{display:flex;align-items:center;gap:6px}
 .viewrow .views{flex:1;min-width:0}
 .viewrow .barbtns{margin-left:0}
+@media (max-width:420px){
+  .viewrow{gap:2px}
+  .viewrow .barbtns{gap:0}
+  .viewrow .settingsbtn{width:36px;height:40px;min-width:36px}
+  .viewrow .views{gap:2px;padding:3px}
+  .viewrow .views button{font-size:12.5px;padding:8px 2px;overflow:hidden;text-overflow:ellipsis}
+}
