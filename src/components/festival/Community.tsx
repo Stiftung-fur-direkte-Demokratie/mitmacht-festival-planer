@@ -490,7 +490,7 @@ export function HeroFaces({ people, onOpen }: { people: CommunityPerson[]; onOpe
         )}
       </span>
       <button type="button" className="hf-more" onClick={onOpen}>
-        {pool.length} aus der Community
+        Mitmacht-Community
       </button>
     </div>
   );
