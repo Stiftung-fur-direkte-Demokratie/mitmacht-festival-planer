@@ -1140,15 +1140,7 @@ function Planner() {
             </div>
           </div>
         </details>
-        <div className="teamblock">
-          <p>
-            Wir freuen uns aufs Festival mit euch, Team{" "}
-            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
-          </p>
-          <img className="teamimg" src={teamImg.url} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
-        </div>
-
-        <div className="foot">
+        <div className="foot srcnote">
           <div className="sync">
             <span className="dot" />
             <span>Deine Auswahl wird in diesem Browser gespeichert.</span>
@@ -1159,6 +1151,16 @@ function Planner() {
               Programm auf faktor-d.org ↗
             </a>
           </div>
+        </div>
+        <div className="teamblock">
+          <p>
+            Wir freuen uns aufs Festival mit euch, Team{" "}
+            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
+          </p>
+          <img className="teamimg" src={teamImg.url} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
+        </div>
+
+        <div className="foot">
           <div>
             Das ist ein Online-Tool der Stiftung für Direkte Demokratie mit Inhalten von{" "}
             <a

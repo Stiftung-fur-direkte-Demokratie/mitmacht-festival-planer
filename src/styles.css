@@ -466,3 +466,4 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 
 .teamimg{display:block;width:50%;min-width:220px;max-width:560px;aspect-ratio:1672/500;object-fit:cover;object-position:center 48%;margin:14px 0 0;border-radius:16px;background:#fff}
 .teamblock{margin:22px 0 0}.teamblock p{margin:0;font-size:16px;color:var(--ink)}.teamblock a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.srcnote{font-size:12px;margin-top:16px}.srcnote *{font-size:inherit}
