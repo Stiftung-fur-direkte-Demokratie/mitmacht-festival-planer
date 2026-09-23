@@ -537,3 +537,7 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .offline.small{font-size:13px}
 .views button{white-space:nowrap;min-width:0}
 @media (max-width:400px){.views .count{margin-left:2px}.views button{font-size:13.5px;padding:9px 2px}}
+.barbtns{display:flex;align-items:center;gap:2px;margin-left:auto;flex:none}
+.bartitle{opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
+.bartitle.show{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.bartitle{transition:none}}

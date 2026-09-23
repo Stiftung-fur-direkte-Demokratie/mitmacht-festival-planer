@@ -300,6 +300,15 @@ function Planner() {
     toastTimer.current = setTimeout(() => setToast(""), 1800);
   }, []);
 
+  /* ---- Sticky-Titel ---- */
+  const [stuck, setStuck] = useState(false);
+  useEffect(() => {
+    const on = () => setStuck(window.scrollY > (barRef.current?.offsetTop ?? 0) - 2 && window.scrollY > 40);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+
   /* ---- Community ---- */
   const cm = useCommunity({ sel, setSel, online, notify: showToast });
   const [profileOpen, setProfileOpen] = useState(false);
@@ -949,7 +958,8 @@ function Planner() {
       <nav className="bar" aria-label="Ansicht und Tag" ref={barRef}>
         <div className="wrap">
           <div className="bartop">
-            <span className="bartitle" aria-hidden="true" />
+            <span className={`bartitle${stuck ? " show" : ""}`} aria-hidden={!stuck}>Mitmacht 2026</span>
+            <span className="barbtns">
             {cm.userId ? (
               <button
                 type="button"
@@ -975,6 +985,7 @@ function Planner() {
             <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
               <Icon name="gear" />
             </button>
+            </span>
           </div>
           <div className="views" role="tablist" aria-label="Ansicht">
             <button
