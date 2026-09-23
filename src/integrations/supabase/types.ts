@@ -14,7 +14,97 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      push_sent: {
+        Row: {
+          sent_at: string
+          session_id: string
+          subscription_id: string
+        }
+        Insert: {
+          sent_at?: string
+          session_id: string
+          subscription_id: string
+        }
+        Update: {
+          sent_at?: string
+          session_id?: string
+          subscription_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_sent_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "push_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          enabled: boolean
+          endpoint: string
+          id: string
+          lead_minutes: number
+          p256dh: string
+          platform: string
+          session_ids: string[]
+          updated_at: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          enabled?: boolean
+          endpoint: string
+          id?: string
+          lead_minutes?: number
+          p256dh: string
+          platform?: string
+          session_ids?: string[]
+          updated_at?: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          enabled?: boolean
+          endpoint?: string
+          id?: string
+          lead_minutes?: number
+          p256dh?: string
+          platform?: string
+          session_ids?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      push_tests: {
+        Row: {
+          due_at: string
+          id: string
+          subscription_id: string
+        }
+        Insert: {
+          due_at: string
+          id?: string
+          subscription_id: string
+        }
+        Update: {
+          due_at?: string
+          id?: string
+          subscription_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_tests_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "push_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
