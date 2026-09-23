@@ -289,7 +289,7 @@ body{
 .card .note{margin:4px 0 0;font-size:14px;color:var(--ink-soft)}
 .card .sub{margin:3px 0 0;font-size:14.5px;color:var(--ink-soft);font-weight:500;text-wrap:pretty}
 .more{margin-top:8px;border:0;background:none;padding:6px 0;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer;
-  display:inline-flex;gap:6px;align-items:center;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+  display:flex;width:fit-content;gap:6px;align-items:center;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
 .more svg{width:14px;height:14px;transition:transform .2s ease}
 .more[aria-expanded="true"] svg{transform:rotate(180deg)}
 .more-panel{grid-column:1 / -1;margin:6px 4px 2px 38px;padding-top:12px;border-top:1px solid var(--line);font-size:15px;line-height:1.5;max-width:68ch}
