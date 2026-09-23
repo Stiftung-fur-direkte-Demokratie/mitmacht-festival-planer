@@ -43,14 +43,13 @@ export function SettingsDialog(p: SettingsProps) {
     const focusables = () =>
       Array.from(
         panel?.querySelectorAll<HTMLElement>(
-          'button:not([disabled]),[href],input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])',
+          'button:not([disabled]),a[href],input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])',
         ) ?? [],
       ).filter((el) => el.getClientRects().length > 0);
     const focusFirst = () => {
       const list = focusables();
       if (list.length) list[0]!.focus();
       else panel?.focus();
-      console.log("MMFOCUS", list[0]?.outerHTML.slice(0, 80), "->", document.activeElement?.className);
     };
     const t1 = setTimeout(focusFirst, 30);
     const t2 = setTimeout(focusFirst, 150);
