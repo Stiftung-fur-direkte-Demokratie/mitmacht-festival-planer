@@ -454,3 +454,44 @@ export function ProfileSheet(p: {
     </div>
   );
 }
+
+export function HeroFaces({ people, onOpen }: { people: CommunityPerson[]; onOpen: () => void }) {
+  const pool = people.filter((p) => !p.hidden);
+  const [offset, setOffset] = useState(0);
+  const [fade, setFade] = useState(false);
+  useEffect(() => {
+    if (pool.length <= 5) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const t = window.setInterval(() => {
+      if (reduce) return setOffset((o) => (o + 5) % pool.length);
+      setFade(true);
+      window.setTimeout(() => {
+        setOffset((o) => (o + 5) % pool.length);
+        setFade(false);
+      }, 350);
+    }, 4000);
+    return () => window.clearInterval(t);
+  }, [pool.length]);
+  if (!pool.length) return null;
+  const shown = Array.from({ length: Math.min(5, pool.length) }, (_, i) => pool[(offset + i) % pool.length]!);
+  return (
+    <div className="herofaces">
+      <span className={`hf-row${fade ? " fade" : ""}`}>
+        {shown.map((p) =>
+          p.linkedin_url ? (
+            <a key={p.user_id} href={p.linkedin_url} target="_blank" rel="noopener noreferrer" title={p.display_name} aria-label={`${p.display_name} auf LinkedIn`}>
+              <Avatar name={p.display_name} url={p.avatar_url} size={32} />
+            </a>
+          ) : (
+            <button key={p.user_id} type="button" onClick={onOpen} title={p.display_name} aria-label={`${p.display_name} in der Community`}>
+              <Avatar name={p.display_name} url={p.avatar_url} size={32} />
+            </button>
+          ),
+        )}
+      </span>
+      <button type="button" className="hf-more" onClick={onOpen}>
+        {pool.length} aus der Community
+      </button>
+    </div>
+  );
+}

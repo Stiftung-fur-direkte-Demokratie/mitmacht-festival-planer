@@ -45,7 +45,7 @@ import {
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
-import { Avatar, AvatarStack, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
+import { Avatar, AvatarStack, HeroFaces, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
 import { useCommunity } from "@/lib/community";
 
 export const Route = createFileRoute("/")({
@@ -952,6 +952,13 @@ function Planner() {
               </a>
             </span>
           </p>
+          <HeroFaces
+            people={cm.people}
+            onOpen={() => {
+              setView("community");
+              barRef.current?.scrollIntoView({ behavior: "smooth" });
+            }}
+          />
         </div>
       </header>
 

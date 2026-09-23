@@ -541,3 +541,12 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .bartitle{opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
 .bartitle.show{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.bartitle{transition:none}}
+.herofaces{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.hf-row{display:inline-flex;transition:opacity .35s ease}
+.hf-row.fade{opacity:0}
+.hf-row>a,.hf-row>button{display:inline-flex;border:0;background:none;padding:0;cursor:pointer;border-radius:50%}
+.hf-row>*+*{margin-left:-8px}
+.hf-row .avatar{border:2px solid var(--bg)}
+.hf-row>a:focus-visible,.hf-row>button:focus-visible,.hf-more:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.hf-more{border:0;background:none;padding:6px 0;font:inherit;font-size:14px;font-weight:600;color:var(--ink-soft);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+@media (prefers-reduced-motion:reduce){.hf-row{transition:none}}
