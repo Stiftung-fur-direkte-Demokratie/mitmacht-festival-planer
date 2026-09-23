@@ -63,6 +63,38 @@ function clearSyncedUser() {
   writeSyncMeta({ ...readSyncMeta(), syncedUserId: null });
 }
 
+/** Normalisiert Eingaben zu https://www.linkedin.com/in/<vanity> oder null */
+export function normalizeLinkedIn(input: string): string | null {
+  let v = input.trim();
+  if (!v) return null;
+  let vanity: string | null = null;
+  const bare = v.replace(/^@/, "");
+  if (!/[/.:]/.test(bare) && /^[\p{L}\p{N}_%-]+$/u.test(bare)) {
+    vanity = bare;
+  } else {
+    if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+    let u: URL;
+    try {
+      u = new URL(v);
+    } catch {
+      return null;
+    }
+    const host = u.hostname.toLowerCase();
+    if (host !== "linkedin.com" && !/^[a-z]{1,3}\.linkedin\.com$/.test(host)) return null;
+    const m = u.pathname.match(/^\/in\/([^/]+)/i);
+    if (!m) return null;
+    try {
+      vanity = decodeURIComponent(m[1]!);
+    } catch {
+      vanity = m[1]!;
+    }
+  }
+  if (!vanity || !/^[\p{L}\p{N}_%.-]+$/u.test(vanity)) return null;
+  const enc = /^[A-Za-z0-9_%.-]+$/.test(vanity) ? vanity : encodeURIComponent(vanity);
+  const out = `https://www.linkedin.com/in/${enc}`;
+  return out.length <= 200 && LINKEDIN_URL_RE.test(out) ? out : null;
+}
+
 export function initials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? parts[parts.length - 1]![0] : "")).toUpperCase() || "?";

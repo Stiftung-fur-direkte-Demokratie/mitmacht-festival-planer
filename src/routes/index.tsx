@@ -322,6 +322,22 @@ function Planner() {
   /* ---- Community ---- */
   const cm = useCommunity({ sel, setSel, online, notify: showToast });
   const [profileOpen, setProfileOpen] = useState(false);
+  const [liNudgeOff, setLiNudgeOff] = useState(true);
+  useEffect(() => {
+    try {
+      setLiNudgeOff(localStorage.getItem("mm-li-nudge-dismissed") === "1");
+    } catch {
+      setLiNudgeOff(false);
+    }
+  }, []);
+  const dismissLiNudge = () => {
+    setLiNudgeOff(true);
+    try {
+      localStorage.setItem("mm-li-nudge-dismissed", "1");
+    } catch {
+      /* ignorieren */
+    }
+  };
   const [cmSession, setCmSession] = useState<string | null>(null);
   useEffect(() => {
     if (cm.firstLogin) setProfileOpen(true);
@@ -1162,6 +1178,22 @@ function Planner() {
           </div>
         )}
 
+        {online && cm.profile?.visible && !cm.profile.linkedin_url && !liNudgeOff && (
+          <div className="notice small">
+            <div className="row">
+              <p>
+                Damit dich andere aus der Community kontaktieren können, ergänze deinen LinkedIn-Link.{" "}
+                <button type="button" className="linkbtn" onClick={() => setProfileOpen(true)}>
+                  Jetzt ergänzen
+                </button>
+              </p>
+              <button type="button" className="linkbtn close" aria-label="Hinweis schließen" onClick={dismissLiNudge}>
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+
         {shareIds && (
           <div className="share" role="status">
             <p>{shareIds.length} Sessions übernehmen?</p>
@@ -1310,6 +1342,7 @@ function Planner() {
             onClearSessionFilter={() => setCmSession(null)}
             onLogin={cm.login}
             onOpenProfile={() => setProfileOpen(true)}
+            currentUserId={cm.userId}
             onHide={(uid, h) => void cm.setHidden(uid, h)}
           />
         ) : (
@@ -1703,6 +1736,7 @@ function Planner() {
           void cm.logout();
         }}
         onDelete={cm.deleteAccount}
+        onNotify={showToast}
       />
 
       <SettingsDialog

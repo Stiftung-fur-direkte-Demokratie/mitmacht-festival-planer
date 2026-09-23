@@ -163,6 +163,7 @@
   --keynote:#0B3A2A;
   --ok:#1C7A4B;
   --warn:#C23225;
+  --caution:#9A5B00;
   --focus:#2E2C84;
   --shadow:0 1px 0 rgba(11,58,42,.06), 0 8px 24px -12px rgba(11,58,42,.25);
   --font:"DM Sans Variable", "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -187,6 +188,7 @@
     --keynote:#CDEBDB;
     --ok:#62CF98;
     --warn:#FF7A6B;
+    --caution:#F2B25C;
     --focus:#A3A1F7;
     --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.7);
   }
@@ -454,6 +456,10 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .setblock ul{margin:8px 0 0;padding-left:18px}
 .statusline{margin:0 0 6px;font-weight:700;font-size:14.5px;overflow-wrap:anywhere}
 .statusline.ok{color:var(--ok)}
+.statusline.caution{color:var(--caution)}
+.cm-you{font-weight:500;color:var(--ink-soft);font-size:.85em}
+.cm-nolink{margin:0;font-size:13px;color:var(--ink-soft)}
+.li-help{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
 .statusline.sub2{font-weight:500;color:var(--ink-soft);font-size:13.5px}
 .steps{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
 .steps li{display:flex;align-items:center;gap:8px;font-size:14.5px;flex-wrap:wrap}
