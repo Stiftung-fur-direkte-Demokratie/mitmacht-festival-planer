@@ -1,0 +1,29 @@
+{
+  "name": "Mitmacht 2026 Programmplaner",
+  "short_name": "Mitmacht 26",
+  "lang": "de",
+  "dir": "ltr",
+  "description": "Persönliches Festivalprogramm für Mitmacht 2026 × reCampaign – offline nutzbar.",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#0B3A2A",
+  "background_color": "#FFFFFF",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    {
+      "src": "/icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

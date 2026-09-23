@@ -12,12 +12,16 @@ import {
   clashesFor,
   dayOf,
   gLink,
+  isLong,
   matchesQuery,
+  minutesUntilEnd,
+  minutesUntilStart,
   nowBerlin,
   timeLabel,
   type Item,
   type NowInfo,
 } from "@/lib/festival";
+import { isIos, isStandalone, registerServiceWorker, swDisabled } from "@/lib/pwa";
 import { Icon, IconSprite } from "@/components/festival/Icons";
 import { SessionCard } from "@/components/festival/SessionCard";
 
@@ -45,8 +49,15 @@ export const Route = createFileRoute("/")({
 
 const LS_KEY = "mitmacht26-programm-v1";
 const LS_UI = LS_KEY + "-ui";
+const LS_PWA = "mitmacht26-pwa-v1";
+const LS_REM = "mitmacht26-reminders-v1";
 
 type Stored = { sel: string[]; gcal: Record<string, { v: string; t: number }> };
+type RemStore = { on: boolean; lead: number; notified: string[] };
+type InstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: string }>;
+};
 
 function Planner() {
   const [ready, setReady] = useState(false);
@@ -64,6 +75,16 @@ function Planner() {
   const [copyMsg, setCopyMsg] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const barRef = useRef<HTMLElement | null>(null);
+
+  /* ---- PWA ---- */
+  const [swUpdate, setSwUpdate] = useState<{ apply: () => void } | null>(null);
+  const [online, setOnline] = useState(true);
+  const [installEvt, setInstallEvt] = useState<InstallPromptEvent | null>(null);
+  const [standalone, setStandalone] = useState(false);
+  const [ios, setIos] = useState(false);
+  const [iosHintOff, setIosHintOff] = useState(false);
+  const [rem, setRem] = useState<RemStore>({ on: false, lead: 10, notified: [] });
+  const [perm, setPerm] = useState<NotificationPermission | "unsupported">("unsupported");
 
   /* ---- Laden ---- */
   useEffect(() => {
@@ -87,13 +108,41 @@ function Planner() {
     } catch {
       /* ignore */
     }
+    try {
+      const rawPwa = localStorage.getItem(LS_PWA);
+      if (rawPwa) {
+        const u = JSON.parse(rawPwa) as { iosHintOff?: boolean };
+        if (u.iosHintOff) setIosHintOff(true);
+      }
+      const rawRem = localStorage.getItem(LS_REM);
+      if (rawRem) {
+        const r = JSON.parse(rawRem) as Partial<RemStore>;
+        setRem({
+          on: !!r.on,
+          lead: [5, 10, 15].includes(Number(r.lead)) ? Number(r.lead) : 10,
+          notified: Array.isArray(r.notified) ? r.notified : [],
+        });
+      }
+    } catch {
+      /* ignore */
+    }
+    setStandalone(isStandalone());
+    setIos(isIos());
+    setOnline(navigator.onLine);
+    if ("Notification" in window) setPerm(Notification.permission);
     const params = new URLSearchParams(window.location.search);
     const p = params.get("p");
     if (p) {
       const ids = p.split(",").map((x) => x.trim()).filter((id) => BY_ID[id]);
       if (ids.length) setShareIds(ids);
     }
-    if (window.location.hash === "#mein") setView("mine");
+    const focusId = params.get("s");
+    if (window.location.hash === "#mein" || focusId) setView("mine");
+    if (focusId) {
+      setTimeout(() => {
+        document.getElementById("c-" + focusId)?.scrollIntoView({ block: "center" });
+      }, 400);
+    }
     setReady(true);
   }, []);
 
@@ -115,10 +164,70 @@ function Planner() {
     }
   }, [types, ready]);
 
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      localStorage.setItem(LS_REM, JSON.stringify(rem));
+    } catch {
+      /* ignore */
+    }
+  }, [rem, ready]);
+  useEffect(() => {
+    if (!ready) return;
+    try {
+      localStorage.setItem(LS_PWA, JSON.stringify({ iosHintOff }));
+    } catch {
+      /* ignore */
+    }
+  }, [iosHintOff, ready]);
+
   /* ---- Uhrzeit-Status jede Minute ---- */
   useEffect(() => {
     const t = setInterval(() => setNow(nowBerlin()), 60000);
     return () => clearInterval(t);
+  }, []);
+
+  /* ---- Service Worker, Offline, Installation ---- */
+  useEffect(() => {
+    registerServiceWorker((apply) => setSwUpdate({ apply }));
+    const on = () => setOnline(true);
+    const off = () => setOnline(false);
+    window.addEventListener("online", on);
+    window.addEventListener("offline", off);
+    const bip = (e: Event) => {
+      e.preventDefault();
+      setInstallEvt(e as InstallPromptEvent);
+    };
+    const installed = () => {
+      setInstallEvt(null);
+      setStandalone(true);
+    };
+    window.addEventListener("beforeinstallprompt", bip);
+    window.addEventListener("appinstalled", installed);
+    const mq = window.matchMedia("(display-mode: standalone)");
+    const mqChange = () => setStandalone(isStandalone());
+    mq.addEventListener?.("change", mqChange);
+    const onMsg = (e: MessageEvent) => {
+      const data = e.data as { type?: string; id?: string } | null;
+      if (data && data.type === "open-session") {
+        setView("mine");
+        if (data.id) {
+          setTimeout(
+            () => document.getElementById("c-" + data.id)?.scrollIntoView({ block: "center" }),
+            250,
+          );
+        }
+      }
+    };
+    navigator.serviceWorker?.addEventListener("message", onMsg);
+    return () => {
+      window.removeEventListener("online", on);
+      window.removeEventListener("offline", off);
+      window.removeEventListener("beforeinstallprompt", bip);
+      window.removeEventListener("appinstalled", installed);
+      mq.removeEventListener?.("change", mqChange);
+      navigator.serviceWorker?.removeEventListener("message", onMsg);
+    };
   }, []);
 
   const showToast = useCallback((text: string) => {
@@ -132,6 +241,107 @@ function Planner() {
     [sel],
   );
   const clashesOf = useCallback((s: Item) => clashesFor(s, selected), [selected]);
+
+  /* ---- Lokale Erinnerungen ---- */
+  const remRef = useRef(rem);
+  remRef.current = rem;
+  const selectedRef = useRef(selected);
+  selectedRef.current = selected;
+
+  const checkReminders = useCallback(() => {
+    const n = nowBerlin();
+    setNow(n);
+    const r = remRef.current;
+    if (!r.on || typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    const due = selectedRef.current.filter((s) => {
+      if (isLong(s) || r.notified.includes(s.id)) return false;
+      const u = minutesUntilStart(s, n);
+      return u <= r.lead && u > -1;
+    });
+    if (!due.length) return;
+    void (async () => {
+      for (const s of due) {
+        const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
+        const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
+        const opts: NotificationOptions = {
+          body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
+          tag: s.id,
+          icon: "/icons/icon-192.png",
+          badge: "/icons/icon-192.png",
+        };
+        try {
+          const reg = await navigator.serviceWorker?.ready;
+          if (reg) await reg.showNotification(title, opts);
+          else new Notification(title, opts);
+        } catch {
+          try {
+            new Notification(title, opts);
+          } catch {
+            /* ignore */
+          }
+        }
+      }
+      setRem((cur) => ({
+        ...cur,
+        notified: Array.from(new Set([...cur.notified, ...due.map((s) => s.id)])),
+      }));
+    })();
+  }, []);
+
+  useEffect(() => {
+    checkReminders();
+    const t = setInterval(checkReminders, 30000);
+    const vis = () => {
+      if (!document.hidden) checkReminders();
+    };
+    document.addEventListener("visibilitychange", vis);
+    window.addEventListener("focus", checkReminders);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", vis);
+      window.removeEventListener("focus", checkReminders);
+    };
+  }, [checkReminders]);
+
+  const upcoming = useMemo(() => {
+    if (!now.date) return null;
+    const live = selected.find(
+      (s) => !isLong(s) && minutesUntilStart(s, now) <= 0 && minutesUntilEnd(s, now) > 0,
+    );
+    if (live) return { s: live, live: true, mins: 0 };
+    const soon = selected
+      .filter((s) => !isLong(s))
+      .map((s) => ({ s, u: minutesUntilStart(s, now) }))
+      .filter((x) => x.u > 0 && x.u <= 60)
+      .sort((a, b) => a.u - b.u)[0];
+    return soon ? { s: soon.s, live: false, mins: soon.u } : null;
+  }, [selected, now]);
+
+  const askPermission = async () => {
+    if (typeof Notification === "undefined") {
+      showToast("Benachrichtigungen werden hier nicht unterstützt");
+      return;
+    }
+    try {
+      const p = await Notification.requestPermission();
+      setPerm(p);
+      if (p === "granted") {
+        setRem((r) => ({ ...r, on: true }));
+        showToast("Erinnerungen aktiviert");
+      } else {
+        showToast("Benachrichtigungen nicht erlaubt");
+      }
+    } catch {
+      showToast("Benachrichtigungen nicht möglich");
+    }
+  };
+
+  const installApp = async () => {
+    if (!installEvt) return;
+    await installEvt.prompt();
+    await installEvt.userChoice;
+    setInstallEvt(null);
+  };
 
   const togglePick = (id: string) => {
     const s = BY_ID[id];
@@ -240,7 +450,9 @@ function Planner() {
 
   const downloadIcs = () => {
     if (!selected.length) return;
-    const blob = new Blob([buildIcs(selected)], { type: "text/calendar;charset=utf-8" });
+    const blob = new Blob([buildIcs(selected, rem.lead)], {
+      type: "text/calendar;charset=utf-8",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -345,6 +557,68 @@ function Planner() {
       </nav>
 
       <main className="wrap">
+        {swUpdate && (
+          <div className="notice" role="status">
+            <div className="row">
+              <p>Neue Version verfügbar.</p>
+              <button type="button" className="btn small primary" onClick={swUpdate.apply}>
+                Neu laden
+              </button>
+              <button type="button" className="linkbtn close" onClick={() => setSwUpdate(null)}>
+                Später
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!online && (
+          <p className="offline" role="status">
+            <span className="dot" aria-hidden="true" />
+            Offline – dein Programm ist auf diesem Gerät gespeichert.
+          </p>
+        )}
+
+        {upcoming && (
+          <div className={`nextup${upcoming.live ? " live" : ""}`} role="status">
+            {upcoming.live ? (
+              <>
+                Läuft gerade: <b>{upcoming.s.title}</b> · {upcoming.s.start}–{upcoming.s.end}
+                {upcoming.s.room ? ` · ${upcoming.s.room}` : ""}
+              </>
+            ) : (
+              <>
+                Als Nächstes: <b>{upcoming.s.title}</b> · {upcoming.s.start} Uhr
+                {upcoming.s.room ? ` · ${upcoming.s.room}` : ""} (in {upcoming.mins} Min)
+              </>
+            )}
+          </div>
+        )}
+
+        {!standalone && installEvt && (
+          <div className="notice">
+            <div className="row">
+              <p>App aufs Handy legen – funktioniert dann auch offline.</p>
+              <button type="button" className="btn small primary" onClick={installApp}>
+                App installieren
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!standalone && ios && !iosHintOff && !swDisabled() && (
+          <div className="notice">
+            <div className="row">
+              <p>
+                iPhone/iPad: Tippe unten auf das <b>Teilen-Symbol</b> → <b>Zum Home-Bildschirm</b>.
+                Danach läuft die App offline und kann erinnern.
+              </p>
+              <button type="button" className="linkbtn close" onClick={() => setIosHintOff(true)}>
+                Verstanden
+              </button>
+            </div>
+          </div>
+        )}
+
         {shareIds && (
           <div className="share" role="status">
             <p>{shareIds.length} Sessions übernehmen?</p>
@@ -496,6 +770,77 @@ function Planner() {
               </div>
             ) : (
               <>
+                <section className="rem" aria-labelledby="rem-h">
+                  <h2 id="rem-h">Erinnerungen</h2>
+                  <p className="sub">
+                    Kurz vor Beginn einer gemerkten Session – direkt auf diesem Gerät.
+                  </p>
+                  <div className="row">
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={rem.on}
+                        onChange={(e) => setRem((r) => ({ ...r, on: e.target.checked }))}
+                      />
+                      Erinnerungen an
+                    </label>
+                  </div>
+                  <div className="row lead" role="group" aria-label="Vorlaufzeit">
+                    {[5, 10, 15].map((m) => (
+                      <button
+                        type="button"
+                        key={m}
+                        className="chip"
+                        aria-pressed={rem.lead === m}
+                        onClick={() => setRem((r) => ({ ...r, lead: m }))}
+                      >
+                        {m} Min vorher
+                      </button>
+                    ))}
+                  </div>
+                  {ios && !standalone ? (
+                    <p className="fine">
+                      Auf iPhone und iPad gehen Benachrichtigungen nur, wenn die App über{" "}
+                      <b>Teilen → Zum Home-Bildschirm</b> hinzugefügt wurde (ab iOS 16.4). Danach
+                      kannst du sie hier erlauben.
+                    </p>
+                  ) : perm === "granted" ? (
+                    <p className="fine" style={{ color: "var(--ok)", fontWeight: 600 }}>
+                      Benachrichtigungen sind erlaubt.
+                    </p>
+                  ) : (
+                    <div className="btnrow">
+                      <button type="button" className="btn small primary" onClick={askPermission}>
+                        Benachrichtigungen erlauben
+                      </button>
+                    </div>
+                  )}
+                  <ul className="fine">
+                    <li>
+                      Web-Apps können nur erinnern, solange die App geöffnet ist oder im Hintergrund
+                      noch läuft.
+                    </li>
+                    <li>
+                      Installationen und ganztägige Angebote (ab 3 Stunden) werden nicht erinnert.
+                    </li>
+                    <li>
+                      Sicher auch bei geschlossener App: lade unten die Kalenderdatei – sie enthält
+                      Weckzeiten.
+                    </li>
+                  </ul>
+                  {rem.notified.length > 0 && (
+                    <p className="fine">
+                      <button
+                        type="button"
+                        className="linkbtn"
+                        onClick={() => setRem((r) => ({ ...r, notified: [] }))}
+                      >
+                        Bereits gesendete Erinnerungen zurücksetzen
+                      </button>
+                    </p>
+                  )}
+                </section>
+
                 <section className="export" aria-labelledby="exp-h">
                   <h2 id="exp-h">
                     <Icon name="cal" className="" />
@@ -524,9 +869,11 @@ function Planner() {
                       </button>
                     </div>
                     <p className="fine">
-                      Auf iPhone und Mac öffnet sich die Datei direkt im Kalender. Für Google
-                      Kalender am Computer: Einstellungen → Importieren &amp; exportieren →{" "}
-                      <b>mitmacht-2026-mein-programm.ics</b> auswählen.
+                      Die Datei enthält Erinnerungen ({rem.lead} Minuten vorher) – Apple Kalender
+                      und Outlook übernehmen sie, Google Kalender nutzt beim Import meist seine
+                      eigenen Standard-Erinnerungen. Auf iPhone und Mac öffnet sich die Datei direkt
+                      im Kalender. Für Google Kalender am Computer: Einstellungen → Importieren
+                      &amp; exportieren → <b>mitmacht-2026-mein-programm.ics</b> auswählen.
                     </p>
                   </div>
 

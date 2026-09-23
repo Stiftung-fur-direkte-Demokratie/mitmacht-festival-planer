@@ -76,6 +76,9 @@ export function bySchedule(a: Item, b: Item) {
 
 export type NowInfo = { date: string; time: string };
 export function nowBerlin(): NowInfo {
+  // Test-Hook: erlaubt simulierte Uhrzeiten (window.__MM_NOW = { date, time })
+  const override = (globalThis as { __MM_NOW?: NowInfo }).__MM_NOW;
+  if (override && override.date) return override;
   try {
     const f = new Intl.DateTimeFormat("sv-SE", {
       timeZone: "Europe/Berlin",
@@ -103,6 +106,22 @@ export function statusOf(s: Item, now: NowInfo): "" | "past" | "now" {
   if (now.time >= s.end) return "past";
   if (now.time >= s.start) return "now";
   return "";
+}
+
+/** Minuten bis zum Start (negativ = hat schon begonnen), Basis Europe/Berlin. */
+export function minutesUntilStart(s: Item, now: NowInfo) {
+  if (!now.date) return Number.POSITIVE_INFINITY;
+  const dayDiff = Math.round(
+    (Date.parse(s.date + "T00:00:00Z") - Date.parse(now.date + "T00:00:00Z")) / 86400000,
+  );
+  return dayDiff * 1440 + mins(s.start) - mins(now.time);
+}
+export function minutesUntilEnd(s: Item, now: NowInfo) {
+  if (!now.date) return Number.POSITIVE_INFINITY;
+  const dayDiff = Math.round(
+    (Date.parse(s.date + "T00:00:00Z") - Date.parse(now.date + "T00:00:00Z")) / 86400000,
+  );
+  return dayDiff * 1440 + mins(s.end) - mins(now.time);
 }
 
 export function clashesFor(s: Item, selected: Item[]) {
@@ -210,7 +229,7 @@ function fold(line: string) {
   }
   return out.join("\r\n");
 }
-export function buildIcs(list: Item[]) {
+export function buildIcs(list: Item[], alarmMinutes = 10) {
   const stamp =
     new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
   const lines: string[] = [
@@ -252,8 +271,17 @@ export function buildIcs(list: Item[]) {
       fold(`SUMMARY:${icsEscape(evSummary(s))}`),
       fold(`DESCRIPTION:${icsEscape(evDetails(s))}`),
       fold(`LOCATION:${icsEscape(evLocation(s))}`),
-      "END:VEVENT",
     );
+    if (alarmMinutes > 0) {
+      lines.push(
+        "BEGIN:VALARM",
+        "ACTION:DISPLAY",
+        fold(`DESCRIPTION:${icsEscape("Mitmacht: " + s.title)}`),
+        `TRIGGER:-PT${Math.round(alarmMinutes)}M`,
+        "END:VALARM",
+      );
+    }
+    lines.push("END:VEVENT");
   });
   lines.push("END:VCALENDAR");
   return lines.join("\r\n") + "\r\n";
