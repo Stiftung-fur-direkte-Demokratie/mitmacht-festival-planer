@@ -64,11 +64,12 @@ export async function syncSubscription(
   sessionIds: string[],
   leadMinutes: number,
   platformLabel: string,
+  accessToken?: string | null,
 ) {
   const p = String(platformLabel ?? "").trim().toLowerCase();
   const platform = p === "ios" || p === "android" ? p : "desktop";
   const j = sub.toJSON();
-  return post("/api/public/push/subscribe", {
+  return post("/api/public/push/subscribe", accessToken, {
     subscription: { endpoint: j.endpoint, keys: j.keys },
     sessionIds: sessionIds.slice(0, 100),
     leadMinutes,
