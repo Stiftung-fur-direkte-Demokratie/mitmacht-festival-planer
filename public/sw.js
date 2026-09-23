@@ -1,6 +1,7 @@
 /* Mitmacht 2026 Programmplaner – Service Worker
    Precache der App-Shell, Navigation network-first, Assets cache-first. */
-const VERSION = "mitmacht-2026-v1";
+const BUILD = new URL(self.location.href).searchParams.get("v") || "0";
+const VERSION = "mitmacht-2026-" + BUILD;
 const SHELL = VERSION + "-shell";
 const ASSETS = VERSION + "-assets";
 const SHELL_URL = "/";
@@ -30,7 +31,7 @@ self.addEventListener("activate", (event) => {
     (async () => {
       const keys = await caches.keys();
       await Promise.allSettled(
-        keys.filter((k) => k !== SHELL && k !== ASSETS).map((k) => caches.delete(k)),
+        keys.filter((k) => k.startsWith("mitmacht-") && k !== SHELL && k !== ASSETS).map((k) => caches.delete(k)),
       );
       await self.clients.claim();
     })(),

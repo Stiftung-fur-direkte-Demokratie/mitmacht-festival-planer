@@ -1,3 +1,5 @@
+declare const __APP_BUILD__: string;
+export const APP_BUILD = typeof __APP_BUILD__ === "string" ? __APP_BUILD__ : "dev";
 /* Service-Worker-Registrierung mit Preview-Schutz + PWA-Helfer */
 
 export function isPreviewHost(): boolean {
@@ -53,7 +55,7 @@ export function registerServiceWorker(onUpdate: (apply: () => void) => void) {
   }
   const start = () => {
     navigator.serviceWorker
-      .register("/sw.js", { scope: "/" })
+      .register("/sw.js?v=" + APP_BUILD, { scope: "/" })
       .then((reg) => {
         const notify = (worker: ServiceWorker | null) => {
           if (!worker || !navigator.serviceWorker.controller) return;
@@ -62,6 +64,13 @@ export function registerServiceWorker(onUpdate: (apply: () => void) => void) {
           });
         };
         if (reg.waiting) notify(reg.waiting);
+        const check = () => {
+          if (navigator.onLine) void reg.update().catch(() => undefined);
+        };
+        setInterval(check, 30 * 60 * 1000);
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "visible") check();
+        });
         reg.addEventListener("updatefound", () => {
           const w = reg.installing;
           if (!w) return;
