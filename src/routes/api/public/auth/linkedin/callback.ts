@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { admin } from "@/lib/push.server";
-import { appError, consumeState, decodeJwtPayload, linkedinConfig, redirect } from "@/lib/linkedin.server";
+import { appError, consumeState, decodeJwtPayload, linkedinConfig, redirect, clearStateCookie, readStateCookie, safeEqual, withCookie } from "@/lib/linkedin.server";
 
 const userinfoSchema = z.object({
   sub: z.string().min(1).max(200),
@@ -16,13 +16,20 @@ const userinfoSchema = z.object({
 export const Route = createFileRoute("/api/public/auth/linkedin/callback")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
+      GET: async ({ request }) => withCookie(await handle(request), clearStateCookie()),
+    },
+  },
+});
+
+async function handle(request: Request): Promise<Response> {
         const url = new URL(request.url);
         const state = url.searchParams.get("state") ?? "";
         const code = url.searchParams.get("code");
         const err = url.searchParams.get("error");
 
-        const st = state && state.length <= 100 ? await consumeState(state) : null;
+        const cookieState = readStateCookie(request);
+        if (!state || !cookieState || !safeEqual(state, cookieState)) return appError("state");
+        const st = state.length <= 100 ? await consumeState(state) : null;
         const ret = st?.return_path ?? "/";
         if (err) return appError("cancelled", ret);
         if (!st) return appError("state");
@@ -128,7 +135,4 @@ export const Route = createFileRoute("/api/public/auth/linkedin/callback")({
         }
 
         return redirect(`${ret}#li_token=${encodeURIComponent(link.properties.hashed_token)}`);
-      },
-    },
-  },
-});
+}
