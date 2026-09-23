@@ -977,7 +977,7 @@ function Planner() {
         </div>
       </header>
 
-      <nav className="bar" aria-label="Ansicht und Tag" ref={barRef}>
+      <nav className={`bar${stuck ? " stuck" : ""}`} aria-label="Ansicht und Tag" ref={barRef}>
         <div className="wrap">
           <div className={`bartop${stuck ? " on" : ""}`}>
             <span className={`bartitle${stuck ? " show" : ""}`} aria-hidden={!stuck}>Mitmacht 2026</span>

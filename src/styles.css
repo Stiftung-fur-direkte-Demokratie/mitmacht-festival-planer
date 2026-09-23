@@ -566,3 +566,12 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 
 .hero:has(.herofaces){padding-bottom:6px}
 .herofaces{margin-top:10px}
+/* iPhone Safe Area */
+.hero{padding-top:calc(28px + env(safe-area-inset-top,0px))}
+.bar{padding-top:0}
+.bar.stuck{padding-top:env(safe-area-inset-top,0px)}
+.wrap{padding-left:max(var(--wrap-pad,16px),env(safe-area-inset-left,0px));padding-right:max(var(--wrap-pad,16px),env(safe-area-inset-right,0px))}
+@media (max-width:480px){
+  .hero{padding-top:calc(16px + env(safe-area-inset-top,0px))}
+  .hero:not(:has(.herofaces)){padding-bottom:14px}
+}
