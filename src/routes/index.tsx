@@ -128,7 +128,7 @@ function Planner() {
   }, []);
 
   const selected = useMemo(
-    () => sel.map((id) => BY_ID[id]).filter(Boolean).sort(bySchedule) as Item[],
+    () => (sel.map((id) => BY_ID[id]).filter(Boolean) as Item[]).sort(bySchedule),
     [sel],
   );
   const clashesOf = useCallback((s: Item) => clashesFor(s, selected), [selected]);
