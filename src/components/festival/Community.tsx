@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BY_ID, DAYS, mins, type Item, type NowInfo } from "@/lib/festival";
-import { initials, LINKEDIN_URL_RE, type CommunityPerson, type MyProfile } from "@/lib/community";
+import { initials, normalizeLinkedIn, type CommunityPerson, type MyProfile } from "@/lib/community";
 import { Icon } from "./Icons";
 
+const LI_URL_ERR =
+  "Bitte den Link zu deinem LinkedIn-Profil einfügen (z. B. https://www.linkedin.com/in/dein-name). Kurzlinks (lnkd.in) funktionieren nicht.";
 const PRIVACY = "https://www.demokratie.ch/datenschutz";
 
 export function LinkedInIcon({ size = 20 }: { size?: number }) {
@@ -68,6 +70,7 @@ export function CommunityView(p: {
   onClearSessionFilter: () => void;
   onLogin: () => void;
   onOpenProfile: () => void;
+  currentUserId?: string | null;
   onHide: (uid: string, hidden: boolean) => void;
 }) {
   const [q, setQ] = useState("");
@@ -152,6 +155,10 @@ export function CommunityView(p: {
           {p.people.length ? "Keine Treffer." : "Noch hat niemand die Teilnahme öffentlich freigegeben."}
         </p>
       ) : (
+        <>
+        {list.some((x) => x.linkedin_url) && (
+          <p className="sub">Öffnet das LinkedIn-Profil – dort kannst du eine Nachricht schreiben oder dich vernetzen.</p>
+        )}
         <div className="cm-list">
           {list.map((x) => {
             const w = whereNow(x.session_ids, p.now);
@@ -161,16 +168,31 @@ export function CommunityView(p: {
                 <div className="cm-top">
                   <Avatar name={x.display_name} url={x.avatar_url} size={48} />
                   <div className="cm-txt">
-                    <h3>{x.display_name}</h3>
+                    <h3>
+                      {x.display_name}
+                      {x.user_id === p.currentUserId && <span className="cm-you"> (Du)</span>}
+                    </h3>
                     {meta && <p className="sub">{meta}</p>}
                     {x.hidden && <p className="sub">Ausgeblendet (nur für Admins sichtbar)</p>}
                   </div>
                 </div>
                 <div className="cm-actions">
-                  {x.linkedin_url && (
-                    <a className="btn small" href={x.linkedin_url} target="_blank" rel="noopener noreferrer">
-                      LinkedIn-Profil ↗
+                  {x.linkedin_url ? (
+                    <a
+                      className="btn primary small"
+                      href={x.linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${x.display_name} auf LinkedIn kontaktieren`}
+                    >
+                      <LinkedInIcon size={16} /> Kontaktieren
                     </a>
+                  ) : x.user_id === p.currentUserId ? (
+                    <button type="button" className="linkbtn" onClick={p.onOpenProfile}>
+                      LinkedIn-Link ergänzen
+                    </button>
+                  ) : (
+                    <p className="cm-nolink">Noch kein LinkedIn-Link hinterlegt</p>
                   )}
                   {p.isAdmin && (
                     <button type="button" className="linkbtn" onClick={() => p.onHide(x.user_id, !x.hidden)} disabled={!p.online}>
@@ -218,6 +240,7 @@ export function CommunityView(p: {
             );
           })}
         </div>
+        </>
       )}
     </section>
   );
@@ -235,6 +258,7 @@ export function ProfileSheet(p: {
   onShareAll: () => void;
   onLogout: () => void;
   onDelete: () => Promise<boolean>;
+  onNotify?: (msg: string) => void;
 }) {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [name, setName] = useState("");
@@ -301,9 +325,11 @@ export function ProfileSheet(p: {
 
   const saveForm = async () => {
     const n = name.trim();
-    const url = li.trim();
+    const raw = li.trim();
     if (!n) return setErr("Bitte einen Namen angeben.");
-    if (url && !LINKEDIN_URL_RE.test(url)) return setErr("Die LinkedIn-URL muss mit https://www.linkedin.com/in/ beginnen.");
+    const url = raw ? normalizeLinkedIn(raw) : "";
+    if (url === null) return setErr(LI_URL_ERR);
+    setLi(url);
     setErr(null);
     await p.onSave({
       display_name: n.slice(0, 80),
@@ -314,6 +340,18 @@ export function ProfileSheet(p: {
   };
 
   const off = !p.online;
+  const canPaste = typeof navigator !== "undefined" && !!navigator.clipboard?.readText;
+  const pasteLi = async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      const u = normalizeLinkedIn(t);
+      if (!u) return setErr(LI_URL_ERR);
+      setLi(u);
+      setErr(null);
+    } catch {
+      setErr(LI_URL_ERR);
+    }
+  };
 
   return (
     <div className="sheet-backdrop" onMouseDown={(e) => e.target === e.currentTarget && p.onClose()}>
@@ -361,6 +399,19 @@ export function ProfileSheet(p: {
                     disabled={off}
                   />
                 </label>
+                <p className="sub">
+                  So findest du ihn: LinkedIn-App → dein Profil → ··· → „Profil teilen“ → „Link kopieren“ – und hier einfügen.
+                </p>
+                <div className="li-help">
+                  <a className="btn small" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener noreferrer">
+                    Mein LinkedIn-Profil öffnen
+                  </a>
+                  {canPaste && (
+                    <button type="button" className="btn small" onClick={() => void pasteLi()} disabled={off}>
+                      Aus Zwischenablage einfügen
+                    </button>
+                  )}
+                </div>
                 {err && <p className="clash" role="alert">{err}</p>}
                 <div className="btnrow">
                   <button type="button" className="btn primary small" onClick={() => void saveForm()} disabled={off}>
@@ -374,6 +425,9 @@ export function ProfileSheet(p: {
                 <p className={`statusline${prof.visible ? " ok" : ""}`}>
                   {prof.visible ? "In der Community sichtbar ✓" : "Nicht öffentlich sichtbar"}
                 </p>
+                {prof.visible && !prof.linkedin_url && (
+                  <p className="statusline caution">Andere können dich noch nicht kontaktieren – ergänze oben deinen LinkedIn-Link.</p>
+                )}
                 {!prof.visible && (
                   <label className="consent">
                     <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={off} />
@@ -391,13 +445,13 @@ export function ProfileSheet(p: {
                     type="checkbox"
                     checked={prof.visible}
                     disabled={off || (!prof.visible && !consent)}
-                    onChange={(e) =>
-                      void p.onSave(
-                        e.target.checked
-                          ? { visible: true, consent_at: new Date().toISOString() }
-                          : { visible: false, consent_at: null },
-                      )
-                    }
+                    onChange={async (e) => {
+                      const on = e.target.checked;
+                      const ok = await p.onSave(
+                        on ? { visible: true, consent_at: new Date().toISOString() } : { visible: false, consent_at: null },
+                      );
+                      if (ok && on && !prof.linkedin_url) p.onNotify?.("Sichtbar ✓ – ergänze noch deinen LinkedIn-Link, damit man dich kontaktieren kann");
+                    }}
                   />
                   In der Community sichtbar sein
                 </label>
