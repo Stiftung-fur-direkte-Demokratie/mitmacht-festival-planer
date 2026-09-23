@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicPushSendRemindersRouteImport } from './routes/api/public/push/send-reminders'
+import { Route as ApiPublicPushSubscribeRouteImport } from './routes/api/public/push/subscribe'
+import { Route as ApiPublicPushTestRouteImport } from './routes/api/public/push/test'
+import { Route as ApiPublicPushUnsubscribeRouteImport } from './routes/api/public/push/unsubscribe'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPushSendRemindersRoute =
+  ApiPublicPushSendRemindersRouteImport.update({
+    id: '/api/public/push/send-reminders',
+    path: '/api/public/push/send-reminders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPushSubscribeRoute = ApiPublicPushSubscribeRouteImport.update({
+  id: '/api/public/push/subscribe',
+  path: '/api/public/push/subscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPushTestRoute = ApiPublicPushTestRouteImport.update({
+  id: '/api/public/push/test',
+  path: '/api/public/push/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPushUnsubscribeRoute =
+  ApiPublicPushUnsubscribeRouteImport.update({
+    id: '/api/public/push/unsubscribe',
+    path: '/api/public/push/unsubscribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
+  '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
+  '/api/public/push/test': typeof ApiPublicPushTestRoute
+  '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
+  '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
+  '/api/public/push/test': typeof ApiPublicPushTestRoute
+  '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
+  '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
+  '/api/public/push/test': typeof ApiPublicPushTestRoute
+  '/api/public/push/unsubscribe': typeof ApiPublicPushUnsubscribeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/api/public/push/send-reminders'
+    | '/api/public/push/subscribe'
+    | '/api/public/push/test'
+    | '/api/public/push/unsubscribe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/api/public/push/send-reminders'
+    | '/api/public/push/subscribe'
+    | '/api/public/push/test'
+    | '/api/public/push/unsubscribe'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/public/push/send-reminders'
+    | '/api/public/push/subscribe'
+    | '/api/public/push/test'
+    | '/api/public/push/unsubscribe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicPushSendRemindersRoute: typeof ApiPublicPushSendRemindersRoute
+  ApiPublicPushSubscribeRoute: typeof ApiPublicPushSubscribeRoute
+  ApiPublicPushTestRoute: typeof ApiPublicPushTestRoute
+  ApiPublicPushUnsubscribeRoute: typeof ApiPublicPushUnsubscribeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/push/send-reminders': {
+      id: '/api/public/push/send-reminders'
+      path: '/api/public/push/send-reminders'
+      fullPath: '/api/public/push/send-reminders'
+      preLoaderRoute: typeof ApiPublicPushSendRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/push/subscribe': {
+      id: '/api/public/push/subscribe'
+      path: '/api/public/push/subscribe'
+      fullPath: '/api/public/push/subscribe'
+      preLoaderRoute: typeof ApiPublicPushSubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/push/test': {
+      id: '/api/public/push/test'
+      path: '/api/public/push/test'
+      fullPath: '/api/public/push/test'
+      preLoaderRoute: typeof ApiPublicPushTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/push/unsubscribe': {
+      id: '/api/public/push/unsubscribe'
+      path: '/api/public/push/unsubscribe'
+      fullPath: '/api/public/push/unsubscribe'
+      preLoaderRoute: typeof ApiPublicPushUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicPushSendRemindersRoute: ApiPublicPushSendRemindersRoute,
+  ApiPublicPushSubscribeRoute: ApiPublicPushSubscribeRoute,
+  ApiPublicPushTestRoute: ApiPublicPushTestRoute,
+  ApiPublicPushUnsubscribeRoute: ApiPublicPushUnsubscribeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
