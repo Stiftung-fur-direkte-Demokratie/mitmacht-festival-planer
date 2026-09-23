@@ -989,8 +989,8 @@ function Planner() {
                 setConfirmClear(false);
               }}
             >
-              <span className="lg">Mein Programm</span>
-              <span className="sm">Mein Progr.</span> <span className="count">{sel.length}</span>
+              <span className="lg">Agenda</span>
+              <span className="sm">Agenda</span> <span className="count">{sel.length}</span>
             </button>
             <button
               type="button"
