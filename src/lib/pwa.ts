@@ -83,6 +83,40 @@ export function registerServiceWorker(onUpdate: (apply: () => void) => void) {
   else window.addEventListener("load", start, { once: true });
 }
 
+/** Status des Offline-Speichers */
+export type OfflineStatus = "active" | "preparing" | "disabled";
+
+export function offlineStatus(): OfflineStatus {
+  if (typeof window === "undefined") return "disabled";
+  if (swDisabled() || !("serviceWorker" in navigator)) return "disabled";
+  return navigator.serviceWorker.controller ? "active" : "preparing";
+}
+
+/** Sucht nach einer neuen Version. */
+export async function checkForUpdate(): Promise<"updated" | "current" | "none"> {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return "none";
+  if (swDisabled()) return "none";
+  try {
+    const reg = await navigator.serviceWorker.getRegistration("/");
+    if (!reg) return "none";
+    await reg.update();
+    const waiting = reg.waiting;
+    if (waiting) {
+      waiting.postMessage("SKIP_WAITING");
+      return "updated";
+    }
+    return "current";
+  } catch {
+    return "none";
+  }
+}
+
+/** Meldet den Service Worker ab, löscht die Caches und lädt neu. */
+export async function resetOffline(): Promise<void> {
+  await unregisterAll();
+  window.location.reload();
+}
+
 export function isStandalone(): boolean {
   if (typeof window === "undefined") return false;
   return (

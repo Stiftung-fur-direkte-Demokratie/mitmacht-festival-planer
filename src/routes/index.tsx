@@ -21,8 +21,18 @@ import {
   type Item,
   type NowInfo,
 } from "@/lib/festival";
-import { isIos, isStandalone, registerServiceWorker, swDisabled } from "@/lib/pwa";
+import {
+  checkForUpdate,
+  isIos,
+  isStandalone,
+  offlineStatus,
+  registerServiceWorker,
+  resetOffline,
+  swDisabled,
+  type OfflineStatus,
+} from "@/lib/pwa";
 import { Icon, IconSprite } from "@/components/festival/Icons";
+import { SettingsDialog } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
 
 export const Route = createFileRoute("/")({
@@ -85,6 +95,9 @@ function Planner() {
   const [iosHintOff, setIosHintOff] = useState(false);
   const [rem, setRem] = useState<RemStore>({ on: false, lead: 10, notified: [] });
   const [perm, setPerm] = useState<NotificationPermission | "unsupported">("unsupported");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [updateMsg, setUpdateMsg] = useState<string | null>(null);
+  const [offline, setOffline] = useState<OfflineStatus>("disabled");
 
   /* ---- Laden ---- */
   useEffect(() => {
@@ -137,6 +150,7 @@ function Planner() {
       if (ids.length) setShareIds(ids);
     }
     const focusId = params.get("s");
+    if (window.location.hash === "#einstellungen") setSettingsOpen(true);
     if (window.location.hash === "#mein" || focusId) setView("mine");
     if (focusId) {
       setTimeout(() => {
@@ -190,6 +204,12 @@ function Planner() {
   /* ---- Service Worker, Offline, Installation ---- */
   useEffect(() => {
     registerServiceWorker((apply) => setSwUpdate({ apply }));
+    setOffline(offlineStatus());
+    const offTick = setInterval(() => setOffline(offlineStatus()), 3000);
+    const onHash = () => {
+      if (window.location.hash === "#einstellungen") setSettingsOpen(true);
+    };
+    window.addEventListener("hashchange", onHash);
     const on = () => setOnline(true);
     const off = () => setOnline(false);
     window.addEventListener("online", on);
@@ -221,6 +241,8 @@ function Planner() {
     };
     navigator.serviceWorker?.addEventListener("message", onMsg);
     return () => {
+      clearInterval(offTick);
+      window.removeEventListener("hashchange", onHash);
       window.removeEventListener("online", on);
       window.removeEventListener("offline", off);
       window.removeEventListener("beforeinstallprompt", bip);
@@ -324,6 +346,18 @@ function Planner() {
     return soon ? { s: soon.s, live: false, mins: soon.u } : null;
   }, [selected, now]);
 
+  const remStats = useMemo(() => {
+    const list = selected.filter((s) => !isLong(s));
+    const next = now.date
+      ? list.find((s) => minutesUntilStart(s, now) > 0)
+      : list[0];
+    const d = next ? dayOf(next.date) : null;
+    return {
+      count: list.length,
+      next: next ? `${d ? d.short + " " : ""}${next.start} Uhr · ${next.title}` : null,
+    };
+  }, [selected, now]);
+
   const askPermission = async () => {
     if (typeof Notification === "undefined") {
       showToast("Benachrichtigungen werden hier nicht unterstützt");
@@ -348,6 +382,52 @@ function Planner() {
     await installEvt.prompt();
     await installEvt.userChoice;
     setInstallEvt(null);
+  };
+
+  const openSettings = () => {
+    setUpdateMsg(null);
+    setSettingsOpen(true);
+  };
+
+  const closeSettings = () => {
+    setSettingsOpen(false);
+    if (window.location.hash === "#einstellungen") {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  };
+
+  const doCheckUpdate = async () => {
+    setUpdateMsg("Suche nach Updates …");
+    const res = await checkForUpdate();
+    setUpdateMsg(
+      res === "updated"
+        ? "Neue Version gefunden – die App lädt gleich neu."
+        : res === "current"
+          ? "Du hast bereits die neueste Version."
+          : "Offline-Speicher ist hier nicht aktiv.",
+    );
+  };
+
+  const doResetOffline = () => {
+    void resetOffline();
+  };
+
+  const testNotification = async () => {
+    const title = "Test: Erinnerungen funktionieren";
+    const opts: NotificationOptions = {
+      body: `So sieht eine Erinnerung ${rem.lead} Minuten vor einer Session aus.`,
+      tag: "mm-test",
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
+    };
+    try {
+      const reg = await navigator.serviceWorker?.ready;
+      if (reg) await reg.showNotification(title, opts);
+      else new Notification(title, opts);
+      showToast("Test-Benachrichtigung gesendet");
+    } catch {
+      showToast("Test-Benachrichtigung nicht möglich");
+    }
   };
 
   const togglePick = (id: string) => {
@@ -491,6 +571,10 @@ function Planner() {
         <div className="hero-circle" aria-hidden="true" />
         <div className="hero-dots" aria-hidden="true" />
         <div className="wrap">
+          <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen">
+            <Icon name="gear" />
+            <span className="lbl">Einstellungen</span>
+          </button>
           <p className="eyebrow">
             Das Demokratiefestival · <b>×reCampaign</b>
           </p>
@@ -601,25 +685,20 @@ function Planner() {
           </div>
         )}
 
-        {!standalone && installEvt && (
-          <div className="notice">
-            <div className="row">
-              <p>App aufs Handy legen – funktioniert dann auch offline.</p>
-              <button type="button" className="btn small primary" onClick={installApp}>
-                App installieren
-              </button>
-            </div>
-          </div>
-        )}
-
-        {!standalone && ios && !iosHintOff && !swDisabled() && (
-          <div className="notice">
+        {!standalone && !iosHintOff && (installEvt || (ios && !swDisabled())) && (
+          <div className="notice small">
             <div className="row">
               <p>
-                iPhone/iPad: Tippe unten auf das <b>Teilen-Symbol</b> → <b>Zum Home-Bildschirm</b>.
-                Danach läuft die App offline und kann erinnern.
+                <button type="button" className="linkbtn" onClick={openSettings}>
+                  Als App installieren – so geht&#39;s
+                </button>
               </p>
-              <button type="button" className="linkbtn close" onClick={() => setIosHintOff(true)}>
+              <button
+                type="button"
+                className="linkbtn close"
+                aria-label="Hinweis schließen"
+                onClick={() => setIosHintOff(true)}
+              >
                 Verstanden
               </button>
             </div>
@@ -777,76 +856,28 @@ function Planner() {
               </div>
             ) : (
               <>
-                <section className="rem" aria-labelledby="rem-h">
-                  <h2 id="rem-h">Erinnerungen</h2>
-                  <p className="sub">
-                    Kurz vor Beginn einer gemerkten Session – direkt auf diesem Gerät.
-                  </p>
-                  <div className="row">
-                    <label className="switch">
-                      <input
-                        type="checkbox"
-                        checked={rem.on}
-                        onChange={(e) => setRem((r) => ({ ...r, on: e.target.checked }))}
-                      />
-                      Erinnerungen an
-                    </label>
-                  </div>
-                  <div className="row lead" role="group" aria-label="Vorlaufzeit">
-                    {[5, 10, 15].map((m) => (
-                      <button
-                        type="button"
-                        key={m}
-                        className="chip"
-                        aria-pressed={rem.lead === m}
-                        onClick={() => setRem((r) => ({ ...r, lead: m }))}
-                      >
-                        {m} Min vorher
+                <p className="remline">
+                  <Icon name="bell" />
+                  {rem.on ? (
+                    <>
+                      <span>
+                        Erinnerungen: <b>an</b> · {rem.lead} Min vorher
+                      </span>
+                      <button type="button" className="linkbtn" onClick={openSettings}>
+                        Einstellungen ändern
                       </button>
-                    ))}
-                  </div>
-                  {ios && !standalone ? (
-                    <p className="fine">
-                      Auf iPhone und iPad gehen Benachrichtigungen nur, wenn die App über{" "}
-                      <b>Teilen → Zum Home-Bildschirm</b> hinzugefügt wurde (ab iOS 16.4). Danach
-                      kannst du sie hier erlauben.
-                    </p>
-                  ) : perm === "granted" ? (
-                    <p className="fine" style={{ color: "var(--ok)", fontWeight: 600 }}>
-                      Benachrichtigungen sind erlaubt.
-                    </p>
+                    </>
                   ) : (
-                    <div className="btnrow">
-                      <button type="button" className="btn small primary" onClick={askPermission}>
-                        Benachrichtigungen erlauben
+                    <>
+                      <span>
+                        Erinnerungen: <b>aus</b>
+                      </span>
+                      <button type="button" className="linkbtn" onClick={openSettings}>
+                        einschalten
                       </button>
-                    </div>
+                    </>
                   )}
-                  <ul className="fine">
-                    <li>
-                      Web-Apps können nur erinnern, solange die App geöffnet ist oder im Hintergrund
-                      noch läuft.
-                    </li>
-                    <li>
-                      Installationen und ganztägige Angebote (ab 3 Stunden) werden nicht erinnert.
-                    </li>
-                    <li>
-                      Sicher auch bei geschlossener App: lade unten die Kalenderdatei – sie enthält
-                      Weckzeiten.
-                    </li>
-                  </ul>
-                  {rem.notified.length > 0 && (
-                    <p className="fine">
-                      <button
-                        type="button"
-                        className="linkbtn"
-                        onClick={() => setRem((r) => ({ ...r, notified: [] }))}
-                      >
-                        Bereits gesendete Erinnerungen zurücksetzen
-                      </button>
-                    </p>
-                  )}
-                </section>
+                </p>
 
                 <section className="export" aria-labelledby="exp-h">
                   <h2 id="exp-h">
@@ -1139,6 +1170,29 @@ function Planner() {
           </div>
         </div>
       </main>
+
+      <SettingsDialog
+        open={settingsOpen}
+        onClose={closeSettings}
+        standalone={standalone}
+        ios={ios}
+        canInstall={!!installEvt}
+        onInstall={() => void installApp()}
+        offline={offline}
+        online={online}
+        onCheckUpdate={() => void doCheckUpdate()}
+        updateMsg={updateMsg}
+        onResetOffline={doResetOffline}
+        remOn={rem.on}
+        remLead={rem.lead}
+        onRemOn={(v) => setRem((r) => ({ ...r, on: v }))}
+        onRemLead={(v) => setRem((r) => ({ ...r, lead: v }))}
+        perm={perm}
+        onAskPermission={() => void askPermission()}
+        onTestNotification={() => void testNotification()}
+        remCount={remStats.count}
+        remNext={remStats.next}
+      />
 
       <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">
         {toast}
