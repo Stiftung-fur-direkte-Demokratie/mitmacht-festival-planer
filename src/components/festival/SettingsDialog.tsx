@@ -32,6 +32,16 @@ export type ReminderDiagnostics = {
   copyFallback: string | null;
 };
 
+export type PushInfo = {
+  supported: boolean;
+  state: "active" | "ios-install" | "error" | "off" | "pending" | "unavailable";
+  error: string | null;
+  subscribed: boolean;
+  host: string | null;
+  lastResponse: string | null;
+  lastSync: string | null;
+};
+
 export type SettingsProps = {
   open: boolean;
   onClose: () => void;
@@ -64,6 +74,8 @@ export type SettingsProps = {
   onResetNotified: () => void;
   onCopyLog: () => void;
   onClearLog: () => void;
+  push: PushInfo;
+  onTestPush: () => void;
 };
 
 export function SettingsDialog(p: SettingsProps) {
@@ -341,6 +353,35 @@ export function SettingsDialog(p: SettingsProps) {
               </div>
             )}
 
+            {p.remOn && (
+              <div className="pushbox">
+                <p className={`statusline${p.push.state === "active" ? " ok" : ""}`}>
+                  {p.push.state === "active"
+                    ? "Push im Hintergrund: aktiv ✓"
+                    : p.push.state === "ios-install"
+                      ? "Push im Hintergrund – nicht möglich: auf dem iPhone zuerst zum Home-Bildschirm hinzufügen"
+                      : p.push.state === "error"
+                        ? `Push im Hintergrund – Fehler: ${p.push.error ?? "unbekannt"}`
+                        : p.push.state === "pending"
+                          ? "Push im Hintergrund: wird eingerichtet …"
+                          : `Push im Hintergrund: nicht aktiv${p.push.error ? ` (${p.push.error})` : ""}`}
+                </p>
+                {p.push.lastSync && <p className="fine">zuletzt synchronisiert {p.push.lastSync}</p>}
+                {p.push.state === "active" && (
+                  <>
+                    <div className="btnrow">
+                      <button type="button" className="btn small" onClick={p.onTestPush}>
+                        Test-Push in 1 Minute
+                      </button>
+                    </div>
+                    <p className="fine">
+                      Jetzt App schließen oder Bildschirm sperren – die Nachricht sollte trotzdem kommen.
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
             <p className="statusline sub2">
               {p.remCount === 0
                 ? "Noch keine gemerkte Session bekommt eine Erinnerung."
@@ -350,8 +391,14 @@ export function SettingsDialog(p: SettingsProps) {
 
             <ul className="fine">
               <li>
-                Web-Apps können nur erinnern, solange die App geöffnet ist oder im Hintergrund noch
-                läuft.
+                Mit aktivem Push kommen Erinnerungen auch bei geschlossener App (Android; iPhone ab
+                iOS 16.4 als installierte App). Ohne Push kann die Web-App nur erinnern, solange sie
+                geöffnet ist oder im Hintergrund noch läuft.
+              </li>
+              <li>
+                Für Erinnerungen im Hintergrund speichern wir anonym die Push-Adresse deines Geräts
+                und die IDs deiner gemerkten Sessions – ohne Namen, nur bis Festivalende. Mit
+                „Erinnerungen aus" wird alles gelöscht.
               </li>
               <li>Installationen und ganztägige Angebote (ab 3 Stunden) werden nicht erinnert.</li>
               <li>
@@ -375,6 +422,10 @@ export function SettingsDialog(p: SettingsProps) {
                   <div><dt>SW-Zustand</dt><dd>Controller {p.diagnostics.swController ? "ja" : "nein"} · Registrierung {p.diagnostics.swRegistration ? "ja" : "nein"} · active {p.diagnostics.swActive ? "ja" : "nein"} · waiting {p.diagnostics.swWaiting ? "ja" : "nein"}</dd></div>
                   <div><dt>App-Build</dt><dd>{p.diagnostics.build}</dd></div>
                   <div><dt>Berlin / Gerätezone</dt><dd>{p.diagnostics.berlinTime} · {p.diagnostics.deviceTimezone}</dd></div>
+                  <div><dt>Push unterstützt</dt><dd>{p.push.supported ? "ja" : "nein"}</dd></div>
+                  <div><dt>Push-Subscription</dt><dd>{p.push.subscribed ? "vorhanden" : "keine"}{p.push.host ? ` · ${p.push.host}` : ""}</dd></div>
+                  <div><dt>Letzte Server-Antwort</dt><dd>{p.push.lastResponse ?? "–"}</dd></div>
+                  <div><dt>Zuletzt synchronisiert</dt><dd>{p.push.lastSync ?? "–"}</dd></div>
                   <div><dt>Sichtbarkeit</dt><dd>{p.diagnostics.visibility}</dd></div>
                 </dl>
 
