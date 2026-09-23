@@ -593,3 +593,51 @@ html{background:var(--bg)}
 }
 .backupline{margin:0 0 8px;font-size:13.5px;line-height:1.45;color:var(--ink-soft)}
 .backupline .linkbtn{font-size:inherit;padding:0;display:inline}
+
+/* ---- Postfach ---- */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.subtabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--surface);padding:4px;border-radius:999px;margin:4px 0 12px}
+.subtabs button{border:0;background:transparent;border-radius:999px;min-height:40px;font-weight:700;font-size:14.5px;cursor:pointer;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.subtabs button[aria-selected="true"]{background:var(--bg);box-shadow:0 0 0 1.5px var(--line)}
+.inbox{display:flex;flex-direction:column;gap:10px}
+.ib-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ib-row{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:16px;padding:10px 12px;cursor:pointer;min-height:64px;font:inherit}
+.ib-row:hover{background:var(--surface)}
+.ib-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ib-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ib-top b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib-time{font-size:12.5px;color:var(--ink-soft);flex:none}
+.ib-meta{font-size:13px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib-prev{font-size:14px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib-row.unread .ib-prev{color:var(--ink);font-weight:600}
+.ib-dot{width:10px;height:10px;border-radius:50%;background:var(--red);flex:none}
+.ib-reports{border:1.5px solid var(--warn);border-radius:14px;padding:10px 12px}
+.ib-reports summary{font-weight:700;cursor:pointer;min-height:32px}
+.ib-reports ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.ib-reports p{margin:0 0 4px;overflow-wrap:anywhere}
+.ib-reports blockquote{margin:4px 0;padding:6px 10px;border-left:3px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}
+.blocklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.blocklist li{display:flex;align-items:center;gap:10px}
+.blocklist li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.sheet.conv{height:calc(100dvh - env(safe-area-inset-top,0px));max-height:calc(100dvh - env(safe-area-inset-top,0px))}
+.conv-head{padding:10px 10px 10px 10px}
+.conv-who{flex:1;min-width:0}
+.conv-who h2{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.conv-who .sub{margin:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv-head .iconbtn{flex:none;display:inline-grid;place-items:center}
+.conv-head .dots{font-weight:800;letter-spacing:1px;line-height:1}
+.conv-menu{padding:10px 16px;border-bottom:1px solid var(--line)}
+.conv-body{flex:1;display:flex;flex-direction:column;gap:6px;padding-top:10px;padding-bottom:10px}
+.conv-day{align-self:center;font-size:12.5px;color:var(--ink-soft);margin:8px 0 2px;font-weight:600}
+.bubble{align-self:flex-start;max-width:82%;background:var(--surface);color:var(--ink);border-radius:18px 18px 18px 6px;padding:8px 12px}
+.bubble.mine{align-self:flex-end;background:var(--pill);color:var(--pill-ink);border-radius:18px 18px 6px 18px}
+.bubble p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+.bubble a{color:inherit;text-decoration:underline}
+.bubble time{display:block;text-align:right;font-size:11.5px;opacity:.7;margin-top:2px}
+.conv-foot{border-top:1px solid var(--line);padding:8px 12px calc(10px + env(safe-area-inset-bottom,0px))}
+.conv-foot .sub{margin:0 0 6px}
+.conv-input{display:flex;gap:8px;align-items:flex-end}
+.conv-input textarea{flex:1;min-width:0;resize:none;font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:18px;padding:9px 12px;background:var(--bg);color:var(--ink);min-height:44px;max-height:160px}
+.conv-input .btn{min-height:44px}
+.conv-count{text-align:right;margin:4px 0 0!important}
+.conv-count.over{color:var(--warn)}
