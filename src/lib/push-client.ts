@@ -39,10 +39,15 @@ export async function ensureSubscription(): Promise<PushSubscription> {
   });
 }
 
-async function post(path: string, body: unknown) {
+async function post(path: string, tokenOrBody: unknown, maybeBody?: unknown) {
+  const hasToken = maybeBody !== undefined;
+  const token = hasToken ? (tokenOrBody as string | null | undefined) : null;
+  const body = hasToken ? maybeBody : tokenOrBody;
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
   const res = await fetch(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
   let data: { ok?: boolean; error?: string; detail?: string } = {};

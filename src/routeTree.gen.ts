@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicAuthAccountRouteImport } from './routes/api/public/auth/account'
+import { Route as ApiPublicMessagesSendRouteImport } from './routes/api/public/messages/send'
 import { Route as ApiPublicPushSendRemindersRouteImport } from './routes/api/public/push/send-reminders'
 import { Route as ApiPublicPushSubscribeRouteImport } from './routes/api/public/push/subscribe'
 import { Route as ApiPublicPushTestRouteImport } from './routes/api/public/push/test'
@@ -27,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const ApiPublicAuthAccountRoute = ApiPublicAuthAccountRouteImport.update({
   id: '/api/public/auth/account',
   path: '/api/public/auth/account',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMessagesSendRoute = ApiPublicMessagesSendRouteImport.update({
+  id: '/api/public/messages/send',
+  path: '/api/public/messages/send',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPushSendRemindersRoute =
@@ -73,6 +79,7 @@ const ApiPublicAuthLinkedinStatusRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
+  '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
   '/api/public/push/send-reminders': typeof ApiPublicPushSendRemindersRoute
   '/api/public/push/subscribe': typeof ApiPublicPushSubscribeRoute
   '/api/public/push/test': typeof ApiPublicPushTestRoute
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/public/auth/account'
+    | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/api/public/auth/account'
+    | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/api/public/auth/account'
+    | '/api/public/messages/send'
     | '/api/public/push/send-reminders'
     | '/api/public/push/subscribe'
     | '/api/public/push/test'
@@ -143,6 +155,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiPublicAuthAccountRoute: typeof ApiPublicAuthAccountRoute
+  ApiPublicMessagesSendRoute: typeof ApiPublicMessagesSendRoute
   ApiPublicPushSendRemindersRoute: typeof ApiPublicPushSendRemindersRoute
   ApiPublicPushSubscribeRoute: typeof ApiPublicPushSubscribeRoute
   ApiPublicPushTestRoute: typeof ApiPublicPushTestRoute
@@ -166,6 +179,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/auth/account'
       fullPath: '/api/public/auth/account'
       preLoaderRoute: typeof ApiPublicAuthAccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/messages/send': {
+      id: '/api/public/messages/send'
+      path: '/api/public/messages/send'
+      fullPath: '/api/public/messages/send'
+      preLoaderRoute: typeof ApiPublicMessagesSendRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/push/send-reminders': {
@@ -223,6 +243,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiPublicAuthAccountRoute: ApiPublicAuthAccountRoute,
+  ApiPublicMessagesSendRoute: ApiPublicMessagesSendRoute,
   ApiPublicPushSendRemindersRoute: ApiPublicPushSendRemindersRoute,
   ApiPublicPushSubscribeRoute: ApiPublicPushSubscribeRoute,
   ApiPublicPushTestRoute: ApiPublicPushTestRoute,
