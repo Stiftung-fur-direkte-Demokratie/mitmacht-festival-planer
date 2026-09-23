@@ -1902,6 +1902,10 @@ function Planner() {
               GitHub
             </a>
           </div>
+          <div>
+            made with love by <span role="img" aria-label="der Schweiz">🇨🇭</span> in{" "}
+            <span role="img" aria-label="Berlin">🐻</span>
+          </div>
         </div>
       </main>
 
