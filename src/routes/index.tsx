@@ -1,5 +1,8 @@
 import { currentSubscription, ensureSubscription, pushHost, pushSupported, removeSubscription, requestTestPush, syncSubscription } from "@/lib/push-client";
 import { createFileRoute } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useInbox, type InboxItem } from "@/lib/inbox";
+import { AdminReports, ConversationSheet, InboxList, type ConvPartner } from "@/components/festival/Inbox";
 import teamImgSrc from "@/assets/team-circles.png";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -89,6 +92,11 @@ function Planner() {
   const [sel, setSel] = useState<string[]>([]);
   const [gcal, setGcal] = useState<Record<string, { v: string; t: number }>>({});
   const [view, setView] = useState<"all" | "mine" | "community">("all");
+  const [cmSub, setCmSub] = useState<"leute" | "postfach">("leute");
+  const [pendingInbox, setPendingInbox] = useState<string | null>(null);
+  const [openConv, setOpenConv] = useState<{ conversationId: string | null; partner: ConvPartner } | null>(null);
+  const [loginReason, setLoginReason] = useState(false);
+  const [msgPush, setMsgPush] = useState(false);
   const [day, setDay] = useState<string>(DAYS[0]!.date);
   const [q, setQ] = useState("");
   const [types, setTypes] = useState<string[]>([]);
@@ -186,6 +194,17 @@ function Planner() {
       if (ids.length) setShareIds(ids);
     }
     const focusId = params.get("s");
+    const inboxId = params.get("inbox");
+    if (inboxId && /^[0-9a-f-]{36}$/i.test(inboxId)) {
+      setPendingInbox(inboxId);
+      setView("community");
+      setCmSub("postfach");
+    }
+    if (inboxId) {
+      params.delete("inbox");
+      const qs = params.toString();
+      history.replaceState(null, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+    }
     if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
       setSettingsOpen(true);
       setDiagnosticsOpen(window.location.hash === "#diagnose");
@@ -339,6 +358,57 @@ function Planner() {
     }
   };
   const [cmSession, setCmSession] = useState<string | null>(null);
+  const inbox = useInbox({ userId: cm.userId, online, isAdmin: cm.isAdmin, openId: openConv?.conversationId ?? null });
+  useEffect(() => {
+    try {
+      setMsgPush(localStorage.getItem("mm-msg-push") === "1");
+    } catch {
+      /* egal */
+    }
+  }, []);
+  const blockedIds = useMemo(() => {
+    const set = new Set(inbox.blocks.map((b) => b.user_id));
+    inbox.items.forEach((i) => i.blocked_me && set.add(i.partner_id));
+    return set;
+  }, [inbox.blocks, inbox.items]);
+  const openItem = (i: InboxItem) =>
+    setOpenConv({
+      conversationId: i.conversation_id,
+      partner: { id: i.partner_id, name: i.display_name, avatar: i.avatar_url, role: i.role_title, org: i.organisation, linkedin: i.linkedin_url },
+    });
+  // Deep-Link /?inbox=<id>: öffnen, sobald Anmeldung und Postfach bekannt sind
+  useEffect(() => {
+    if (!pendingInbox || !cm.userId || !inbox.loaded) return;
+    const it = inbox.items.find((i) => i.conversation_id === pendingInbox);
+    if (it) openItem(it);
+    setPendingInbox(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingInbox, cm.userId, inbox.loaded, inbox.items]);
+  const openConvId = openConv?.conversationId ?? null;
+  useEffect(() => {
+    if (!openConvId) return;
+    void inbox.loadMessages(openConvId);
+    void inbox.markRead(openConvId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openConvId]);
+  useEffect(() => {
+    if (!cm.userId) setOpenConv(null);
+    else setLoginReason(false);
+  }, [cm.userId]);
+  const messagePerson = (x: { user_id: string; display_name: string; avatar_url: string | null; role_title: string | null; organisation: string | null; linkedin_url: string | null }) => {
+    if (!cm.userId) {
+      setLoginReason(true);
+      setCmSub("postfach");
+      scrollToBar();
+      return;
+    }
+    const it = inbox.items.find((i) => i.partner_id === x.user_id);
+    if (it) return openItem(it);
+    setOpenConv({
+      conversationId: null,
+      partner: { id: x.user_id, name: x.display_name, avatar: x.avatar_url, role: x.role_title, org: x.organisation, linkedin: x.linkedin_url },
+    });
+  };
   useEffect(() => {
     if (cm.firstLogin) setProfileOpen(true);
   }, [cm.firstLogin]);
@@ -631,6 +701,29 @@ function Planner() {
     }
   };
 
+  const enableMsgPush = async () => {
+    try {
+      localStorage.setItem("mm-msg-push", "1");
+    } catch {
+      /* egal */
+    }
+    setMsgPush(true);
+    if (typeof Notification === "undefined") {
+      showToast("Benachrichtigungen werden hier nicht unterstützt");
+      return;
+    }
+    if (Notification.permission !== "granted") {
+      try {
+        const res = await Notification.requestPermission();
+        setPerm(res);
+        if (res !== "granted") return showToast("Benachrichtigungen nicht erlaubt");
+      } catch {
+        return showToast("Benachrichtigungen nicht möglich");
+      }
+    }
+    showToast("Push für Nachrichten wird eingerichtet");
+  };
+
   const installApp = async () => {
     if (!installEvt) return;
     await installEvt.prompt();
@@ -671,7 +764,8 @@ function Planner() {
   const syncPush = useCallback(async () => {
     const supported = pushSupported();
     const stamp = () => new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
-    if (!rem.on) {
+    const wantPush = rem.on || (msgPush && !!cm.userId);
+    if (!wantPush) {
       const had = await currentSubscription().catch(() => null);
       if (had) {
         if (!navigator.onLine) return;
@@ -710,7 +804,14 @@ function Planner() {
     setPush((p) => (p.state === "active" ? p : { ...p, supported, state: "pending" }));
     try {
       const sub = await ensureSubscription();
-      await syncSubscription(sub, selectedRef.current.filter((x) => !isLong(x)).map((x) => x.id), rem.lead, deviceKind());
+      const token = cm.userId ? (await supabase.auth.getSession()).data.session?.access_token ?? null : null;
+      await syncSubscription(
+        sub,
+        rem.on ? selectedRef.current.filter((x) => !isLong(x)).map((x) => x.id) : [],
+        rem.lead,
+        deviceKind(),
+        token,
+      );
       addReminderLog(`Push synchronisiert (${pushHost(sub)})`);
       setPush({ supported, state: "active", error: null, subscribed: true, host: pushHost(sub), lastResponse: "ok", lastSync: stamp() });
     } catch (e) {
@@ -720,7 +821,7 @@ function Planner() {
       const sub = await currentSubscription().catch(() => null);
       setPush((p) => ({ ...p, supported, state: "error", error: msg, subscribed: !!sub, host: pushHost(sub), lastResponse: msg }));
     }
-  }, [addReminderLog, ios, perm, rem.lead, rem.on, standalone]);
+  }, [addReminderLog, ios, perm, rem.lead, rem.on, standalone, msgPush, cm.userId]);
 
   useEffect(() => {
     if (!ready) return;
@@ -1051,7 +1152,7 @@ function Planner() {
                 setConfirmClear(false);
               }}
             >
-              Community
+              Community{inbox.unreadTotal > 0 && <> <span className="count" aria-label={`${inbox.unreadTotal} ungelesene Nachrichten`}>{inbox.unreadTotal}</span></>}
             </button>
           </div>
             <span className="barbtns">
@@ -1343,6 +1444,46 @@ function Planner() {
             onLogin={cm.login}
             onOpenProfile={() => setProfileOpen(true)}
             currentUserId={cm.userId}
+            sub={cmSub}
+            onSub={(v) => {
+              setCmSub(v);
+              if (v === "postfach") void inbox.loadInbox();
+            }}
+            unread={inbox.unreadTotal}
+            blockedIds={blockedIds}
+            onMessage={messagePerson}
+            inbox={
+              <>
+                {cm.isAdmin && <AdminReports reports={inbox.reports} online={online} onHide={(uid, h) => void cm.setHidden(uid, h).then(() => inbox.loadReports())} />}
+                <InboxList
+                  loggedIn={!!cm.userId}
+                  online={online}
+                  items={inbox.items}
+                  loginReason={loginReason}
+                  configured={cm.configured}
+                  onOpen={openItem}
+                  onLogin={cm.login}
+                  pushHint={
+                    cm.userId && push.state !== "active" ? (
+                      <div className="notice small">
+                        <div className="row">
+                          <p>
+                            {ios && !standalone
+                              ? "Push für neue Nachrichten: auf dem iPhone zuerst zum Home-Bildschirm hinzufügen."
+                              : "Push aktivieren, um neue Nachrichten zu sehen"}
+                          </p>
+                          {!(ios && !standalone) && (
+                            <button type="button" className="btn small" onClick={() => void enableMsgPush()} disabled={!online}>
+                              Push aktivieren
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ) : null
+                  }
+                />
+              </>
+            }
             onHide={(uid, h) => void cm.setHidden(uid, h)}
           />
         ) : (
@@ -1737,7 +1878,42 @@ function Planner() {
         }}
         onDelete={cm.deleteAccount}
         onNotify={showToast}
+        blocks={inbox.blocks}
+        onUnblock={(uid) => void inbox.unblock(uid).then((ok) => showToast(ok ? "Blockierung aufgehoben" : "Nicht möglich"))}
       />
+
+      {openConv && cm.userId && (() => {
+        const it = openConv.conversationId ? inbox.items.find((i) => i.conversation_id === openConv.conversationId) : undefined;
+        return (
+          <ConversationSheet
+            open
+            onClose={() => setOpenConv(null)}
+            partner={openConv.partner}
+            conversationId={openConv.conversationId}
+            messages={openConv.conversationId ? inbox.messages[openConv.conversationId] ?? [] : []}
+            userId={cm.userId}
+            online={online}
+            canReply={it ? it.can_reply : true}
+            partnerGone={it ? !it.partner_exists : false}
+            blockedMe={it ? it.blocked_me : false}
+            onSend={async (body) => {
+              const r = await inbox.send({ conversationId: openConv.conversationId, to: openConv.partner.id }, body);
+              if (r.ok && !openConv.conversationId) setOpenConv((c) => (c ? { ...c, conversationId: r.conversationId } : c));
+              return r;
+            }}
+            onBlock={async () => {
+              const ok = await inbox.block(openConv.partner.id);
+              showToast(ok ? "Blockiert" : "Blockieren fehlgeschlagen");
+              return ok;
+            }}
+            onReport={async (reason) => {
+              const r = await inbox.report(null, openConv.partner.id, reason);
+              if (r.ok) showToast("Danke, deine Meldung ist beim Team angekommen");
+              return r;
+            }}
+          />
+        );
+      })()}
 
       <SettingsDialog
         open={settingsOpen}

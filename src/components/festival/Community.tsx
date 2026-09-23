@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { BY_ID, DAYS, mins, type Item, type NowInfo } from "@/lib/festival";
 import { initials, normalizeLinkedIn, type CommunityPerson, type MyProfile } from "@/lib/community";
 import { Icon } from "./Icons";
+import { MessageIcon } from "./Inbox";
 
 const LI_URL_ERR =
   "Bitte den Link zu deinem LinkedIn-Profil einfügen (z. B. https://www.linkedin.com/in/dein-name). Kurzlinks (lnkd.in) funktionieren nicht.";
@@ -71,6 +72,12 @@ export function CommunityView(p: {
   onLogin: () => void;
   onOpenProfile: () => void;
   currentUserId?: string | null;
+  sub: "leute" | "postfach";
+  onSub: (s: "leute" | "postfach") => void;
+  unread: number;
+  inbox: ReactNode;
+  blockedIds: Set<string>;
+  onMessage: (person: CommunityPerson) => void;
   onHide: (uid: string, hidden: boolean) => void;
 }) {
   const [q, setQ] = useState("");
@@ -97,6 +104,18 @@ export function CommunityView(p: {
 
   return (
     <section className="community">
+      <div className="subtabs" role="tablist" aria-label="Community-Bereich">
+        <button type="button" role="tab" aria-selected={p.sub === "leute"} onClick={() => p.onSub("leute")}>
+          Leute
+        </button>
+        <button type="button" role="tab" aria-selected={p.sub === "postfach"} onClick={() => p.onSub("postfach")}>
+          Postfach {p.unread > 0 && <span className="count" aria-label={`${p.unread} ungelesen`}>{p.unread}</span>}
+        </button>
+      </div>
+      {p.sub === "postfach" ? (
+        p.inbox
+      ) : (
+      <>
       <p className="hint">Hier erscheinen nur Personen, die das ausdrücklich freigegeben haben.</p>
       {!p.online && standText && <p className="offline small">Offline – Stand: {standText} Uhr</p>}
 
@@ -191,7 +210,18 @@ export function CommunityView(p: {
                     <button type="button" className="linkbtn" onClick={p.onOpenProfile}>
                       LinkedIn-Link ergänzen
                     </button>
-                  ) : (
+                  ) : null}
+                  {x.accept_messages && x.user_id !== p.currentUserId && !p.blockedIds.has(x.user_id) && (
+                    <button
+                      type="button"
+                      className="btn small"
+                      onClick={() => p.onMessage(x)}
+                      aria-label={`${x.display_name} eine Nachricht schreiben`}
+                    >
+                      <MessageIcon size={16} /> Nachricht
+                    </button>
+                  )}
+                  {!x.linkedin_url && x.user_id !== p.currentUserId && !(x.accept_messages && !p.blockedIds.has(x.user_id)) && (
                     <p className="cm-nolink">Noch kein LinkedIn-Link hinterlegt</p>
                   )}
                   {p.isAdmin && (
@@ -242,6 +272,8 @@ export function CommunityView(p: {
         </div>
         </>
       )}
+      </>
+      )}
     </section>
   );
 }
@@ -259,6 +291,8 @@ export function ProfileSheet(p: {
   onLogout: () => void;
   onDelete: () => Promise<boolean>;
   onNotify?: (msg: string) => void;
+  blocks?: { user_id: string; display_name: string; avatar_url: string | null }[];
+  onUnblock?: (uid: string) => void;
 }) {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [name, setName] = useState("");
@@ -455,6 +489,20 @@ export function ProfileSheet(p: {
                   />
                   In der Community sichtbar sein
                 </label>
+                {prof.visible && (
+                  <>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={prof.accept_messages}
+                        disabled={off}
+                        onChange={(e) => void p.onSave({ accept_messages: e.target.checked })}
+                      />
+                      Nachrichten von anderen Teilnehmenden empfangen
+                    </label>
+                    <p className="sub">Andere angemeldete Personen können dir im Postfach schreiben. Deine E-Mail-Adresse sieht niemand.</p>
+                  </>
+                )}
                 <p className="sub">
                   {p.publicCount} von {p.selCount} gemerkten Sessions freigegeben. Einzeln freigeben kannst du sie in „Mein Programm".
                 </p>
@@ -464,6 +512,23 @@ export function ProfileSheet(p: {
                   </button>
                 </div>
               </section>
+
+              {!!p.blocks?.length && (
+                <section className="setblock">
+                  <h3>Blockierte Personen</h3>
+                  <ul className="blocklist">
+                    {p.blocks.map((b) => (
+                      <li key={b.user_id}>
+                        <Avatar name={b.display_name} url={b.avatar_url} size={32} />
+                        <span>{b.display_name}</span>
+                        <button type="button" className="linkbtn" disabled={off} onClick={() => p.onUnblock?.(b.user_id)}>
+                          Blockierung aufheben
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
 
               <section className="setblock">
                 <h3>Konto</h3>

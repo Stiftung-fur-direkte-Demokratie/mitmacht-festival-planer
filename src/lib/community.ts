@@ -11,6 +11,7 @@ export type CommunityPerson = {
   linkedin_url: string | null;
   session_ids: string[];
   hidden: boolean;
+  accept_messages: boolean;
 };
 
 export type MyProfile = {
@@ -23,6 +24,7 @@ export type MyProfile = {
   visible: boolean;
   consent_at: string | null;
   profile_done: boolean;
+  accept_messages: boolean;
 };
 
 const CACHE_KEY = "mm-community-cache";
@@ -196,7 +198,7 @@ export function useCommunity(opts: {
     let cancelled = false;
     (async () => {
       const [{ data: p }, { data: roles }] = await Promise.all([
-        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done").eq("id", userId).maybeSingle(),
+        supabase.from("profiles").select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages").eq("id", userId).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
       ]);
       if (cancelled) return;
@@ -342,13 +344,13 @@ export function useCommunity(opts: {
   }, [notify]);
 
   const saveProfile = useCallback(
-    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at">>) => {
+    async (patch: Partial<Pick<MyProfile, "display_name" | "role_title" | "organisation" | "linkedin_url" | "visible" | "consent_at" | "accept_messages">>) => {
       if (!userId) return false;
       const { data, error: e } = await supabase
         .from("profiles")
         .update({ ...patch, profile_done: true })
         .eq("id", userId)
-        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done")
+        .select("id, display_name, avatar_url, role_title, organisation, linkedin_url, visible, consent_at, profile_done, accept_messages")
         .maybeSingle();
       if (e || !data) {
         notify("Speichern fehlgeschlagen");

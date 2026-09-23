@@ -13,6 +13,14 @@ export const Route = createFileRoute("/api/public/push/subscribe")({
         }
         const { subscription, sessionIds, leadMinutes, platform } = parsed.data;
         const db = await admin();
+        // Optional: Gerät mit dem angemeldeten Konto verknüpfen (für Nachrichten-Push)
+        let userId: string | null = null;
+        const authH = request.headers.get("authorization") ?? "";
+        const token = authH.startsWith("Bearer ") ? authH.slice(7) : "";
+        if (token && token.length < 4000) {
+          const { data: u } = await db.auth.getUser(token);
+          userId = u.user?.id ?? null;
+        }
         const { error } = await db.from("push_subscriptions").upsert(
           {
             endpoint: subscription.endpoint,
@@ -22,6 +30,7 @@ export const Route = createFileRoute("/api/public/push/subscribe")({
             lead_minutes: leadMinutes,
             platform,
             enabled: true,
+            user_id: userId,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "endpoint" },

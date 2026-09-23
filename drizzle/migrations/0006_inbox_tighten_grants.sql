@@ -1,0 +1,3 @@
+REVOKE ALL ON public.messages, public.conversations, public.blocks, public.message_reports, public.conversation_reads FROM anon;
+REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON public.messages, public.conversations, public.blocks, public.message_reports, public.conversation_reads FROM authenticated;
+GRANT SELECT ON public.messages, public.conversations, public.blocks, public.message_reports, public.conversation_reads TO authenticated;
