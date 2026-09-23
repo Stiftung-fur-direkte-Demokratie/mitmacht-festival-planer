@@ -464,7 +464,7 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .stepno{width:24px;height:24px;border-radius:50%;background:var(--surface-2);color:var(--ink);
   display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
 
-.teamimg{display:block;width:50%;min-width:220px;max-width:560px;aspect-ratio:1672/500;object-fit:cover;object-position:center 48%;margin:14px 0 0;border-radius:16px;background:#fff}
+.teamimg{display:block;width:50%;min-width:220px;max-width:560px;margin:14px 0 0;}
 .teamblock{margin:0 0 14px}.teamblock p{margin:0;font-size:13.5px;color:var(--ink-soft)}.teamblock a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .srcnote{margin-top:16px;padding-bottom:14px}
 .foothead{margin:0;font-size:inherit;font-weight:700;color:var(--ink)}.srcnote .teamimg{margin:0}
