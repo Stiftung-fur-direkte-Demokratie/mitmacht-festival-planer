@@ -403,7 +403,8 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 
 /* ---------- Einstellungen: Button, Bottom-Sheet / Dialog ---------- */
 .hero .eyebrow,.hero h1{padding-right:60px}
-.hero .lede{padding-right:0}
+.hero .lede{padding-right:60px}
+@media (min-width:540px){.hero .lede{padding-right:170px}}
 @media (min-width:540px){.hero .eyebrow,.hero h1{padding-right:170px}}
 .settingsbtn{position:absolute;top:0;right:0;z-index:3;
   display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;
@@ -463,4 +464,4 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .stepno{width:24px;height:24px;border-radius:50%;background:var(--surface-2);color:var(--ink);
   display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
 
-.teamimg{display:block;width:100%;max-width:560px;aspect-ratio:1672/500;object-fit:cover;object-position:center 48%;margin:14px 0 0;border-radius:16px;background:#fff}
+.teamimg{display:block;width:50%;min-width:220px;max-width:560px;aspect-ratio:1672/500;object-fit:cover;object-position:center 48%;margin:14px 0 0;border-radius:16px;background:#fff}
