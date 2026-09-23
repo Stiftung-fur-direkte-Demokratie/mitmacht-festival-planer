@@ -949,7 +949,7 @@ function Planner() {
       <nav className="bar" aria-label="Ansicht und Tag" ref={barRef}>
         <div className="wrap">
           <div className="bartop">
-            <span className="bartitle">Mitmacht 2026 Planer</span>
+            <span className="bartitle" aria-hidden="true" />
             {cm.userId ? (
               <button
                 type="button"
