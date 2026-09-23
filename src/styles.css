@@ -564,3 +564,5 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 }
 .viewrow .views{grid-template-columns:repeat(3,minmax(0,1fr))}
 
+.hero:has(.herofaces){padding-bottom:6px}
+.herofaces{margin-top:10px}
