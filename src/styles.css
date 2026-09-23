@@ -535,3 +535,5 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .consent input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--keynote)}
 .linkbtn.danger,.btn.danger{color:#c62828}
 .offline.small{font-size:13px}
+.views button{white-space:nowrap;min-width:0}
+@media (max-width:400px){.views .count{margin-left:2px}.views button{font-size:13.5px;padding:9px 2px}}
