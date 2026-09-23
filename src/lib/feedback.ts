@@ -155,7 +155,7 @@ export function useFeedback(opts: { userId: string | null; online: boolean; noti
         enqueue();
         return { ok: true, queued: true };
       }
-      return { ok: false, error: res.error };
+      return { ok: false, error: res.error ?? "Senden fehlgeschlagen" };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
