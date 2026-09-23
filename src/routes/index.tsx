@@ -27,7 +27,6 @@ import {
   browserInfo,
   checkForUpdate,
   deviceKind,
-  getSwRegistration,
   isIos,
   isStandalone,
   offlineStatus,
@@ -75,7 +74,7 @@ const LS_REM_LOG = "mitmacht26-reminder-log-v1";
 
 type Stored = { sel: string[]; gcal: Record<string, { v: string; t: number }> };
 type RemStore = { on: boolean; lead: number; notified: string[] };
-type ReminderFallback = { kind: "failed" | "missed"; title: string; start: string; room?: string };
+type ReminderFallback = { kind: "failed" | "missed"; title: string; start: string; room: string | undefined };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: string }>;
@@ -494,7 +493,7 @@ function Planner() {
 
   const closeSettings = () => {
     setSettingsOpen(false);
-    if (window.location.hash === "#einstellungen") {
+    if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
       history.replaceState(null, "", window.location.pathname + window.location.search);
     }
   };
@@ -523,13 +522,64 @@ function Planner() {
       icon: "/icons/icon-192.png",
       badge: "/icons/icon-192.png",
     };
+    const result = await showLocalNotification(title, opts);
+    const text = result.ok
+      ? result.via === "sw" ? "Über Service Worker angezeigt" : "Direkt angezeigt"
+      : `Fehlgeschlagen: ${result.error ?? "unbekannter Grund"}`;
+    addReminderLog(`Test: ${text}`);
+    showToast(text);
+    void refreshSwDiagnostics();
+  };
+
+  const scheduleTestReminder = () => {
+    if (testTimerRef.current) clearTimeout(testTimerRef.current);
+    const dueAt = Date.now() + 60000;
+    setTestDueAt(dueAt);
+    addReminderLog(`Test-Erinnerung geplant: ${new Date(dueAt).toLocaleTimeString("de-DE")}`);
+    showToast("Test-Erinnerung für in 1 Minute geplant");
+    testTimerRef.current = setTimeout(() => {
+      const n = nowBerlin();
+      const fake: Item = {
+        id: `diagnose-test-${dueAt}`,
+        date: n.date,
+        start: n.time,
+        end: n.time,
+        format: "rahmen",
+        title: "Diagnose-Test-Erinnerung",
+        room: "Test auf diesem Gerät",
+      };
+      addReminderLog("fällig: Diagnose-Test-Erinnerung");
+      void notifySession(fake, n);
+      setTestDueAt(null);
+    }, 60000);
+  };
+
+  useEffect(() => () => {
+    if (testTimerRef.current) clearTimeout(testTimerRef.current);
+  }, []);
+
+  const resetNotified = () => {
+    setRem((current) => ({ ...current, notified: [] }));
+    addReminderLog("Erinnert-Liste zurückgesetzt");
+    showToast("Erinnert-Liste zurückgesetzt");
+  };
+
+  const clearReminderLog = () => {
+    setRemLog([]);
+    setCopyFallback(null);
+    try { localStorage.removeItem(LS_REM_LOG); } catch { /* ignore */ }
+    console.info("[mm-reminder]", "Log geleert");
+  };
+
+  const copyReminderLog = async () => {
+    const text = remLog.join("\n") || "Noch keine Diagnose-Einträge.";
     try {
-      const reg = await navigator.serviceWorker?.ready;
-      if (reg) await reg.showNotification(title, opts);
-      else new Notification(title, opts);
-      showToast("Test-Benachrichtigung gesendet");
+      await navigator.clipboard.writeText(text);
+      setCopyFallback(null);
+      showToast("Log kopiert");
     } catch {
-      showToast("Test-Benachrichtigung nicht möglich");
+      setCopyFallback(text);
+      showToast("Log unten markieren und kopieren");
     }
   };
 
