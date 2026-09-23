@@ -219,7 +219,7 @@ body{
 .eyebrow{font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 6px}
 .eyebrow b{color:var(--red);font-weight:800;letter-spacing:.02em;text-transform:none;font-size:15px}
 .mm h1{margin:0;font-weight:800;font-size:clamp(40px,9vw,68px);line-height:.95;letter-spacing:-.035em;text-wrap:balance}
-.lede{margin:12px 0 0;font-size:17px;max-width:34ch;color:var(--ink)}
+.lede{margin:12px 0 0;font-size:17px;max-width:none;color:var(--ink)}
 .facts{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink-soft);font-weight:500}
 .facts span{white-space:nowrap}
 
@@ -402,8 +402,9 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .switch input{width:20px;height:20px;accent-color:var(--keynote)}
 
 /* ---------- Einstellungen: Button, Bottom-Sheet / Dialog ---------- */
-.hero .eyebrow,.hero h1,.hero .lede{padding-right:60px}
-@media (min-width:540px){.hero .eyebrow,.hero h1,.hero .lede{padding-right:170px}}
+.hero .eyebrow,.hero h1{padding-right:60px}
+.hero .lede{padding-right:0}
+@media (min-width:540px){.hero .eyebrow,.hero h1{padding-right:170px}}
 .settingsbtn{position:absolute;top:0;right:0;z-index:3;
   display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;
   border:2px solid var(--ink);background:var(--bg);color:var(--ink);font-weight:700;font-size:14.5px;cursor:pointer}
