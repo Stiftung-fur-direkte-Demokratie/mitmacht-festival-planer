@@ -580,8 +580,7 @@ function Planner() {
           </p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
-            Stell dir dein persönliches Festivalprogramm zusammen und übernimm es in deinen Google
-            Kalender.
+            {"Dein Festival-Programm 🚀 zusammenstellen & gleich in Kalender eintragen. Läuft sogar offline als App 🤩"}
           </p>
           <p className="facts">
             <span>23.–26. September 2026</span>
