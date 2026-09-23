@@ -473,7 +473,7 @@ export function HeroFaces({ people, onOpen }: { people: CommunityPerson[]; onOpe
     return () => window.clearInterval(t);
   }, [pool.length]);
   if (!pool.length) return null;
-  const shown = Array.from({ length: Math.min(5, pool.length) }, (_, i) => pool[(offset + i) % pool.length]);
+  const shown = Array.from({ length: Math.min(5, pool.length) }, (_, i) => pool[(offset + i) % pool.length]!);
   return (
     <div className="herofaces">
       <span className={`hf-row${fade ? " fade" : ""}`}>
