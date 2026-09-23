@@ -76,6 +76,7 @@ export type SettingsProps = {
   onClearLog: () => void;
   push: PushInfo;
   onTestPush: () => void;
+  adminSlot?: import("react").ReactNode;
 };
 
 export function SettingsDialog(p: SettingsProps) {
@@ -407,6 +408,8 @@ export function SettingsDialog(p: SettingsProps) {
               </li>
             </ul>
           </section>
+
+          {p.adminSlot}
 
           <section className="setblock diagblock" aria-labelledby="set-4" ref={diagnosticRef}>
             <details open={p.diagnosticsOpen} onToggle={(e) => p.onDiagnosticsToggle(e.currentTarget.open)}>
