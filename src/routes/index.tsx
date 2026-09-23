@@ -45,6 +45,7 @@ import {
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
+import { markProgramChanged } from "@/lib/community";
 import { Avatar, AvatarStack, HeroFaces, CommunityView, LinkedInIcon, ProfileSheet } from "@/components/festival/Community";
 import { useCommunity } from "@/lib/community";
 
@@ -812,10 +813,12 @@ function Planner() {
     const s = BY_ID[id];
     if (!s) return;
     if (sel.includes(id)) {
+      markProgramChanged();
       setSel(sel.filter((x) => x !== id));
       showToast("Aus deinem Programm entfernt");
     } else {
       const cl = clashesFor(s, selected);
+      markProgramChanged();
       setSel([...sel, id]);
       showToast(cl.length ? "Gemerkt – mit Überschneidung" : "Zu deinem Programm hinzugefügt");
     }
@@ -1151,6 +1154,7 @@ function Planner() {
                 type="button"
                 className="btn primary small"
                 onClick={() => {
+                  markProgramChanged();
                   setSel(shareIds);
                   setShareIds(null);
                   showToast("Programm übernommen");
@@ -1162,6 +1166,7 @@ function Planner() {
                 type="button"
                 className="btn small"
                 onClick={() => {
+                  markProgramChanged();
                   setSel((cur) => Array.from(new Set([...cur, ...shareIds])));
                   setShareIds(null);
                   showToast("Sessions hinzugefügt");
@@ -1514,6 +1519,7 @@ function Planner() {
                           type="button"
                           className="btn danger small"
                           onClick={() => {
+                            markProgramChanged();
                             setSel([]);
                             setConfirmClear(false);
                             showToast("Programm geleert");
