@@ -1313,6 +1313,27 @@ function Planner() {
               </div>
             ) : (
               <>
+                <p className="backupline" role="status">
+                  {cm.userId ? (
+                    !online || cm.sync.state === "offline" ? (
+                      "Offline – wird gesichert, sobald du wieder online bist"
+                    ) : cm.sync.state === "error" ? (
+                      "Sicherung fehlgeschlagen – wird erneut versucht"
+                    ) : cm.sync.at ? (
+                      `☁︎ In deinem Profil gesichert · zuletzt ${new Date(cm.sync.at).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" })}`
+                    ) : (
+                      "☁︎ Wird in deinem Profil gesichert …"
+                    )
+                  ) : (
+                    <>
+                      Nur auf diesem Gerät gespeichert.{" "}
+                      <button type="button" className="linkbtn" onClick={cm.login} disabled={!online}>
+                        Mit LinkedIn anmelden
+                      </button>
+                      , um dein Programm im Profil zu sichern und auf allen Geräten zu haben. Das veröffentlicht nichts: Deine Sessions bleiben privat, bis du sie einzeln freigibst.
+                    </>
+                  )}
+                </p>
                 <p className="remline">
                   <Icon name="bell" />
                   {rem.on ? (
