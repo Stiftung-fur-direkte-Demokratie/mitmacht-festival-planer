@@ -1,3 +1,4 @@
+import { currentSubscription, ensureSubscription, pushHost, pushSupported, removeSubscription, requestTestPush, syncSubscription } from "@/lib/push-client";
 import { createFileRoute } from "@tanstack/react-router";
 import teamImgSrc from "@/assets/team-circles.png";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -40,6 +41,7 @@ import {
 import { Icon, IconSprite } from "@/components/festival/Icons";
 import {
   SettingsDialog,
+  type PushInfo,
   type ReminderDiagnostics,
 } from "@/components/festival/SettingsDialog";
 import { SessionCard } from "@/components/festival/SessionCard";
@@ -74,7 +76,7 @@ const LS_REM_LOG = "mitmacht26-reminder-log-v1";
 
 type Stored = { sel: string[]; gcal: Record<string, { v: string; t: number }> };
 type RemStore = { on: boolean; lead: number; notified: string[] };
-type ReminderFallback = { kind: "failed" | "missed"; title: string; start: string; room: string | undefined };
+type ReminderFallback = { kind: "failed" | "missed" | "due"; title: string; start: string; room: string | undefined };
 type InstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: string }>;
@@ -118,6 +120,11 @@ function Planner() {
   const [copyFallback, setCopyFallback] = useState<string | null>(null);
   const [reminderFallback, setReminderFallback] = useState<ReminderFallback | null>(null);
   const [testDueAt, setTestDueAt] = useState<number | null>(null);
+  const [push, setPush] = useState<PushInfo>({
+    supported: false, state: "off", error: null, subscribed: false, host: null, lastResponse: null, lastSync: null,
+  });
+  const pushActiveRef = useRef(false);
+  pushActiveRef.current = push.state === "active";
   const exactTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const testTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -341,6 +348,16 @@ function Planner() {
     const u = Math.max(0, Math.round(minutesUntilStart(s, n)));
     const title = u <= 0 ? `Jetzt: ${s.title}` : `In ${u} Min: ${s.title}`;
     addReminderLog(`fällig: ${s.id} · ${s.title}`);
+    if (pushActiveRef.current) {
+      // Push vom Server übernimmt die Systemmeldung – hier nur In-App-Banner.
+      addReminderLog(`Push aktiv – nur In-App-Banner: ${s.id}`);
+      setReminderFallback({ kind: "due", title: s.title, start: s.start, room: s.room });
+      setRem((current) => current.notified.includes(s.id)
+        ? current
+        : { ...current, notified: [...current.notified, s.id] });
+      processingRef.current.delete(s.id);
+      return;
+    }
     const result = await showLocalNotification(title, {
       body: `${s.start}–${s.end}${s.room ? " · " + s.room : ""}`,
       tag: s.id,
@@ -562,6 +579,90 @@ function Planner() {
 
   const doResetOffline = () => {
     void resetOffline();
+  };
+
+  /* ---- Server-Push ---- */
+  const pushSyncRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const syncPush = useCallback(async () => {
+    const supported = pushSupported();
+    const stamp = () => new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+    if (!rem.on) {
+      const had = await currentSubscription().catch(() => null);
+      if (had) {
+        if (!navigator.onLine) return;
+        try {
+          await removeSubscription();
+          addReminderLog("Push abgemeldet, Serverdaten gelöscht");
+          setPush((p) => ({ ...p, supported, state: "off", error: null, subscribed: false, host: null, lastResponse: "gelöscht", lastSync: stamp() }));
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          addReminderLog(`Push-Abmeldung fehlgeschlagen: ${msg}`);
+          setPush((p) => ({ ...p, state: "error", error: msg, lastResponse: msg }));
+        }
+      } else setPush((p) => ({ ...p, supported, state: "off", error: null, subscribed: false, host: null }));
+      return;
+    }
+    if (ios && !standalone) {
+      setPush((p) => ({ ...p, supported, state: "ios-install", error: null }));
+      return;
+    }
+    if (!supported) {
+      setPush((p) => ({ ...p, supported, state: "unavailable", error: "Browser unterstützt kein Push" }));
+      return;
+    }
+    if (perm !== "granted") {
+      setPush((p) => ({ ...p, supported, state: "unavailable", error: "Benachrichtigungen noch nicht erlaubt" }));
+      return;
+    }
+    if (swDisabled()) {
+      setPush((p) => ({ ...p, supported, state: "unavailable", error: "Service Worker hier nicht aktiv (Vorschau)" }));
+      return;
+    }
+    if (!navigator.onLine) {
+      addReminderLog("Push-Sync verschoben: offline");
+      return;
+    }
+    setPush((p) => (p.state === "active" ? p : { ...p, supported, state: "pending" }));
+    try {
+      const sub = await ensureSubscription();
+      await syncSubscription(sub, selectedRef.current.filter((x) => !isLong(x)).map((x) => x.id), rem.lead, deviceKind() as "ios" | "android" | "desktop");
+      addReminderLog(`Push synchronisiert (${pushHost(sub)})`);
+      setPush({ supported, state: "active", error: null, subscribed: true, host: pushHost(sub), lastResponse: "ok", lastSync: stamp() });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      addReminderLog(`Push-Fehler: ${msg}`);
+      const sub = await currentSubscription().catch(() => null);
+      setPush((p) => ({ ...p, supported, state: "error", error: msg, subscribed: !!sub, host: pushHost(sub), lastResponse: msg }));
+    }
+  }, [addReminderLog, ios, perm, rem.lead, rem.on, standalone]);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (pushSyncRef.current) clearTimeout(pushSyncRef.current);
+    pushSyncRef.current = setTimeout(() => void syncPush(), 2000);
+    return () => {
+      if (pushSyncRef.current) clearTimeout(pushSyncRef.current);
+    };
+  }, [ready, sel, syncPush]);
+
+  useEffect(() => {
+    const again = () => void syncPush();
+    window.addEventListener("online", again);
+    return () => window.removeEventListener("online", again);
+  }, [syncPush]);
+
+  const testPush = async () => {
+    try {
+      await requestTestPush();
+      addReminderLog("Test-Push beim Server bestellt (in ca. 1 Minute)");
+      setPush((p) => ({ ...p, lastResponse: "Test geplant" }));
+      showToast("Test-Push kommt in etwa 1 Minute");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      addReminderLog(`Test-Push fehlgeschlagen: ${msg}`);
+      setPush((p) => ({ ...p, lastResponse: msg }));
+      showToast(`Test-Push fehlgeschlagen: ${msg}`);
+    }
   };
 
   const testNotification = async () => {
@@ -1440,6 +1541,8 @@ function Planner() {
         onResetNotified={resetNotified}
         onCopyLog={() => void copyReminderLog()}
         onClearLog={clearReminderLog}
+        push={push}
+        onTestPush={() => void testPush()}
       />
 
       <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">
