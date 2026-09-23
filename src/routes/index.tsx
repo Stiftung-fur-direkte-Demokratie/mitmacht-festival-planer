@@ -237,7 +237,10 @@ function Planner() {
     setOffline(offlineStatus());
     const offTick = setInterval(() => setOffline(offlineStatus()), 3000);
     const onHash = () => {
-      if (window.location.hash === "#einstellungen") setSettingsOpen(true);
+      if (window.location.hash === "#einstellungen" || window.location.hash === "#diagnose") {
+        setSettingsOpen(true);
+        setDiagnosticsOpen(window.location.hash === "#diagnose");
+      }
     };
     window.addEventListener("hashchange", onHash);
     const on = () => setOnline(true);
@@ -459,6 +462,48 @@ function Planner() {
       next: next ? `${d ? d.short + " " : ""}${next.start} Uhr · ${next.title}` : null,
     };
   }, [selected, now]);
+
+  const diagnosticSessions = useMemo(() => selected
+    .map((s) => {
+      const minutes = minutesUntilStart(s, now);
+      const status = isLong(s)
+        ? "übersprungen (≥ 3 h)"
+        : rem.notified.includes(s.id)
+          ? "erinnert"
+          : minutes < 0 && minutes >= -15
+            ? "verpasst"
+            : minutes <= rem.lead && minutes >= 0
+              ? "fällig"
+              : "wartet";
+      return { id: s.id, title: s.title, start: s.start, minutes, status };
+    })
+    .filter((s) => s.minutes >= -15)
+    .sort((a, b) => a.minutes - b.minutes)
+    .slice(0, 5), [now, rem.lead, rem.notified, selected]);
+
+  const diagnostics: ReminderDiagnostics = {
+    device: deviceKind(),
+    browser: browserInfo(),
+    notificationSupported: typeof window !== "undefined" && "Notification" in window,
+    swSupported: typeof navigator !== "undefined" && "serviceWorker" in navigator,
+    swDisabledReason: typeof window !== "undefined" ? swDisabledReason() : "Server-Ansicht",
+    swController: typeof navigator !== "undefined" && !!navigator.serviceWorker?.controller,
+    swRegistration: swDiag.registration,
+    swActive: swDiag.active,
+    swWaiting: swDiag.waiting,
+    build: APP_BUILD,
+    berlinTime: now.date && now.time ? `${now.date} ${now.time}` : "unbekannt",
+    deviceTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "unbekannt",
+    visibility: typeof document !== "undefined" ? document.visibilityState : "unbekannt",
+    lastCheck,
+    checkCount,
+    nextTimer: testDueAt
+      ? `${new Date(testDueAt).toLocaleString("de-DE")} · Diagnose-Test`
+      : nextExactTimer,
+    sessions: diagnosticSessions,
+    log: remLog,
+    copyFallback,
+  };
 
   const askPermission = async () => {
     if (typeof Notification === "undefined") {
@@ -842,6 +887,14 @@ function Planner() {
                 {upcoming.s.room ? ` · ${upcoming.s.room}` : ""} (in {upcoming.mins} Min)
               </>
             )}
+          </div>
+        )}
+
+        {reminderFallback && (
+          <div className={`nextup${reminderFallback.kind === "missed" ? " missed" : ""}`} role="alert">
+            {reminderFallback.kind === "missed" ? "Verpasst? " : "Erinnerung: "}
+            <b>{reminderFallback.title}</b>{reminderFallback.kind === "missed" ? " hat" : " beginnt"} um {reminderFallback.start}
+            {reminderFallback.room ? ` · ${reminderFallback.room}` : ""}
           </div>
         )}
 
@@ -1372,6 +1425,17 @@ function Planner() {
         onTestNotification={() => void testNotification()}
         remCount={remStats.count}
         remNext={remStats.next}
+        diagnosticsOpen={diagnosticsOpen}
+        diagnostics={diagnostics}
+        onDiagnosticsToggle={setDiagnosticsOpen}
+        onCheckNow={() => {
+          checkReminders("manuell", true);
+          void refreshSwDiagnostics();
+        }}
+        onScheduleTest={scheduleTestReminder}
+        onResetNotified={resetNotified}
+        onCopyLog={() => void copyReminderLog()}
+        onClearLog={clearReminderLog}
       />
 
       <div className={`toast${toast ? " show" : ""}`} role="status" aria-live="polite">
