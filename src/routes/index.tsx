@@ -1621,7 +1621,7 @@ function Planner() {
             now={now}
             stand={cm.stand}
             online={online}
-            currentUserId={cm.userId}
+            loggedIn={!!cm.userId}
             mySessionIds={selected.map((s) => s.id)}
             isAdmin={cm.isAdmin}
             configured={cm.configured}
@@ -1629,7 +1629,7 @@ function Planner() {
             onClearSessionFilter={() => setCmSession(null)}
             onLogin={cm.login}
             onOpenProfile={() => setProfileOpen(true)}
-            currentUserId={cm.userId}
+            mySessionIds={selected.map((s) => s.id)}
             sub={cmSub}
             onSub={(v) => {
               setCmSub(v);
