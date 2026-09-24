@@ -57,6 +57,12 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.searchParams.has("nosw")) return;
 
+  // OAuth start/callback responses contain redirects. In particular, iOS
+  // rejects a redirected navigation response when it was returned by a
+  // service worker ("Response served by service worker has redirections").
+  // Let every LinkedIn auth request reach the server/browser directly.
+  if (url.pathname.startsWith("/api/public/auth/linkedin/")) return;
+
   if (req.mode === "navigate") {
     event.respondWith(
       (async () => {
