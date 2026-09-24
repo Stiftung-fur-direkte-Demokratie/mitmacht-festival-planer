@@ -1,3 +1,4 @@
+import { Intro, type IntroStep } from "@/components/festival/Intro";
 import { currentSubscription, ensureSubscription, pushHost, pushSupported, removeSubscription, requestTestPush, syncSubscription } from "@/lib/push-client";
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
