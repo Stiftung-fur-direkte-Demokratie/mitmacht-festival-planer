@@ -27,6 +27,7 @@ export function FeedbackSheet(p: {
   loggedIn: boolean;
   online: boolean;
   onClose: () => void;
+  onSkip?: () => void;
   onSubmit: (r: Rating) => Promise<{ ok: boolean; queued?: boolean; error?: string }>;
 }) {
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -130,7 +131,12 @@ export function FeedbackSheet(p: {
           {!p.online && <p className="statusline caution">Wird gesendet, sobald du online bist.</p>}
           {err && <p className="clash" role="alert">{err}</p>}
         </div>
-        <div className="sheet-foot">
+        <div className="sheet-foot" style={{ gap: 10, flexWrap: "wrap" }}>
+          {p.onSkip && !p.initial && (
+            <button type="button" className="btn" onClick={p.onSkip} disabled={busy}>
+              Ohne Bewertung abschliessen
+            </button>
+          )}
           <button type="button" className="btn primary" onClick={() => void send()} disabled={busy} aria-disabled={!complete}>
             Bewertung senden
           </button>

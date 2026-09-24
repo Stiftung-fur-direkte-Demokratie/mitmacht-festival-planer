@@ -463,8 +463,8 @@ function Planner() {
     return (
       <>
         {showRate && (
-          <button type="button" className={`btn small ratebtn${fb.rated[id] ? "" : " primary"}`} onClick={() => setRateId(id)}>
-            {fb.rated[id] ? (fb.queuedIds.has(id) ? "Bewertet ✓ (wird gesendet) – ändern" : "Bewertet ✓ – ändern") : "Bewerten"}
+          <button type="button" className={`btn small ratebtn${fb.rated[id] || fb.dismissed.includes(id) ? "" : " primary"}`} onClick={() => setRateId(id)}>
+            {fb.rated[id] ? (fb.queuedIds.has(id) ? "Bewertet ✓ (wird gesendet) – ändern" : "Bewertet ✓ – ändern") : fb.dismissed.includes(id) ? "Abgeschlossen – doch bewerten" : "Bewerten"}
           </button>
         )}
         <AvatarStack people={ps} onClick={() => openCommunityFor(id)} />
@@ -2154,6 +2154,11 @@ function Planner() {
         loggedIn={!!cm.userId}
         online={online}
         onClose={() => setRateId(null)}
+        onSkip={() => {
+          if (rateId) fb.dismiss(rateId);
+          setRateId(null);
+          showToast("Ohne Bewertung abgeschlossen ✓");
+        }}
         onSubmit={async (r) => {
           const id = rateId!;
           const res = await fb.submit(id, r);
