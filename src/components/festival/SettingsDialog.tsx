@@ -350,11 +350,11 @@ export function SettingsDialog(p: SettingsProps) {
                     Berechtigungen → Benachrichtigungen → Zulassen.
                   </li>
                   <li>
-                    <b>iPhone/iPad:</b> Einstellungen → Mitteilungen → <b>Mitmacht 26</b> → Mitteilungen
+                    <b>iPhone/iPad:</b> Einstellungen → Mitteilungen → <b>Mitmacht 2026</b> → Mitteilungen
                     erlauben.
                   </li>
                   <li>
-                    <b>Android:</b> Einstellungen → Apps → <b>Mitmacht 26</b> → Benachrichtigungen.
+                    <b>Android:</b> Einstellungen → Apps → <b>Mitmacht 2026</b> → Benachrichtigungen.
                   </li>
                 </ul>
                 <p>Danach diese Seite neu laden.</p>
