@@ -1116,7 +1116,7 @@ function Planner() {
     if (view !== "community") return;
     scrollToBar("auto");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, communitySub]);
+  }, [view, cmSub]);
 
   /* ---- Gruppierung ---- */
   const renderDay = (date: string, filtered: boolean) => {
@@ -1621,7 +1621,8 @@ function Planner() {
             now={now}
             stand={cm.stand}
             online={online}
-            loggedIn={!!cm.userId}
+            currentUserId={cm.userId}
+            mySessionIds={selected.map((s) => s.id)}
             isAdmin={cm.isAdmin}
             configured={cm.configured}
             sessionFilter={cmSession}
