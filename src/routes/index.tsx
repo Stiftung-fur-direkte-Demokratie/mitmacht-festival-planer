@@ -818,7 +818,13 @@ function Planner() {
       setServerBuild(res.build);
       setNewBuild(res.build);
       setUpdateMsg("Neue Version verfügbar");
-      await runApplyUpdate(res.build);
+      const ok = window.confirm("Eine neue Version ist verfügbar. Jetzt laden? Die App wird dabei neu geladen.");
+      if (ok) {
+        await runApplyUpdate(res.build);
+      } else {
+        setUpdateBusy(false);
+        setUpdateMsg("Neue Version verfügbar – oben auf „Jetzt aktualisieren“ tippen, wenn du bereit bist.");
+      }
       return;
     }
     setUpdateBusy(false);

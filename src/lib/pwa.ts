@@ -225,42 +225,27 @@ async function clearShellCaches(keepBuild?: string) {
   );
 }
 
-/** Installiert den neuen Service Worker (max. 5 s), räumt Caches auf und lädt neu. */
+/** Lädt die neue Version zuverlässig: alten Offline-Speicher abmelden, Caches leeren,
+ *  dann mit neuer Adresse frisch vom Server laden. Der Offline-Speicher wird danach neu aufgebaut. */
 export async function applyUpdate(newBuild: string): Promise<void> {
   applyingUpdate = true;
   try {
-    if ("serviceWorker" in navigator && !swDisabled()) {
-      const reg = await navigator.serviceWorker.register("/sw.js?v=" + encodeURIComponent(newBuild), { scope: "/" });
-      await new Promise<void>((resolve) => {
-        const timer = window.setTimeout(resolve, 5000);
-        const done = () => {
-          window.clearTimeout(timer);
-          resolve();
-        };
-        const watch = (w: ServiceWorker | null) => {
-          if (!w) return;
-          if (w.state === "activated") return done();
-          if (w.state === "installed") w.postMessage("SKIP_WAITING");
-          w.addEventListener("statechange", () => {
-            if (w.state === "installed") w.postMessage("SKIP_WAITING");
-            if (w.state === "activated" || w.state === "redundant") done();
-          });
-        };
-        if (reg.waiting) watch(reg.waiting);
-        else if (reg.installing) watch(reg.installing);
-        reg.addEventListener("updatefound", () => watch(reg.installing));
-        if (!reg.installing && !reg.waiting && reg.active?.scriptURL.includes("v=" + newBuild)) done();
-      });
+    if ("serviceWorker" in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.allSettled(regs.map((r) => r.unregister()));
     }
-  } catch {
-    /* trotzdem Caches leeren und neu laden */
-  }
-  try {
-    await clearShellCaches(newBuild);
   } catch {
     /* ignore */
   }
-  window.location.reload();
+  try {
+    await clearShellCaches();
+  } catch {
+    /* ignore */
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set("u", newBuild);
+  url.hash = "";
+  window.location.replace(url.toString());
 }
 
 /** Leert den App-Shell-Cache und lädt neu (für „sieht noch alt aus"). */
