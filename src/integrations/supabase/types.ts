@@ -234,20 +234,26 @@ export type Database = {
         Row: {
           created_at: string
           nonce: string
+          result: string | null
           return_path: string
           state: string
+          used_at: string | null
         }
         Insert: {
           created_at?: string
           nonce: string
+          result?: string | null
           return_path?: string
           state: string
+          used_at?: string | null
         }
         Update: {
           created_at?: string
           nonce?: string
+          result?: string | null
           return_path?: string
           state?: string
+          used_at?: string | null
         }
         Relationships: []
       }

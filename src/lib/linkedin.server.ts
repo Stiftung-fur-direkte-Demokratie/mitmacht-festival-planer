@@ -34,14 +34,40 @@ export function appError(code: "cancelled" | "state" | "unreachable" | "noemail"
   return redirect(`${ret}#li_error=${code}`);
 }
 
-export async function consumeState(state: string) {
+/**
+ * Beansprucht den State genau einmal. Kommt derselbe Callback ein zweites Mal
+ * (iOS/LinkedIn rufen ihn manchmal doppelt auf), liefert `replay` das Ergebnis
+ * des ersten Aufrufs, statt einen Fehler zu zeigen.
+ */
+export async function consumeState(
+  state: string,
+): Promise<{ nonce: string; return_path: string } | { replay: string | null; return_path: string } | null> {
   const db = await admin();
-  const { data } = await db.from("oauth_states").delete().eq("state", state).select("nonce, return_path, created_at").maybeSingle();
-  // Aufräumen abgelaufener Einträge
   await db.from("oauth_states").delete().lt("created_at", new Date(Date.now() - STATE_TTL_MS).toISOString());
-  if (!data) return null;
-  if (Date.now() - new Date(data.created_at).getTime() > STATE_TTL_MS) return null;
-  return data;
+  const { data } = await db
+    .from("oauth_states")
+    .update({ used_at: new Date().toISOString() })
+    .eq("state", state)
+    .is("used_at", null)
+    .select("nonce, return_path, created_at")
+    .maybeSingle();
+  if (data) {
+    if (Date.now() - new Date(data.created_at).getTime() > STATE_TTL_MS) return null;
+    return { nonce: data.nonce, return_path: data.return_path };
+  }
+  // Bereits beansprucht: auf das Ergebnis des ersten Aufrufs warten (max. ~8 s)
+  for (let i = 0; i < 16; i++) {
+    const { data: row } = await db.from("oauth_states").select("result, return_path").eq("state", state).maybeSingle();
+    if (!row) return null;
+    if (row.result) return { replay: row.result, return_path: row.return_path };
+    await new Promise((r) => setTimeout(r, 500));
+  }
+  return { replay: null, return_path: "/" };
+}
+
+export async function saveStateResult(state: string, location: string) {
+  const db = await admin();
+  await db.from("oauth_states").update({ result: location }).eq("state", state);
 }
 
 export function decodeJwtPayload(jwt: string): Record<string, unknown> | null {

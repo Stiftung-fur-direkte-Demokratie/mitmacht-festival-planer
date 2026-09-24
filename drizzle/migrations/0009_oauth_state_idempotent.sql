@@ -1,0 +1,1 @@
+ALTER TABLE public.oauth_states ADD COLUMN IF NOT EXISTS used_at timestamptz, ADD COLUMN IF NOT EXISTS result text;
