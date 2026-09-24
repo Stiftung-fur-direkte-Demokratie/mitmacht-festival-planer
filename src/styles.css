@@ -703,7 +703,7 @@ button:not([disabled]):active,.btn:not([disabled]):active,a.btn:active,[role="ta
 .intro-body{animation:intro-in .4s ease .05s both}
 .intro-dots{display:flex;justify-content:center;gap:6px;margin:0 0 16px}
 .intro-dots span{width:8px;height:8px;border-radius:99px;background:var(--line);transition:width .25s,background .25s}
-.intro-dots span.on{width:22px;background:var(--accent,#E63B2E)}
+.intro-dots span.on{width:22px;background:var(--ink)}
 .intro-float{animation:intro-float 3s ease-in-out infinite}
 .intro-row{animation:intro-in .5s ease both}
 .intro-drop{animation:intro-drop .6s cubic-bezier(.3,1.4,.6,1) .2s both}
