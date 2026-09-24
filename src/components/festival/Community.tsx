@@ -72,6 +72,7 @@ export function CommunityView(p: {
   onLogin: () => void;
   onOpenProfile: () => void;
   currentUserId?: string | null;
+  mySessionIds?: string[];
   sub: "leute" | "postfach";
   onSub: (s: "leute" | "postfach") => void;
   unread: number;
@@ -96,6 +97,20 @@ export function CommunityView(p: {
       return hay.includes(needle);
     });
   }, [p.people, p.sessionFilter, p.now.date, q, today]);
+
+  const mine = useMemo(() => new Set(p.mySessionIds ?? []), [p.mySessionIds]);
+  const sorted = useMemo(
+    () =>
+      list
+        .map((x) => {
+          const w = whereNow(x.session_ids, p.now);
+          const sameNow = x.user_id !== p.currentUserId && w.kind === "now" && !!w.s && mine.has(w.s.id);
+          const shared = x.session_ids.filter((id) => mine.has(id)).length;
+          return { x, w, sameNow, shared };
+        })
+        .sort((a, b) => Number(b.sameNow) - Number(a.sameNow) || b.shared - a.shared),
+    [list, p.now, mine, p.currentUserId],
+  );
 
   const filterItem = p.sessionFilter ? BY_ID[p.sessionFilter] : null;
   const standText = p.stand
@@ -179,97 +194,89 @@ export function CommunityView(p: {
           <p className="sub">Öffnet das LinkedIn-Profil – dort kannst du eine Nachricht schreiben oder dich vernetzen.</p>
         )}
         <div className="cm-list">
-          {list.map((x) => {
-            const w = whereNow(x.session_ids, p.now);
-            const meta = [x.role_title, x.organisation].filter(Boolean).join(" · ");
+          {sorted.map(({ x, w, sameNow, shared }) => {
+            const open = !!openIds[x.user_id];
+            const canMsg = x.accept_messages && x.user_id !== p.currentUserId && !p.blockedIds.has(x.user_id);
             return (
-              <article className={`cm-card${x.hidden ? " hidden-admin" : ""}`} key={x.user_id}>
-                <div className="cm-top">
-                  <Avatar name={x.display_name} url={x.avatar_url} size={48} />
-                  <div className="cm-txt">
-                    <h3>
-                      {x.display_name}
-                      {x.user_id === p.currentUserId && <span className="cm-you"> (Du)</span>}
-                    </h3>
-                    {meta && <p className="sub">{meta}</p>}
-                    {x.hidden && <p className="sub">Ausgeblendet (nur für Admins sichtbar)</p>}
-                  </div>
-                </div>
-                <div className="cm-actions">
-                  {x.accept_messages && x.user_id !== p.currentUserId && !p.blockedIds.has(x.user_id) && (
-                    <button
-                      type="button"
-                      className="btn small"
-                      onClick={() => p.onMessage(x)}
-                      aria-label={`${x.display_name} eine Nachricht schreiben`}
-                    >
-                      <MessageIcon size={16} /> Nachricht
+              <article
+                className={`cm-bubble${x.hidden ? " hidden-admin" : ""}${sameNow ? " same" : ""}${open ? " open" : ""}`}
+                key={x.user_id}
+              >
+                <button
+                  type="button"
+                  className="cm-face"
+                  aria-expanded={open}
+                  aria-label={`${x.display_name} – Details ${open ? "schliessen" : "anzeigen"}`}
+                  onClick={() => setOpenIds((o) => ({ ...o, [x.user_id]: !o[x.user_id] }))}
+                >
+                  <span className="cm-ring">
+                    <Avatar name={x.display_name} url={x.avatar_url} size={76} />
+                  </span>
+                  {sameNow && <span className="cm-badge">Gleiche Session</span>}
+                </button>
+                <h3>
+                  {x.display_name}
+                  {x.user_id === p.currentUserId && <span className="cm-you"> (Du)</span>}
+                </h3>
+                {x.role_title && <p className="cm-role">{x.role_title}</p>}
+                {x.organisation && <p className="cm-org">{x.organisation}</p>}
+                {x.hidden && <p className="cm-org">Ausgeblendet (nur Admins)</p>}
+                {w.kind === "now" && w.s && (
+                  <p className="cm-now"><span className="dot" aria-hidden="true" />Jetzt: {w.s.title}</p>
+                )}
+                {w.kind === "next" && w.s && (
+                  <p className="cm-next">Als Nächstes: {dayLabel(w.s.date)} {w.s.start}</p>
+                )}
+                {shared > 0 && x.user_id !== p.currentUserId && (
+                  <p className="cm-shared">{shared} gemeinsame Session{shared > 1 ? "s" : ""}</p>
+                )}
+                <div className="cm-icons">
+                  {canMsg && (
+                    <button type="button" className="cm-ico" onClick={() => p.onMessage(x)} aria-label={`${x.display_name} eine Nachricht schreiben`} title="Nachricht">
+                      <MessageIcon size={18} />
                     </button>
                   )}
-                  {x.linkedin_url ? (
-                    <a
-                      className="btn primary small"
-                      href={x.linkedin_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${x.display_name} auf LinkedIn kontaktieren`}
-                    >
-                      <LinkedInIcon size={16} /> Kontaktieren
+                  {x.linkedin_url && (
+                    <a className="cm-ico li" href={x.linkedin_url} target="_blank" rel="noopener noreferrer" aria-label={`${x.display_name} auf LinkedIn kontaktieren`} title="LinkedIn">
+                      <LinkedInIcon size={18} />
                     </a>
-                  ) : x.user_id === p.currentUserId ? (
-                    <button type="button" className="linkbtn" onClick={p.onOpenProfile}>
-                      LinkedIn-Link ergänzen
-                    </button>
-                  ) : null}
+                  )}
                   {x.contact_email && (
-                    <a className="btn small" href={`mailto:${x.contact_email}`} aria-label={`${x.display_name} eine E-Mail schreiben`}>
-                      <MailIcon /> E-Mail
+                    <a className="cm-ico" href={`mailto:${x.contact_email}`} aria-label={`${x.display_name} eine E-Mail schreiben`} title="E-Mail">
+                      <MailIcon />
                     </a>
                   )}
                   {x.phone && (
-                    <a className="btn small" href={`tel:${x.phone}`} aria-label={`${x.display_name} anrufen (${formatPhone(x.phone)})`}>
-                      <PhoneIcon /> Anrufen
+                    <a className="cm-ico" href={`tel:${x.phone}`} aria-label={`${x.display_name} anrufen (${formatPhone(x.phone)})`} title="Anrufen">
+                      <PhoneIcon />
                     </a>
                   )}
-                  {p.isAdmin && (
-                    <button type="button" className="linkbtn" onClick={() => p.onHide(x.user_id, !x.hidden)} disabled={!p.online}>
-                      {x.hidden ? "Wieder einblenden" : "Ausblenden"}
-                    </button>
-                  )}
                 </div>
-                {w.items.length > 0 && (
-                  <div className="cm-where">
-                    <p className="lbl">Wo finde ich sie/ihn?</p>
-                    {w.kind === "now" && w.s && (
-                      <p>
-                        <b>Jetzt:</b> {w.s.title}
-                        {w.s.room ? ` · ${w.s.room}` : ""}
-                      </p>
+                {!x.linkedin_url && x.user_id === p.currentUserId && (
+                  <button type="button" className="linkbtn" onClick={p.onOpenProfile}>LinkedIn-Link ergänzen</button>
+                )}
+                {open && (
+                  <div className="cm-detail">
+                    {w.items.length > 0 ? (
+                      <>
+                        <p className="lbl">Sessions ({w.items.length})</p>
+                        <ul>
+                          {w.items.map((s) => (
+                            <li key={s.id} className={mine.has(s.id) ? "mine" : undefined}>
+                              {dayLabel(s.date)} {s.start} · {s.title}
+                              {s.room ? ` · ${s.room}` : ""}
+                              {mine.has(s.id) && <span className="sr-only"> (auch in deiner Agenda)</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <p className="lbl">Keine Sessions freigegeben.</p>
                     )}
-                    {w.kind === "next" && w.s && (
-                      <p>
-                        <b>Als Nächstes:</b> {dayLabel(w.s.date)} {w.s.start} · {w.s.title}
-                        {w.s.room ? ` · ${w.s.room}` : ""}
-                      </p>
-                    )}
-                    <button
-                      type="button"
-                      className="more"
-                      aria-expanded={!!openIds[x.user_id]}
-                      onClick={() => setOpenIds((o) => ({ ...o, [x.user_id]: !o[x.user_id] }))}
-                    >
-                      {openIds[x.user_id] ? "Weniger" : `Alle ${w.items.length} Sessions`}
-                      <Icon name="chev" className="" />
-                    </button>
-                    {openIds[x.user_id] && (
-                      <ul>
-                        {w.items.map((s) => (
-                          <li key={s.id}>
-                            {dayLabel(s.date)} {s.start} · {s.title}
-                            {s.room ? ` · ${s.room}` : ""}
-                          </li>
-                        ))}
-                      </ul>
+                    {p.isAdmin && (
+                      <button type="button" className="linkbtn" onClick={() => p.onHide(x.user_id, !x.hidden)} disabled={!p.online}>
+                        {x.hidden ? "Wieder einblenden" : "Ausblenden"}
+                      </button>
                     )}
                   </div>
                 )}

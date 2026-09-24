@@ -1111,6 +1111,13 @@ function Planner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, day, now.date, selected.length > 0]);
 
+  /* ---- Community: immer oben (unter der Leiste) beginnen ---- */
+  useEffect(() => {
+    if (view !== "community") return;
+    scrollToBar("auto");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, cmSub]);
+
   /* ---- Gruppierung ---- */
   const renderDay = (date: string, filtered: boolean) => {
     const rows = ALL.filter((s) => s.date === date);
@@ -1615,6 +1622,7 @@ function Planner() {
             stand={cm.stand}
             online={online}
             loggedIn={!!cm.userId}
+            mySessionIds={selected.map((s) => s.id)}
             isAdmin={cm.isAdmin}
             configured={cm.configured}
             sessionFilter={cmSession}
