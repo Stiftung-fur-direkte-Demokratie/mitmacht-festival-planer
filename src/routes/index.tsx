@@ -1,3 +1,4 @@
+import { Intro, type IntroStep } from "@/components/festival/Intro";
 import { currentSubscription, ensureSubscription, pushHost, pushSupported, removeSubscription, requestTestPush, syncSubscription } from "@/lib/push-client";
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
@@ -767,28 +768,28 @@ function Planner() {
     setInstallEvt(null);
   };
 
-  /* ---- Erstes Öffnen: Installations- und Push-Hinweis ---- */
-  const [onboard, setOnboard] = useState<null | "install" | "push">(null);
-  const onboardQueue = useRef<("install" | "push")[]>([]);
+  /* ---- Erstes Öffnen: mehrstufiger Intro-Screen ---- */
+  const [introSteps, setIntroSteps] = useState<IntroStep[] | null>(null);
   useEffect(() => {
     const t = setTimeout(() => {
+      const force = /[?&]intro/.test(location.search);
       try {
-        if (localStorage.getItem("mm-onboard-done")) return;
+        if (!force && localStorage.getItem("mm-intro-done")) return;
+        localStorage.setItem("mm-intro-done", "1");
         localStorage.setItem("mm-onboard-done", "1");
       } catch {
         return;
       }
-      if (window.self !== window.top && !/[?&]onboard/.test(location.search)) return;
-      const q: ("install" | "push")[] = [];
+      if (!force && /[?&](p|rate|inbox)=/.test(location.search)) return;
+      const q: IntroStep[] = ["welcome"];
       const sa = window.matchMedia("(display-mode: standalone)").matches || (navigator as { standalone?: boolean }).standalone === true;
       if (!sa) q.push("install");
       if (typeof Notification !== "undefined" && Notification.permission === "default" && !(isIos() && !sa)) q.push("push");
-      onboardQueue.current = q.slice(1);
-      if (q[0]) setOnboard(q[0]);
-    }, 1200);
+      q.push("linkedin");
+      setIntroSteps(q);
+    }, 800);
     return () => clearTimeout(t);
   }, []);
-  const closeOnboard = () => setOnboard(onboardQueue.current.shift() ?? null);
 
   const openSettings = () => {
     setUpdateMsg(null);
@@ -2164,40 +2165,17 @@ function Planner() {
         }}
       />
 
-      {onboard && (
-        <div className="sheet-backdrop onb-backdrop" onClick={closeOnboard}>
-          <div className="onb" role="dialog" aria-modal="true" aria-labelledby="onb-t" onClick={(e) => e.stopPropagation()}>
-            {onboard === "install" ? (
-              <>
-                <div className="onb-ico" aria-hidden="true">📲</div>
-                <h2 id="onb-t">Zum Home-Bildschirm hinzufügen</h2>
-                <p>
-                  {ios
-                    ? "Tippe in Safari unten auf „Teilen“ und dann auf „Zum Home-Bildschirm“. So startet der Planer wie eine App – auch offline."
-                    : "Installiere den Planer als App: schneller Start, funktioniert auch offline."}
-                </p>
-                <div className="onb-actions">
-                  {installEvt ? (
-                    <button type="button" className="btn primary" onClick={() => { void installApp(); closeOnboard(); }}>Jetzt installieren</button>
-                  ) : (
-                    <button type="button" className="btn primary" onClick={() => { closeOnboard(); openSettings(); }}>So geht&#39;s</button>
-                  )}
-                  <button type="button" className="btn" onClick={closeOnboard}>Später</button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="onb-ico" aria-hidden="true">🔔</div>
-                <h2 id="onb-t">Push-Meldungen aktivieren</h2>
-                <p>Wir erinnern dich kurz vor deinen Sessions – auch wenn die App geschlossen ist.</p>
-                <div className="onb-actions">
-                  <button type="button" className="btn primary" onClick={() => { closeOnboard(); void askPermission(); }}>Aktivieren</button>
-                  <button type="button" className="btn" onClick={closeOnboard}>Später</button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+      {introSteps && (
+        <Intro
+          steps={introSteps}
+          ios={ios}
+          canInstall={!!installEvt}
+          loggedIn={!!cm.userId}
+          onInstall={() => void installApp()}
+          onPush={askPermission}
+          onLinkedIn={() => (cm.userId ? setProfileOpen(true) : cm.login())}
+          onClose={() => setIntroSteps(null)}
+        />
       )}
 
       <div className={`toast${toast ? " show" : ""}${/fehlgeschlagen|nicht erlaubt|nicht möglich|nicht unterstützt|fehler|ungültig/i.test(toast) ? " err" : ""}`} role="status" aria-live="polite">
