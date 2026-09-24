@@ -1074,6 +1074,30 @@ function Planner() {
     if (always || window.scrollY > top) window.scrollTo({ top, behavior });
   };
 
+  /* ---- Automatisch zur aktuellen Session scrollen (Programm + Agenda) ---- */
+  const autoScrolled = useRef(false);
+  useEffect(() => {
+    if (view === "community" || q) return;
+    if (!autoScrolled.current) {
+      autoScrolled.current = true;
+      const sp = new URLSearchParams(window.location.search);
+      if (sp.get("s") || sp.get("rate") || sp.get("inbox") || (window.location.hash && window.location.hash !== "#mein")) return;
+    }
+    if (view === "all" && day !== now.date) return;
+    const t = window.setTimeout(() => {
+      const cards = Array.from(document.querySelectorAll<HTMLElement>("main.wrap article.card"));
+      if (!cards.length || !cards[0]!.classList.contains("past")) return;
+      const target = cards.find((c) => !c.classList.contains("past"));
+      if (!target) return;
+      const barBottom = barRef.current?.getBoundingClientRect().height ?? 0;
+      const inset = document.querySelector(".sb-shield")?.getBoundingClientRect().height ?? 0;
+      const top = target.getBoundingClientRect().top + window.scrollY - barBottom - inset - 12;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    }, 120);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, day, now.date]);
+
   /* ---- Gruppierung ---- */
   const renderDay = (date: string, filtered: boolean) => {
     const rows = ALL.filter((s) => s.date === date);
