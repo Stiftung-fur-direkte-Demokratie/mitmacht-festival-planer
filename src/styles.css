@@ -694,3 +694,26 @@ button:not([disabled]):active,.btn:not([disabled]):active,a.btn:active,[role="ta
 @keyframes slide-up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
 .btn .spin{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:-2px;animation:mm-spin .8s linear infinite}
 @keyframes mm-spin{to{transform:rotate(360deg)}}
+
+/* ---------- Intro-Screen ---------- */
+.intro{position:relative;padding-top:36px}
+.intro-skip{position:absolute;top:10px;right:12px;background:none;border:0;color:var(--ink-soft);font:inherit;font-size:14px;padding:10px;min-height:44px;cursor:pointer}
+.intro-illo{width:100%;max-width:260px;margin:0 auto;animation:intro-in .4s ease}
+.intro-illo svg{width:100%;height:auto;display:block}
+.intro-body{animation:intro-in .4s ease .05s both}
+.intro-dots{display:flex;justify-content:center;gap:6px;margin:0 0 16px}
+.intro-dots span{width:8px;height:8px;border-radius:99px;background:var(--line);transition:width .25s,background .25s}
+.intro-dots span.on{width:22px;background:var(--accent,#E63B2E)}
+.intro-float{animation:intro-float 3s ease-in-out infinite}
+.intro-row{animation:intro-in .5s ease both}
+.intro-drop{animation:intro-drop .6s cubic-bezier(.3,1.4,.6,1) .2s both}
+.intro-ring{animation:intro-ring 1.6s ease-in-out .6s infinite}
+.intro-pop{animation:intro-pop .5s cubic-bezier(.3,1.5,.6,1) .2s both}
+.intro-dash{animation:intro-dash 1.2s linear infinite}
+@keyframes intro-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes intro-float{50%{transform:translateY(-6px)}}
+@keyframes intro-drop{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:none}}
+@keyframes intro-ring{0%,60%,100%{transform:rotate(0)}10%{transform:rotate(14deg)}20%{transform:rotate(-12deg)}30%{transform:rotate(8deg)}40%{transform:rotate(-4deg)}}
+@keyframes intro-pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+@keyframes intro-dash{to{stroke-dashoffset:-24}}
+@media (prefers-reduced-motion:reduce){.intro *{animation:none!important}}
