@@ -173,7 +173,7 @@ export function registerServiceWorker(onUpdate: (apply: () => void) => void) {
 
     let reloading = false;
     navigator.serviceWorker.addEventListener("controllerchange", () => {
-      if (reloading) return;
+      if (reloading || applyingUpdate) return;
       reloading = true;
       window.location.reload();
     });
@@ -191,23 +191,86 @@ export function offlineStatus(): OfflineStatus {
   return navigator.serviceWorker.controller ? "active" : "preparing";
 }
 
-/** Sucht nach einer neuen Version. */
-export async function checkForUpdate(): Promise<"updated" | "current" | "none"> {
-  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return "none";
-  if (swDisabled()) return "none";
+let applyingUpdate = false;
+
+export type UpdateCheck =
+  | { status: "available"; build: string }
+  | { status: "current"; build: string }
+  | { status: "offline" }
+  | { status: "error"; error: string };
+
+/** Fragt die Build-Kennung der veröffentlichten Version ab. */
+export async function checkForUpdate(): Promise<UpdateCheck> {
+  if (typeof window === "undefined") return { status: "error", error: "Server-Ansicht" };
+  if (!navigator.onLine) return { status: "offline" };
   try {
-    const reg = await navigator.serviceWorker.getRegistration("/");
-    if (!reg) return "none";
-    await reg.update();
-    const waiting = reg.waiting;
-    if (waiting) {
-      waiting.postMessage("SKIP_WAITING");
-      return "updated";
-    }
-    return "current";
-  } catch {
-    return "none";
+    const res = await fetch("/api/public/version?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) return { status: "error", error: "HTTP " + res.status };
+    const j = (await res.json()) as { build?: unknown };
+    const build = typeof j.build === "string" ? j.build : "";
+    if (!build) return { status: "error", error: "keine Build-Angabe" };
+    return build !== APP_BUILD ? { status: "available", build } : { status: "current", build };
+  } catch (e) {
+    return navigator.onLine ? { status: "error", error: errorText(e) } : { status: "offline" };
   }
+}
+
+async function clearShellCaches(keepBuild?: string) {
+  if (!("caches" in window)) return;
+  const keys = await caches.keys();
+  await Promise.allSettled(
+    keys
+      .filter((k) => k.startsWith("mitmacht-") && !(keepBuild && k.startsWith("mitmacht-2026-" + keepBuild + "-")))
+      .map((k) => caches.delete(k)),
+  );
+}
+
+/** Installiert den neuen Service Worker (max. 5 s), räumt Caches auf und lädt neu. */
+export async function applyUpdate(newBuild: string): Promise<void> {
+  applyingUpdate = true;
+  try {
+    if ("serviceWorker" in navigator && !swDisabled()) {
+      const reg = await navigator.serviceWorker.register("/sw.js?v=" + encodeURIComponent(newBuild), { scope: "/" });
+      await new Promise<void>((resolve) => {
+        const timer = window.setTimeout(resolve, 5000);
+        const done = () => {
+          window.clearTimeout(timer);
+          resolve();
+        };
+        const watch = (w: ServiceWorker | null) => {
+          if (!w) return;
+          if (w.state === "activated") return done();
+          if (w.state === "installed") w.postMessage("SKIP_WAITING");
+          w.addEventListener("statechange", () => {
+            if (w.state === "installed") w.postMessage("SKIP_WAITING");
+            if (w.state === "activated" || w.state === "redundant") done();
+          });
+        };
+        if (reg.waiting) watch(reg.waiting);
+        else if (reg.installing) watch(reg.installing);
+        reg.addEventListener("updatefound", () => watch(reg.installing));
+        if (!reg.installing && !reg.waiting && reg.active?.scriptURL.includes("v=" + newBuild)) done();
+      });
+    }
+  } catch {
+    /* trotzdem Caches leeren und neu laden */
+  }
+  try {
+    await clearShellCaches(newBuild);
+  } catch {
+    /* ignore */
+  }
+  window.location.reload();
+}
+
+/** Leert den App-Shell-Cache und lädt neu (für „sieht noch alt aus"). */
+export async function reloadApp(): Promise<void> {
+  try {
+    await clearShellCaches();
+  } catch {
+    /* ignore */
+  }
+  window.location.reload();
 }
 
 /** Meldet den Service Worker ab, löscht die Caches und lädt neu. */

@@ -692,3 +692,5 @@ button:not([disabled]):active,.btn:not([disabled]):active,a.btn:active,[role="ta
 .onb p{margin:0 0 18px;color:var(--ink-soft);font-size:15px}
 .onb-actions{display:flex;flex-direction:column;gap:10px}
 @keyframes slide-up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.btn .spin{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:-2px;animation:mm-spin .8s linear infinite}
+@keyframes mm-spin{to{transform:rotate(360deg)}}

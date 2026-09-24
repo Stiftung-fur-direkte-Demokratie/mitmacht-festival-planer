@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicFeedbackRouteImport } from './routes/api/public/feedback'
+import { Route as ApiPublicVersionRouteImport } from './routes/api/public/version'
 import { Route as ApiPublicAuthAccountRouteImport } from './routes/api/public/auth/account'
 import { Route as ApiPublicFeedbackExportRouteImport } from './routes/api/public/feedback/export'
 import { Route as ApiPublicMessagesSendRouteImport } from './routes/api/public/messages/send'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const ApiPublicFeedbackRoute = ApiPublicFeedbackRouteImport.update({
   id: '/api/public/feedback',
   path: '/api/public/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicVersionRoute = ApiPublicVersionRouteImport.update({
+  id: '/api/public/version',
+  path: '/api/public/version',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicAuthAccountRoute = ApiPublicAuthAccountRouteImport.update({
@@ -110,6 +116,7 @@ const ApiPublicAuthLinkedinStatusRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
+  '/api/public/version': typeof ApiPublicVersionRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
+  '/api/public/version': typeof ApiPublicVersionRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/public/feedback': typeof ApiPublicFeedbackRouteWithChildren
+  '/api/public/version': typeof ApiPublicVersionRoute
   '/api/public/auth/account': typeof ApiPublicAuthAccountRoute
   '/api/public/feedback/export': typeof ApiPublicFeedbackExportRoute
   '/api/public/messages/send': typeof ApiPublicMessagesSendRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/api/public/feedback'
+    | '/api/public/version'
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/api/public/feedback'
+    | '/api/public/version'
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/api/public/feedback'
+    | '/api/public/version'
     | '/api/public/auth/account'
     | '/api/public/feedback/export'
     | '/api/public/messages/send'
@@ -216,6 +228,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiPublicFeedbackRoute: typeof ApiPublicFeedbackRouteWithChildren
+  ApiPublicVersionRoute: typeof ApiPublicVersionRoute
   ApiPublicAuthAccountRoute: typeof ApiPublicAuthAccountRoute
   ApiPublicMessagesSendRoute: typeof ApiPublicMessagesSendRoute
   ApiPublicNotifyRunRoute: typeof ApiPublicNotifyRunRoute
@@ -244,6 +257,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/feedback'
       fullPath: '/api/public/feedback'
       preLoaderRoute: typeof ApiPublicFeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/version': {
+      id: '/api/public/version'
+      path: '/api/public/version'
+      fullPath: '/api/public/version'
+      preLoaderRoute: typeof ApiPublicVersionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/auth/account': {
@@ -354,6 +374,7 @@ const ApiPublicFeedbackRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiPublicFeedbackRoute: ApiPublicFeedbackRouteWithChildren,
+  ApiPublicVersionRoute: ApiPublicVersionRoute,
   ApiPublicAuthAccountRoute: ApiPublicAuthAccountRoute,
   ApiPublicMessagesSendRoute: ApiPublicMessagesSendRoute,
   ApiPublicNotifyRunRoute: ApiPublicNotifyRunRoute,

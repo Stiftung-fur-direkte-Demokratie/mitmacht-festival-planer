@@ -61,9 +61,9 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       (async () => {
         try {
-          const fresh = await fetch(req);
+          const fresh = await fetch(req.url, { cache: "no-store", credentials: "same-origin" });
           const cache = await caches.open(SHELL);
-          cache.put(SHELL_URL, fresh.clone());
+          if (fresh.ok) cache.put(SHELL_URL, fresh.clone());
           return fresh;
         } catch {
           const cache = await caches.open(SHELL);
