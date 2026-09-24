@@ -1084,19 +1084,30 @@ function Planner() {
       if (sp.get("s") || sp.get("rate") || sp.get("inbox") || (window.location.hash && window.location.hash !== "#mein")) return;
     }
     if (view === "all" && day !== now.date) return;
-    const t = window.setTimeout(() => {
-      const cards = Array.from(document.querySelectorAll<HTMLElement>("main.wrap article.card"));
-      if (!cards.length || !cards[0]!.classList.contains("past")) return;
-      const target = cards.find((c) => !c.classList.contains("past"));
-      if (!target) return;
-      const barBottom = barRef.current?.getBoundingClientRect().height ?? 0;
+    let tries = 0;
+    let t = 0;
+    const run = () => {
+      const pool = (view === "all" ? ALL.filter((s) => s.date === day) : selected).filter(
+        (s) => FORMAT_LABEL[s.format] && !isLong(s),
+      );
+      const firstPast = pool.some((s) => statusOf(s, now) === "past");
+      const next = pool.find((s) => statusOf(s, now) !== "past");
+      if (!firstPast || !next) return;
+      const el = document.getElementById("c-" + next.id);
+      if (!el) {
+        if (tries++ < 20) t = window.setTimeout(run, 150);
+        return;
+      }
+      const barH = barRef.current?.getBoundingClientRect().height ?? 0;
       const inset = document.querySelector(".sb-shield")?.getBoundingClientRect().height ?? 0;
-      const top = target.getBoundingClientRect().top + window.scrollY - barBottom - inset - 12;
+      const slot = el.closest(".slot") ?? el;
+      const top = slot.getBoundingClientRect().top + window.scrollY - barH - inset - 12;
       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-    }, 120);
+    };
+    t = window.setTimeout(run, 150);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, day, now.date]);
+  }, [view, day, now.date, selected.length > 0]);
 
   /* ---- Gruppierung ---- */
   const renderDay = (date: string, filtered: boolean) => {
@@ -1713,6 +1724,45 @@ function Planner() {
                   )}
                 </p>
 
+
+                {DAYS.map((d) => {
+                  const items = selected.filter((s) => s.date === d.date);
+                  if (!items.length) return null;
+                  return (
+                    <div key={d.date}>
+                      <h2 className="dayhead">
+                        {d.long} {d.label}2026
+                      </h2>
+                      <div className="items">
+                        {items.map((s) => (
+                          <SessionCard
+                            key={s.id}
+                            s={s}
+                            now={now}
+                            selected
+                            clashes={clashesOf(s)}
+                            open={!!open[s.id]}
+                            onToggleOpen={toggleOpen}
+                            onPick={togglePick}
+                            showTime
+                            showLinks
+                            extra={cardExtra(s.id, true)}
+                            gcalOpened={!!gcal[s.id]}
+                            onOpenGcal={markOpened}
+                            onUnmarkGcal={(id) =>
+                              setGcal((g) => {
+                                const c = { ...g };
+                                delete c[id];
+                                return c;
+                              })
+                            }
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+
                 <section className="export" aria-labelledby="exp-h">
                   <h2 id="exp-h">
                     <Icon name="cal" className="" />
@@ -1845,44 +1895,6 @@ function Planner() {
                     {copyMsg && <p className="msg ok">{copyMsg}</p>}
                   </div>
                 </section>
-
-                {DAYS.map((d) => {
-                  const items = selected.filter((s) => s.date === d.date);
-                  if (!items.length) return null;
-                  return (
-                    <div key={d.date}>
-                      <h2 className="dayhead">
-                        {d.long} {d.label}2026
-                      </h2>
-                      <div className="items">
-                        {items.map((s) => (
-                          <SessionCard
-                            key={s.id}
-                            s={s}
-                            now={now}
-                            selected
-                            clashes={clashesOf(s)}
-                            open={!!open[s.id]}
-                            onToggleOpen={toggleOpen}
-                            onPick={togglePick}
-                            showTime
-                            showLinks
-                            extra={cardExtra(s.id, true)}
-                            gcalOpened={!!gcal[s.id]}
-                            onOpenGcal={markOpened}
-                            onUnmarkGcal={(id) =>
-                              setGcal((g) => {
-                                const c = { ...g };
-                                delete c[id];
-                                return c;
-                              })
-                            }
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
 
                 <div className="foot" style={{ paddingTop: 26 }}>
                   {confirmClear ? (
