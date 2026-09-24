@@ -29,9 +29,13 @@ async function handle(request: Request): Promise<Response> {
 
         const cookieState = readStateCookie(request);
         if (!state || !cookieState || !safeEqual(state, cookieState)) return appError("state");
-        const st = state.length <= 100 ? await consumeState(state) : null;
+        const claimed = state.length <= 100 ? await consumeState(state) : null;
+        if (claimed && "replay" in claimed) {
+          return claimed.replay ? redirect(claimed.replay) : appError("failed", claimed.return_path);
+        }
+        const st = claimed;
         const ret = st?.return_path ?? "/";
-        if (err) return appError("cancelled", ret);
+        if (err) return done(appError("cancelled", ret));
         if (!st) return appError("state");
         if (!code || code.length > 2000) return appError("failed", ret);
 
