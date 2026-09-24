@@ -1232,10 +1232,9 @@ function Planner() {
         <div className="hero-circle" aria-hidden="true" />
         <div className="hero-dots" aria-hidden="true" />
         <div className="wrap">
-          <p className="eyebrow">{"Online-Planer:in [🚀 Beta 3.1]"}</p>
           <h1>Mitmacht 2026</h1>
           <p className="lede">
-            {"Festival-Programm 🚀 zusammenstellen & in Kalender eintragen. Läuft sogar offline als App 🤩"}
+            {"Dein Festival-Programm 🚀 und Community Plattform 🤩"}
           </p>
           <p className="facts">
             <span>23.–26. September 2026</span>
