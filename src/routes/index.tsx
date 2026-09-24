@@ -30,6 +30,9 @@ import {
   APP_BUILD,
   browserInfo,
   checkForUpdate,
+  applyUpdate,
+  reloadApp,
+  isPreviewHost,
   deviceKind,
   isIos,
   isStandalone,
@@ -124,6 +127,11 @@ function Planner() {
   const [perm, setPerm] = useState<NotificationPermission | "unsupported">("unsupported");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [updateMsg, setUpdateMsg] = useState<string | null>(null);
+  const [updateBusy, setUpdateBusy] = useState(false);
+  const [serverBuild, setServerBuild] = useState<string | null>(null);
+  const [newBuild, setNewBuild] = useState<string | null>(null);
+  const [newBuildDismissed, setNewBuildDismissed] = useState<string | null>(null);
+  const [showReloadApp, setShowReloadApp] = useState(false);
   const [offline, setOffline] = useState<OfflineStatus>("disabled");
   const [diagnosticsOpen, setDiagnosticsOpen] = useState(false);
   const [remLog, setRemLog] = useState<string[]>([]);
@@ -793,17 +801,61 @@ function Planner() {
     }
   };
 
+  const runApplyUpdate = async (build: string) => {
+    setUpdateBusy(true);
+    showToast("App wird aktualisiert …");
+    await applyUpdate(build);
+  };
+
   const doCheckUpdate = async () => {
+    setUpdateBusy(true);
+    setShowReloadApp(false);
     setUpdateMsg("Suche nach Updates …");
     const res = await checkForUpdate();
-    setUpdateMsg(
-      res === "updated"
-        ? "Neue Version gefunden – die App lädt gleich neu."
-        : res === "current"
-          ? "Du hast bereits die neueste Version."
-          : "Offline-Speicher ist hier nicht aktiv.",
-    );
+    if (res.status === "available") {
+      setServerBuild(res.build);
+      setNewBuild(res.build);
+      setUpdateMsg("Neue Version verfügbar");
+      await runApplyUpdate(res.build);
+      return;
+    }
+    setUpdateBusy(false);
+    if (res.status === "current") {
+      setServerBuild(res.build);
+      setUpdateMsg(`Du hast die neueste Version (Build ${res.build}).`);
+      setShowReloadApp(true);
+    } else if (res.status === "offline") {
+      setUpdateMsg("Offline – Update-Prüfung ist nur mit Internet möglich.");
+    } else {
+      setUpdateMsg(`Update-Prüfung fehlgeschlagen: ${res.error}`);
+      setShowReloadApp(true);
+    }
   };
+
+  const doReloadApp = () => {
+    setUpdateBusy(true);
+    showToast("App wird neu geladen …");
+    void reloadApp();
+  };
+
+  /* Automatische Versionsprüfung beim Start und beim Zurückkehren (max. alle 5 Min.) */
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    if (isPreviewHost() && sp.get("sw") !== "on") return;
+    let last = 0;
+    const check = async () => {
+      if (!navigator.onLine || document.visibilityState !== "visible") return;
+      if (Date.now() - last < 5 * 60 * 1000) return;
+      last = Date.now();
+      const res = await checkForUpdate();
+      if (res.status === "available" || res.status === "current") setServerBuild(res.build);
+      if (res.status === "available") setNewBuild(res.build);
+    };
+    void check();
+    const onVis = () => void check();
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   const doResetOffline = () => {
     void resetOffline();
@@ -1264,6 +1316,29 @@ function Planner() {
       </nav>
 
       <main className="wrap">
+        {newBuild && newBuildDismissed !== newBuild && !swUpdate && (
+          <div className="notice small" role="status">
+            <div className="row">
+              <p>Neue Version verfügbar</p>
+              <button
+                type="button"
+                className="btn small primary"
+                disabled={updateBusy}
+                onClick={() => void runApplyUpdate(newBuild)}
+              >
+                {updateBusy ? "Wird aktualisiert …" : "Jetzt aktualisieren"}
+              </button>
+              <button
+                type="button"
+                className="linkbtn close"
+                aria-label="Hinweis schließen"
+                onClick={() => setNewBuildDismissed(newBuild)}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
         {swUpdate && (
           <div className="notice" role="status">
             <div className="row">
@@ -1998,6 +2073,11 @@ function Planner() {
         online={online}
         onCheckUpdate={() => void doCheckUpdate()}
         updateMsg={updateMsg}
+        updateBusy={updateBusy}
+        installedBuild={APP_BUILD}
+        serverBuild={serverBuild}
+        showReloadApp={showReloadApp}
+        onReloadApp={doReloadApp}
         onResetOffline={doResetOffline}
         remOn={rem.on}
         remLead={rem.lead}

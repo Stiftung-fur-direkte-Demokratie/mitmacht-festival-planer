@@ -55,6 +55,11 @@ export type SettingsProps = {
   online: boolean;
   onCheckUpdate: () => void;
   updateMsg: string | null;
+  updateBusy: boolean;
+  installedBuild: string;
+  serverBuild: string | null;
+  showReloadApp: boolean;
+  onReloadApp: () => void;
   onResetOffline: () => void;
   /* Erinnerungen */
   remOn: boolean;
@@ -254,9 +259,21 @@ export function SettingsDialog(p: SettingsProps) {
               <li>Tipp: Öffne die App einmal mit Internet, bevor du ins Funkloch gehst.</li>
             </ul>
             <div className="btnrow">
-              <button type="button" className="btn small" onClick={p.onCheckUpdate}>
-                Nach Updates suchen
+              <button
+                type="button"
+                className="btn small"
+                onClick={p.onCheckUpdate}
+                disabled={p.updateBusy}
+                aria-busy={p.updateBusy}
+              >
+                {p.updateBusy && <span className="spin" aria-hidden="true" />}
+                {p.updateBusy ? "Wird geprüft …" : "Nach Updates suchen"}
               </button>
+              {p.showReloadApp && (
+                <button type="button" className="btn small" onClick={p.onReloadApp} disabled={p.updateBusy}>
+                  App neu laden
+                </button>
+              )}
               {!confirmReset ? (
                 <button type="button" className="btn small" onClick={() => setConfirmReset(true)}>
                   Offline-Speicher zurücksetzen
@@ -273,6 +290,10 @@ export function SettingsDialog(p: SettingsProps) {
               )}
             </div>
             {updateMsgLine(p.updateMsg)}
+            <p className="fine">
+              Installiert: Build {p.installedBuild}
+              {p.serverBuild && <> · Verfügbar: Build {p.serverBuild}</>}
+            </p>
             {confirmReset && (
               <p className="fine">
                 Der Offline-Speicher wird geleert und die Seite neu geladen. Dein gemerktes Programm
