@@ -1629,7 +1629,7 @@ function Planner() {
             onClearSessionFilter={() => setCmSession(null)}
             onLogin={cm.login}
             onOpenProfile={() => setProfileOpen(true)}
-            mySessionIds={selected.map((s) => s.id)}
+            currentUserId={cm.userId}
             sub={cmSub}
             onSub={(v) => {
               setCmSub(v);
