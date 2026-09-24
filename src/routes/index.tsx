@@ -818,7 +818,13 @@ function Planner() {
       setServerBuild(res.build);
       setNewBuild(res.build);
       setUpdateMsg("Neue Version verfügbar");
-      await runApplyUpdate(res.build);
+      const ok = window.confirm("Eine neue Version ist verfügbar. Jetzt laden? Die App wird dabei neu geladen.");
+      if (ok) {
+        await runApplyUpdate(res.build);
+      } else {
+        setUpdateBusy(false);
+        setUpdateMsg("Neue Version verfügbar – oben auf „Jetzt aktualisieren“ tippen, wenn du bereit bist.");
+      }
       return;
     }
     setUpdateBusy(false);
@@ -843,6 +849,12 @@ function Planner() {
   /* Automatische Versionsprüfung beim Start und beim Zurückkehren (max. alle 5 Min.) */
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
+    if (sp.has("u")) {
+      sp.delete("u");
+      const q = sp.toString();
+      history.replaceState(null, "", window.location.pathname + (q ? "?" + q : "") + window.location.hash);
+      showToast("App aktualisiert ✓");
+    }
     if (isPreviewHost() && sp.get("sw") !== "on") return;
     let last = 0;
     const check = async () => {
