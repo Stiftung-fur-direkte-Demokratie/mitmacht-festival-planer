@@ -356,6 +356,23 @@ export function useCommunity(opts: {
       const w = window.open(PROD + path, "_blank", "noopener");
       if (w || framed) return;
     }
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as unknown as { standalone?: boolean }).standalone === true;
+    if (standalone) {
+      // iOS-Home-Bildschirm-Apps zeigen bei einer Server-Weiterleitung auf eine fremde
+      // Domain einen schwarzen Bildschirm. Daher LinkedIn-Adresse holen und direkt öffnen.
+      void fetch(path + "&json=1", { credentials: "same-origin", cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status))))
+        .then((j: { url?: string }) => {
+          if (!j.url) throw new Error("no url");
+          window.location.href = j.url;
+        })
+        .catch(() => {
+          window.location.href = path;
+        });
+      return;
+    }
     window.location.href = path;
   }, [configured]);
 

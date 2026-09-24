@@ -22,6 +22,12 @@ export const Route = createFileRoute("/api/public/auth/linkedin/start")({
         auth.searchParams.set("state", state);
         auth.searchParams.set("nonce", nonce);
         auth.searchParams.set("scope", "openid profile email");
+        if (url.searchParams.get("json") === "1") {
+          const res = new Response(JSON.stringify({ url: auth.toString() }), {
+            headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+          });
+          return withCookie(res, stateCookie(state));
+        }
         return withCookie(redirect(auth.toString()), stateCookie(state));
       },
     },
