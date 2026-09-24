@@ -4,7 +4,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useInbox, type InboxItem } from "@/lib/inbox";
 import { AdminReports, ConversationSheet, InboxList, type ConvPartner } from "@/components/festival/Inbox";
-import teamImgSrc from "@/assets/team-circles.png";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ALL,
@@ -2013,18 +2012,6 @@ function Planner() {
               Programm auf faktor-d.org ↗
             </a>
           </div>
-          <div>
-            Wir freuen uns aufs Festival mit euch! Team{" "}
-            <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">SDD</a>
-          </div>
-          <figure className="teamimg">
-            <img src={teamImgSrc} alt="Sandro, Sophie, Lisa, Daniel und Niklaus" loading="lazy" />
-            <figcaption aria-hidden="true">
-              {["Sandro", "Sophie", "Lisa", "Daniel", "Niklaus"].map((n) => (
-                <span key={n}>{n}</span>
-              ))}
-            </figcaption>
-          </figure>
           <div>
             Online-Planer:in ist eine Toolbox der{" "}
             <a href="https://www.demokratie.ch" target="_blank" rel="noopener noreferrer">
