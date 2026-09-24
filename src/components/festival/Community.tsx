@@ -72,6 +72,7 @@ export function CommunityView(p: {
   onLogin: () => void;
   onOpenProfile: () => void;
   currentUserId?: string | null;
+  mySessionIds?: string[];
   sub: "leute" | "postfach";
   onSub: (s: "leute" | "postfach") => void;
   unread: number;
@@ -96,6 +97,20 @@ export function CommunityView(p: {
       return hay.includes(needle);
     });
   }, [p.people, p.sessionFilter, p.now.date, q, today]);
+
+  const mine = useMemo(() => new Set(p.mySessionIds ?? []), [p.mySessionIds]);
+  const sorted = useMemo(
+    () =>
+      list
+        .map((x) => {
+          const w = whereNow(x.session_ids, p.now);
+          const sameNow = x.user_id !== p.currentUserId && w.kind === "now" && !!w.s && mine.has(w.s.id);
+          const shared = x.session_ids.filter((id) => mine.has(id)).length;
+          return { x, w, sameNow, shared };
+        })
+        .sort((a, b) => Number(b.sameNow) - Number(a.sameNow) || b.shared - a.shared),
+    [list, p.now, mine, p.currentUserId],
+  );
 
   const filterItem = p.sessionFilter ? BY_ID[p.sessionFilter] : null;
   const standText = p.stand
