@@ -342,7 +342,21 @@ export function useCommunity(opts: {
       setError(LI_ERRORS["config"]!);
       return;
     }
-    window.location.href = `/api/public/auth/linkedin/start?return=${encodeURIComponent("/")}`;
+    const path = `/api/public/auth/linkedin/start?return=${encodeURIComponent("/")}`;
+    const PROD = "https://mitmacht.demokratie.ch";
+    let framed = false;
+    try {
+      framed = window.self !== window.top;
+    } catch {
+      framed = true;
+    }
+    // LinkedIn lässt sich nicht in einem eingebetteten Fenster (Vorschau) anzeigen → schwarzer Bildschirm.
+    // Die Rückleitung geht ohnehin auf die echte Domain, daher dort in neuem Fenster öffnen.
+    if (framed || window.location.origin !== PROD) {
+      const w = window.open(PROD + path, "_blank", "noopener");
+      if (w || framed) return;
+    }
+    window.location.href = path;
   }, [configured]);
 
   const logout = useCallback(async () => {
