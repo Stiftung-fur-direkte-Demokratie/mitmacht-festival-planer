@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { admin } from "@/lib/push.server";
-import { appError, consumeState, decodeJwtPayload, linkedinConfig, redirect, clearStateCookie, readStateCookie, safeEqual, withCookie } from "@/lib/linkedin.server";
+import { appError, consumeState, decodeJwtPayload, linkedinConfig, redirect, clearStateCookie, readStateCookie, safeEqual, withCookie, saveStateResult } from "@/lib/linkedin.server";
 
 const userinfoSchema = z.object({
   sub: z.string().min(1).max(200),
@@ -34,13 +34,18 @@ async function handle(request: Request): Promise<Response> {
           return claimed.replay ? redirect(claimed.replay) : appError("failed", claimed.return_path);
         }
         const st = claimed;
+        const done = async (res: Response) => {
+          const loc = res.headers.get("Location");
+          if (loc) await saveStateResult(state, loc);
+          return res;
+        };
         const ret = st?.return_path ?? "/";
         if (err) return done(appError("cancelled", ret));
         if (!st) return appError("state");
-        if (!code || code.length > 2000) return appError("failed", ret);
+        if (!code || code.length > 2000) return done(appError("failed", ret));
 
         const cfg = linkedinConfig();
-        if (!cfg) return appError("config", ret);
+        if (!cfg) return done(appError("config", ret));
 
         // Code gegen Token tauschen (Token wird nicht gespeichert)
         let tokens: { access_token?: string; id_token?: string };
@@ -58,17 +63,17 @@ async function handle(request: Request): Promise<Response> {
           });
           if (!r.ok) {
             console.error("LinkedIn token", r.status, await r.text());
-            return appError(r.status >= 500 ? "unreachable" : "failed", ret);
+            return done(appError(r.status >= 500 ? "unreachable" : "failed", ret));
           }
           tokens = await r.json();
         } catch (e) {
           console.error("LinkedIn token fetch", e);
-          return appError("unreachable", ret);
+          return done(appError("unreachable", ret));
         }
-        if (!tokens.access_token) return appError("failed", ret);
+        if (!tokens.access_token) return done(appError("failed", ret));
         if (tokens.id_token) {
           const p = decodeJwtPayload(tokens.id_token);
-          if (p && p["nonce"] && p["nonce"] !== st.nonce) return appError("state", ret);
+          if (p && p["nonce"] && p["nonce"] !== st.nonce) return done(appError("state", ret));
         }
 
         let info: z.infer<typeof userinfoSchema>;
@@ -78,18 +83,18 @@ async function handle(request: Request): Promise<Response> {
           });
           if (!r.ok) {
             console.error("LinkedIn userinfo", r.status, await r.text());
-            return appError(r.status >= 500 ? "unreachable" : "failed", ret);
+            return done(appError(r.status >= 500 ? "unreachable" : "failed", ret));
           }
           const parsed = userinfoSchema.safeParse(await r.json());
-          if (!parsed.success) return appError("failed", ret);
+          if (!parsed.success) return done(appError("failed", ret));
           info = parsed.data;
         } catch (e) {
           console.error("LinkedIn userinfo fetch", e);
-          return appError("unreachable", ret);
+          return done(appError("unreachable", ret));
         }
 
         const verified = info.email_verified === true || info.email_verified === "true";
-        if (!info.email || !verified) return appError("noemail", ret);
+        if (!info.email || !verified) return done(appError("noemail", ret));
 
         const name = (info.name || [info.given_name, info.family_name].filter(Boolean).join(" ") || "").slice(0, 80);
         const db = await admin();
@@ -108,14 +113,14 @@ async function handle(request: Request): Promise<Response> {
           });
           if (cErr && !/already|registered|exists/i.test(cErr.message)) {
             console.error("createUser", cErr);
-            return appError("failed", ret);
+            return done(appError("failed", ret));
           }
         }
 
         const { data: link, error: lErr } = await db.auth.admin.generateLink({ type: "magiclink", email });
         if (lErr || !link?.properties?.hashed_token || !link.user) {
           console.error("generateLink", lErr);
-          return appError("failed", ret);
+          return done(appError("failed", ret));
         }
         const userId = link.user.id;
 
@@ -138,5 +143,5 @@ async function handle(request: Request): Promise<Response> {
           });
         }
 
-        return redirect(`${ret}#li_token=${encodeURIComponent(link.properties.hashed_token)}`);
+        return done(redirect(`${ret}#li_token=${encodeURIComponent(link.properties.hashed_token)}`));
 }
