@@ -569,8 +569,8 @@ a.btn.next .n2{font-size:14px;font-weight:500;opacity:.85;overflow-wrap:anywhere
 .views button{white-space:nowrap;min-width:0}
 @media (max-width:400px){.views .count{margin-left:2px}.views button{font-size:13.5px;padding:9px 2px}}
 .barbtns{display:flex;align-items:center;gap:2px;margin-left:auto;flex:none}
-.bartitle{opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
-.bartitle.show{opacity:1;transform:none}
+.bartitle{opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.bartitle.show{opacity:1;visibility:visible}
 @media (prefers-reduced-motion:reduce){.bartitle{transition:none}}
 .herofaces{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
 .hf-row{display:inline-flex;transition:opacity .35s ease}
