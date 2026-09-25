@@ -1273,6 +1273,33 @@ function Planner() {
         <div className="wrap">
           <div className={`bartop${stuck ? " on" : ""}`}>
             <span className={`bartitle${stuck ? " show" : ""}`} aria-hidden={!stuck}>Mitmacht 2026</span>
+            <span className="barbtns">
+            {cm.userId ? (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={() => setProfileOpen(true)}
+                aria-label="Mein Profil & Sichtbarkeit"
+                title="Mein Profil & Sichtbarkeit"
+              >
+                <Avatar name={cm.profile?.display_name ?? ""} url={cm.profile?.avatar_url ?? null} size={28} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={cm.login}
+                disabled={!online}
+                aria-label={online ? "Mit LinkedIn anmelden" : "Anmelden ist offline nicht möglich"}
+                title={cm.configured === false ? "LinkedIn-Anmeldung wird gerade eingerichtet" : "Mit LinkedIn anmelden"}
+              >
+                <LinkedInIcon />
+              </button>
+            )}
+            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
+              <Icon name="gear" />
+            </button>
+            </span>
           </div>
           <div className="viewrow">
           <div className="views" role="tablist" aria-label="Ansicht">
@@ -1311,33 +1338,6 @@ function Planner() {
               Community{inbox.unreadTotal > 0 && <> <span className="count" aria-label={`${inbox.unreadTotal} ungelesene Nachrichten`}>{inbox.unreadTotal}</span></>}
             </button>
           </div>
-            <span className="barbtns">
-            {cm.userId ? (
-              <button
-                type="button"
-                className="settingsbtn"
-                onClick={() => setProfileOpen(true)}
-                aria-label="Mein Profil & Sichtbarkeit"
-                title="Mein Profil & Sichtbarkeit"
-              >
-                <Avatar name={cm.profile?.display_name ?? ""} url={cm.profile?.avatar_url ?? null} size={28} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="settingsbtn"
-                onClick={cm.login}
-                disabled={!online}
-                aria-label={online ? "Mit LinkedIn anmelden" : "Anmelden ist offline nicht möglich"}
-                title={cm.configured === false ? "LinkedIn-Anmeldung wird gerade eingerichtet" : "Mit LinkedIn anmelden"}
-              >
-                <LinkedInIcon />
-              </button>
-            )}
-            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
-              <Icon name="gear" />
-            </button>
-            </span>
           </div>
           {view === "all" && (
             <div className="days" role="tablist" aria-label="Festivaltag">
