@@ -752,4 +752,4 @@ button:not([disabled]):active,.btn:not([disabled]):active,a.btn:active,[role="ta
 .bartop.off{display:none}
 .herobtns{position:absolute;z-index:2;top:10px;right:max(10px,calc((100% - 900px)/2 + 8px));top:calc(env(safe-area-inset-top,0px) + 10px);}
 .herobtns .barbtns{background:color-mix(in oklab,var(--bg) 70%,transparent);border-radius:999px;padding:2px 4px}
-@media (max-width:539px){.hero{padding-top:calc(env(safe-area-inset-top,0px) + 50px)}}
+@media (max-width:539px){.mm .hero{padding-top:calc(env(safe-area-inset-top,0px) + 50px)}}
