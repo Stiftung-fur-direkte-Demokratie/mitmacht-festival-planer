@@ -207,7 +207,14 @@ export function CommunityView(p: {
                   className="cm-face"
                   aria-expanded={open}
                   aria-label={`${x.display_name} – Details ${open ? "schliessen" : "anzeigen"}`}
-                  onClick={() => setOpenIds((o) => ({ ...o, [x.user_id]: !o[x.user_id] }))}
+                  onClick={(e) => {
+                    const willOpen = !openIds[x.user_id];
+                    setOpenIds(willOpen ? { [x.user_id]: true } : {});
+                    if (willOpen) {
+                      const el = e.currentTarget.closest(".cm-bubble");
+                      setTimeout(() => el?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+                    }
+                  }}
                 >
                   <span className="cm-ring">
                     <Avatar name={x.display_name} url={x.avatar_url} size={76} />
