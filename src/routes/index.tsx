@@ -2050,7 +2050,7 @@ function Planner() {
             </a>
           </div>
           <div>
-            made with love by <span role="img" aria-label="der Schweiz">🇨🇭</span> in{" "}
+            made with <span role="img" aria-label="love">♥</span> by <span role="img" aria-label="der Schweiz">🇨🇭</span> in{" "}
             <span role="img" aria-label="Berlin">🐻</span>
           </div>
         </div>
