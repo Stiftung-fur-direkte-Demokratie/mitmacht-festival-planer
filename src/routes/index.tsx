@@ -1234,6 +1234,36 @@ function Planner() {
 
   const nowCount = (date: string) => sel.filter((id) => BY_ID[id]?.date === date).length;
 
+  const barBtns = (
+<span className="barbtns">
+            {cm.userId ? (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={() => setProfileOpen(true)}
+                aria-label="Mein Profil & Sichtbarkeit"
+                title="Mein Profil & Sichtbarkeit"
+              >
+                <Avatar name={cm.profile?.display_name ?? ""} url={cm.profile?.avatar_url ?? null} size={28} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="settingsbtn"
+                onClick={cm.login}
+                disabled={!online}
+                aria-label={online ? "Mit LinkedIn anmelden" : "Anmelden ist offline nicht möglich"}
+                title={cm.configured === false ? "LinkedIn-Anmeldung wird gerade eingerichtet" : "Mit LinkedIn anmelden"}
+              >
+                <LinkedInIcon />
+              </button>
+            )}
+            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
+              <Icon name="gear" />
+            </button>
+            </span>
+  );
+
   return (
     <div className="mm">
       <div className="sb-shield" aria-hidden="true" />
@@ -1242,6 +1272,7 @@ function Planner() {
       <header className="hero">
         <div className="hero-circle" aria-hidden="true" />
         <div className="hero-dots" aria-hidden="true" />
+        {!stuck && <div className="herobtns">{barBtns}</div>}
         <div className="wrap">
           <h1>Mitmacht 2026</h1>
           <p className="lede">
@@ -1271,35 +1302,9 @@ function Planner() {
 
       <nav className={`bar${stuck ? " stuck" : ""}`} aria-label="Ansicht und Tag" ref={barRef}>
         <div className="wrap">
-          <div className={`bartop${stuck ? " on" : ""}`}>
+          <div className={`bartop${stuck ? " on" : " off"}`}>
             <span className={`bartitle${stuck ? " show" : ""}`} aria-hidden={!stuck}>Mitmacht 2026</span>
-            <span className="barbtns">
-            {cm.userId ? (
-              <button
-                type="button"
-                className="settingsbtn"
-                onClick={() => setProfileOpen(true)}
-                aria-label="Mein Profil & Sichtbarkeit"
-                title="Mein Profil & Sichtbarkeit"
-              >
-                <Avatar name={cm.profile?.display_name ?? ""} url={cm.profile?.avatar_url ?? null} size={28} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="settingsbtn"
-                onClick={cm.login}
-                disabled={!online}
-                aria-label={online ? "Mit LinkedIn anmelden" : "Anmelden ist offline nicht möglich"}
-                title={cm.configured === false ? "LinkedIn-Anmeldung wird gerade eingerichtet" : "Mit LinkedIn anmelden"}
-              >
-                <LinkedInIcon />
-              </button>
-            )}
-            <button type="button" className="settingsbtn" onClick={openSettings} aria-label="Einstellungen" title="Einstellungen">
-              <Icon name="gear" />
-            </button>
-            </span>
+            {stuck && barBtns}
           </div>
           <div className="viewrow">
           <div className="views" role="tablist" aria-label="Ansicht">
